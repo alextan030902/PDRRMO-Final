@@ -11,7 +11,7 @@ class OperationsCenterController extends Controller
      */
     public function index()
     {
-        //
+        return view('operations-center.index');
     }
 
     /**

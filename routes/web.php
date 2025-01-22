@@ -26,7 +26,7 @@ Route::get('/about-pdrrmo/index', [AboutPdrrmoController::class, 'index'])->name
 Route::get('/programs-services/index', [ProgramServicesController::class, 'index'])->name('programs-services.index');
 
 //OperationsCenter
-Route::get('/operations-center/index', [OperationsCenter::class, 'index'])->name('resources.index');
+Route::get('/operations-center/index', [OperationsCenter::class, 'index'])->name('operations-center.index');
 
 //ResourcesController
 Route::get('/resources/index', [ResourcesController::class, 'index'])->name('resources.index');

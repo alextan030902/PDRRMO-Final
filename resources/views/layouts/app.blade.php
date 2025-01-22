@@ -57,7 +57,7 @@
             </ul>
           </li>
           <li class="nav-item"><a href="{{route('resources.index')}}" class="nav-link">Resources</a></li>
-          <li class="nav-item"><a href="{{route('about-pdrrmc.index')}}" class="nav-link">Operations Center</a></li>
+          <li class="nav-item"><a href="{{route('operations-center.index')}}" class="nav-link">Operations Center</a></li>
           <li class="nav-item">
             <a href="{{route('about-pdrrmc.index')}}" class="btn btn-warning rounded-pill text-center d-flex justify-content-center align-items-center px-3 py-2" style="font-size: 14px;">
                 Emergency Contact
