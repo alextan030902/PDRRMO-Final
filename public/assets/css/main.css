@@ -78,6 +78,24 @@
   scroll-behavior: smooth;
 }
 
+.banner-image {
+  width: 100%;
+  /* Make the image take up the full width */
+  height: auto;
+  /* Maintain aspect ratio */
+  object-fit: cover;
+  /* Ensure the image covers the space, cropping if necessary */
+}
+
+/* Optional: Adjust the height of the section for better fit */
+#banner {
+  height: 100vh;
+  /* Set the height to the full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*--------------------------------------------------------------
 # General Styling & Shared Classes
 --------------------------------------------------------------*/

@@ -11,7 +11,7 @@ class PdrrmoController extends Controller
      */
     public function index()
     {
-            return view('pdrrmo-home.index');
+        return view('pdrrmo-home.index');
     }
 
     /**

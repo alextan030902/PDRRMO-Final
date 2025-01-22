@@ -2,10 +2,6 @@
 
 @section('content')
 
-
-
-
-  
 <section id="hero" class="hero section dark-background">
 
     <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
