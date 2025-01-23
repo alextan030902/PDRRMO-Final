@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ config('app.name', 'Laravel') }} - PDRRMO VI</title>
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Favicons -->
-  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/png">
-  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('assets/img/final-logo.png') }}" rel="icon" type="image/png">
+  <link href="{{ asset('assets/img/final-logo.png') }}" rel="apple-touch-icon">
 
   <!-- SEO and Social Media Meta Tags -->
   <meta name="description" content="PDRRMO VI - Providing disaster management services for Region VI">
