@@ -14,6 +14,16 @@ class ProgramServicesController extends Controller
         //
     }
 
+    public function external()
+    {
+        return view('programs-services.external-services.index');
+    }
+
+    public function internal()
+    {
+        return view('programs-services.internal-services.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
