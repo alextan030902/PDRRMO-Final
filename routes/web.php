@@ -7,6 +7,12 @@ use App\Http\Controllers\PdrrmoController;
 use App\Http\Controllers\ProgramServicesController;
 use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HeroCarouselController;
+
+Route::get('/admin/hero-carousel', [HeroCarouselController::class, 'index'])->name('hero-carousel.index');
+Route::post('/admin/hero-carousel', [HeroCarouselController::class, 'store'])->name('hero-carousel.store');
+Route::delete('/admin/hero-carousel/{carousel}', [HeroCarouselController::class, 'destroy'])->name('hero-carousel.destroy');
+
 
 Route::get('/', function () {
     return view('pdrrmo-home.index');
