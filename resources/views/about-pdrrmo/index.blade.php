@@ -19,7 +19,7 @@
 
     <!-- Vision Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-warning mb-3">VISION</h2>
+        <h2 class="card-title text-warning mb-3"><strong>VISION</strong></h2>
         <div class="col-md-8">
             <p class="card-text">
                 Livable, resilient, progressive and globally competitive Iloilo.    
@@ -35,7 +35,7 @@
 
     <!-- Mission Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-warning mb-3">MISSION</h2>
+        <h2 class="card-title text-warning mb-3"><strong>MISSION</strong></h2>
         <div class="col-md-8">
             <p class="card-text">
                 A Local Government Unit committed to provide equitable distribution of resources and opportunities through good governance.
@@ -51,7 +51,7 @@
 
     <!-- Functions, Duties and Responsibilities Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-warning mb-3">Functions, Duties, and Responsibilities</h2>
+        <h2 class="card-title text-warning mb-3"><strong>Functions, Duties, and Responsibilities</strong></h2>
         <div class="col-md-8">
             <p class="card-text">
                 Design, program and coordinate local calamity risk reduction and management activities.
