@@ -83,6 +83,7 @@
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-6 footer-about">
                     <a href="{{ route('pdrrmo-home.index') }}" class="logo d-flex align-items-center">
+                        <img src="{{ asset('assets/img/final-logo.png') }}" alt="PDRRMO VI Logo" class="img-fluid" style="max-height: 50px;">
                         <span class="sitename">PDRRMO VI</span>
                     </a>
                     <div class="footer-contact pt-3" style="color: black;">
