@@ -5,7 +5,7 @@
 <div class="container my-5">
     <!-- About PDRRMO Section -->
     <div class="row border border-primary rounded p-4 mb-5">
-        <h2 class="card-title text-center mb-4 text-warning"><strong>About PDRRMO</strong></h2>
+        <h2 class="card-title text-center mb-4 text-warning"><strong>About PDRRMC</strong></h2>
         <p class="card-text mb-3">
             Today, Bulacan Rescue has a total of 60 staff, with 19 permanent, 39 casual, and 2 job order appointment statuses. Also, 2 police officers from the Bulacan Police Provincial Office (BPPO) and 2 fire officers from the Office of the Provincial Fire Marshall (OPFM) are currently detailed at Bulacan Rescue to assist in responding to emergencies.
         </p>

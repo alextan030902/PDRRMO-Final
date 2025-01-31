@@ -5,7 +5,7 @@
 <div class="container my-5">
     <!-- About PDRRMO Section -->
     <div class="row border border-primary rounded p-4 mb-5">
-        <h2 class="card-title text-center mb-4 text-warning"><strong>About PDRRMO</strong></h2>
+        <h2 class="card-title text-center mb-4" style="color: #FF9A00"><strong>About PDRRMO</strong></h2>
         <p class="card-text mb-3">
             Today, Bulacan Rescue has a total of 60 staff, with 19 permanent, 39 casual, and 2 job order appointment statuses. Also, 2 police officers from the Bulacan Police Provincial Office (BPPO) and 2 fire officers from the Office of the Provincial Fire Marshall (OPFM) are currently detailed at Bulacan Rescue to assist in responding to emergencies.
         </p>
@@ -17,9 +17,25 @@
         </p>
     </div>
 
+    <!-- Mandate Section -->
+    <div class="row mb-5">
+        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>MANDATE</strong></h2>
+        <div class="col-md-8">
+            <p class="card-text">
+                Design, program and coordinate local calamity risk reduction and management activities.   
+            </p>
+        </div>
+        <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
+            <!-- Mandate Images -->
+            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 1" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
+            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 2" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
+            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 3" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
+        </div>
+    </div>
+
     <!-- Vision Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-warning mb-3"><strong>VISION</strong></h2>
+        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>VISION</strong></h2>
         <div class="col-md-8">
             <p class="card-text">
                 Livable, resilient, progressive and globally competitive Iloilo.    
@@ -35,7 +51,7 @@
 
     <!-- Mission Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-warning mb-3"><strong>MISSION</strong></h2>
+        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>MISSION</strong></h2>
         <div class="col-md-8">
             <p class="card-text">
                 A Local Government Unit committed to provide equitable distribution of resources and opportunities through good governance.
@@ -51,11 +67,17 @@
 
     <!-- Functions, Duties and Responsibilities Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-warning mb-3"><strong>Functions, Duties, and Responsibilities</strong></h2>
+        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>Functions, Duties, and Responsibilities</strong></h2>
         <div class="col-md-8">
             <p class="card-text">
-                Design, program and coordinate local calamity risk reduction and management activities.
+                The Implementing Rules and regulations of RA 10121 provided the following as the functions of the Provincial Disaster Risk Reduction and Management Office, in coordination with concerned national agencies and instrumentalities; to wit : 
             </p>
+            <ul>
+                <li>A. Prevention and Mitigation  </li>
+                <li>B. Preparedness</li>
+                <li>C. Response </li>
+                <li>D. Rehabilitation and Recovery</li>
+            </ul>
         </div>
         <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
             <!-- Functions Images -->
@@ -67,10 +89,10 @@
 
     <!-- Organizational Structure Section -->
     <div class="row mb-5">
-        <h2 class="card-title text-center mb-4 text-warning"><strong>Organizational Structure</strong></h2>
-        <p class="text-center">Details about the organizational structure can be inserted here...</p>
+        <h2 class="card-title text-center mb-1" style="color: #FF9A00"><strong>Organizational Structure</strong></h2>
+        <div class="col-12 text-center">
+            <img src="{{ asset('assets/img/OrgStruct.png') }}" alt="Banner Image" class="banner-image img-fluid">
+        </div>
     </div>
-
-</div>
 
 @endsection

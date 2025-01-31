@@ -85,10 +85,10 @@
                     <a href="{{ route('pdrrmo-home.index') }}" class="logo d-flex align-items-center">
                         <span class="sitename">PDRRMO VI</span>
                     </a>
-                    <div class="footer-contact pt-3">
-                        <p>A108 Adam Street, New York, NY 535022</p>
-                        <p><strong>Phone:</strong> +1 5589 55488 55</p>
-                        <p><strong>Email:</strong> info@example.com</p>
+                    <div class="footer-contact pt-3" style="color: black;">
+                        <p><strong>Location:</strong> 3rd Floor, Left Wing, Iloilo Provincial Capitol, <br>Bonifacio Drive, Iloilo City</p>
+                        <p><strong>Phone:</strong> +6333 328 7920 / 328 7900 (Loc. 120)</p>
+                        <p><strong>Email:</strong> pdrrmo_iloilo@yahoo.com.ph</p>
                     </div>
                     <div class="social-links d-flex mt-4">
                         <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
