@@ -22,7 +22,7 @@
         <h2 class="card-title text-warning mb-3">VISION</h2>
         <div class="col-md-8">
             <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.
+                Livable, resilient, progressive and globally competitive Iloilo.    
             </p>
         </div>
         <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
@@ -38,7 +38,7 @@
         <h2 class="card-title text-warning mb-3">MISSION</h2>
         <div class="col-md-8">
             <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.
+                A Local Government Unit committed to provide equitable distribution of resources and opportunities through good governance.
             </p>
         </div>
         <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
@@ -54,7 +54,7 @@
         <h2 class="card-title text-warning mb-3">Functions, Duties, and Responsibilities</h2>
         <div class="col-md-8">
             <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.
+                Design, program and coordinate local calamity risk reduction and management activities.
             </p>
         </div>
         <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
