@@ -9,6 +9,7 @@ use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HeroCarouselController;
 
+
 Route::get('/admin/hero-carousel', [HeroCarouselController::class, 'index'])->name('hero-carousel.index');
 Route::post('/admin/hero-carousel', [HeroCarouselController::class, 'store'])->name('hero-carousel.store');
 Route::delete('/admin/hero-carousel/{carousel}', [HeroCarouselController::class, 'destroy'])->name('hero-carousel.destroy');
@@ -17,6 +18,7 @@ Route::delete('/admin/hero-carousel/{carousel}', [HeroCarouselController::class,
 Route::get('/', function () {
     return view('pdrrmo-home.index');
 });
+
 
 // PdrrmoController
 Route::get('/pdrrmo-home/index', [PdrrmoController::class, 'index'])->name('pdrrmo-home.index');
@@ -27,8 +29,11 @@ Route::put('/pdrrmo-home/carousel', [PdrrmoController::class, 'updateCarousel'])
 // AboutPdrrmcController
 Route::get('/about-pdrrmc/index', [AboutPdrrmcController::class, 'index'])->name('about-pdrrmc.index');
 
+
 // AboutPdrrmoController
 Route::get('/about-pdrrmo/index', [AboutPdrrmoController::class, 'index'])->name('about-pdrrmo.index');
+Route::get('/about-pdrrmo', [AboutPDRRMOController::class, 'index']);
+Route::post('/about-pdrrmo/{section}', [AboutPDRRMOController::class, 'update'])->name('about.update');
 
 // ProgramServicesController
 Route::get('/programs-services/index', [ProgramServicesController::class, 'index'])->name('programs-services.index');

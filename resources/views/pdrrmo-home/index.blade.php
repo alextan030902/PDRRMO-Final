@@ -119,8 +119,15 @@
                     <div class="alert alert-warning text-white text-center" style="background-color: #ff9A00;">
                         As of <span id="timestamp"></span>
                     </div>
-                    <div class="d-flex flex-column flex-grow-1 justify-content-center align-items-center text-muted">
-                        <p>No Record!</p>
+                    <div class="fb-page"
+                        data-href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
+                        data-tabs="timeline" data-width="500" data-height="600" data-small-header="false"
+                        data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+                        <blockquote cite="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
+                            class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/">Your
+                                Page Name</a>
+                        </blockquote>
                     </div>
                 </div>
             </div>
@@ -139,6 +146,10 @@
     // Update the time immediately and then every second
     updateTime(); // Initial call to show time right away
     setInterval(updateTime, 1000); // Update every second
+</script>
+
+<script async defer crossorigin="anonymous" 
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0">
 </script>
 
 @endsection

@@ -3,62 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AboutPDRRMO;
 
-class AboutPdrrmoController extends Controller
+class AboutPDRRMOController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('about-pdrrmo.index');
+        return view('about-pdrrmo.index', [
+            'about' => AboutPDRRMO::where('section', 'about')->first(),
+            'mandate' => AboutPDRRMO::where('section', 'mandate')->first(),
+            'vision' => AboutPDRRMO::where('section', 'vision')->first(),
+            'mission' => AboutPDRRMO::where('section', 'mission')->first(),
+            'functions' => AboutPDRRMO::where('section', 'functions')->first(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $request, $section)
     {
-        //
-    }
+        AboutPDRRMO::updateOrCreate(
+            ['section' => $section],
+            ['content' => $request->content]
+        );
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->back()->with('success', ucfirst($section) . ' updated successfully!');
     }
 }

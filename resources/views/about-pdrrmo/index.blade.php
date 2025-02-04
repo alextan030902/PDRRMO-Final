@@ -2,97 +2,114 @@
 
 @section('content')
 
-<div class="container my-5">
-    <!-- About PDRRMO Section -->
-    <div class="row border border-primary rounded p-4 mb-5">
-        <h2 class="card-title text-center mb-4" style="color: #FF9A00"><strong>About PDRRMO</strong></h2>
-        <p class="card-text mb-3">
-            Today, Bulacan Rescue has a total of 60 staff, with 19 permanent, 39 casual, and 2 job order appointment statuses. Also, 2 police officers from the Bulacan Police Provincial Office (BPPO) and 2 fire officers from the Office of the Provincial Fire Marshall (OPFM) are currently detailed at Bulacan Rescue to assist in responding to emergencies.
-        </p>
-        <p class="card-text mb-3">
-            Geared towards improving service, the Bulacan Public Safety Solution Project was created, facilitating the installation of hydrological monitoring tools and 30 CCTVs at major road intersections along McArthur highway to respond promptly and efficiently. Bulacan Rescue takes advantage of state-of-the-art facilities providing early warning systems for disaster response. These include early warnings provided via CCTV and hydrological monitoring tools in the River Basins of Pampanga, Santa Maria, and Angat.
-        </p>
-        <p class="card-text mb-4">
-            On October 28, 2021, the Bulacan 911 Project was inaugurated. Executive Order (EO) No. 56 (s. 2018) institutionalized the emergency 911 hotline as the nationwide emergency answering point that conforms to international standards. With the 911 hotline, the general public can easily remember three digits to call for immediate assistance. This swift access can be the difference between life and death during an emergency. The 911 calls can dispatch various emergency response teams, such as ambulances, fire services, EMS, or the WASAR team.
-        </p>
+<div class="card shadow-sm rounded-lg container my-5 mb-4">
+    <!-- About Section with Border and Title -->
+    <div class="border border-primary rounded p-4 mb-3 mt-3">
+        <button class="btn btn-warning" onclick="toggleEdit('about')">Edit</button>
+        <h2 class="text-center mb-4" style="color: #FF9A00"><strong>About PDRRMO</strong></h2>
+        
+        <!-- Display Mode -->
+        <div id="about-display">
+            <p class="card-text">{!! $about->content ?? 'Default content' !!}</p>
+        </div>
+
+        <!-- Edit Mode -->
+        <form id="about-edit-form" action="{{ route('about.update', 'about') }}" method="POST" style="display: none;">
+            @csrf
+            <input type="hidden" name="content" id="about_content">
+            <div id="about-editor" class="quill-editor" data-content="{{ htmlentities($about->content ?? 'Default content') }}"></div>
+            <button type="submit" class="btn btn-primary mt-3">Save</button>
+            <button type="button" class="btn btn-secondary mt-3" onclick="toggleEdit('about')">Cancel</button>
+        </form>
     </div>
 
-    <!-- Mandate Section -->
-    <div class="row mb-5">
-        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>MANDATE</strong></h2>
-        <div class="col-md-8">
-            <p class="card-text">
-                Design, program and coordinate local calamity risk reduction and management activities.   
-            </p>
-        </div>
-        <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
-            <!-- Mandate Images -->
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 1" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 2" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 3" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-        </div>
-    </div>
+    <!-- Other Sections (Without Border) -->
+    @foreach(['mandate', 'vision', 'mission', 'functions'] as $section)
+        <div class="mb-3">
+            
+            <h2 class="mb-4" style="color: #FF9A00"><strong>{{ ucfirst($section) }}</strong></h2>
+            
+            <!-- Display Mode -->
+            <div id="{{ $section }}-display">
+                <p class="card-text">{!! ${$section}->content ?? 'Default content' !!}</p>
+                <button class="btn btn-warning" onclick="toggleEdit('{{ $section }}')">Edit</button>
+            </div>
 
-    <!-- Vision Section -->
-    <div class="row mb-5">
-        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>VISION</strong></h2>
-        <div class="col-md-8">
-            <p class="card-text">
-                Livable, resilient, progressive and globally competitive Iloilo.    
-            </p>
+            <!-- Edit Mode -->
+            <form id="{{ $section }}-edit-form" action="{{ route('about.update', $section) }}" method="POST" style="display: none;">
+                @csrf
+                <input type="hidden" name="content" id="{{ $section }}_content">
+                <div id="{{ $section }}-editor" class="quill-editor" data-content="{{ htmlentities(${$section}->content ?? 'Default content') }}"></div>
+                <button type="submit" class="btn btn-primary mt-3">Save</button>
+                <button type="button" class="btn btn-secondary mt-3" onclick="toggleEdit('{{ $section }}')">Cancel</button>
+            </form>
         </div>
-        <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
-            <!-- Vision Images -->
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 1" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 2" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 3" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
+        <hr>
+    @endforeach
+    <div class="card shadow-sm rounded-lg mb-3">
+        <div class="card-body shadow-sm border-0 text-center">
+            <div class="row mb-5">
+                <h2 class="card-title text-center mb-1" style="color: #FF9A00">
+                    <strong>Organizational Structure</strong>
+                </h2>
+                <div class="col-12 text-center ">
+                    <img src="{{ asset('assets/img/OrgStruct.png') }}" alt="Banner Image" class="banner-image img-fluid rounded-lg">
+                </div>
+            </div>
+    
         </div>
     </div>
+    
+</div>
 
-    <!-- Mission Section -->
-    <div class="row mb-5">
-        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>MISSION</strong></h2>
-        <div class="col-md-8">
-            <p class="card-text">
-                A Local Government Unit committed to provide equitable distribution of resources and opportunities through good governance.
-            </p>
-        </div>
-        <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
-            <!-- Mission Images -->
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 1" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 2" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 3" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-        </div>
-    </div>
 
-    <!-- Functions, Duties and Responsibilities Section -->
-    <div class="row mb-5">
-        <h2 class="card-title mb-3" style="color: #FF9A00"><strong>Functions, Duties, and Responsibilities</strong></h2>
-        <div class="col-md-8">
-            <p class="card-text">
-                The Implementing Rules and regulations of RA 10121 provided the following as the functions of the Provincial Disaster Risk Reduction and Management Office, in coordination with concerned national agencies and instrumentalities; to wit : 
-            </p>
-            <ul>
-                <li>A. Prevention and Mitigation  </li>
-                <li>B. Preparedness</li>
-                <li>C. Response </li>
-                <li>D. Rehabilitation and Recovery</li>
-            </ul>
-        </div>
-        <div class="col-md-4 d-flex flex-wrap gap-2 justify-content-center">
-            <!-- Functions Images -->
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 1" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 2" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-            <img src="https://c8.alamy.com/comp/2H0FHX7/flood-abstract-concept-vector-illustration-2H0FHX7.jpg" alt="Image 3" class="img-fluid rounded-circle" style="max-width: 100px; height: 100px;">
-        </div>
-    </div>
 
-    <!-- Organizational Structure Section -->
-    <div class="row mb-5">
-        <h2 class="card-title text-center mb-1" style="color: #FF9A00"><strong>Organizational Structure</strong></h2>
-        <div class="col-12 text-center">
-            <img src="{{ asset('assets/img/OrgStruct.png') }}" alt="Banner Image" class="banner-image img-fluid">
-        </div>
-    </div>
+<!-- Include Quill.js -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+    let quillInstances = {};
+
+    function toggleEdit(section) {
+        let displayDiv = document.getElementById(section + '-display');
+        let editForm = document.getElementById(section + '-edit-form');
+
+        if (displayDiv.style.display === 'none') {
+            displayDiv.style.display = 'block';
+            editForm.style.display = 'none';
+        } else {
+            displayDiv.style.display = 'none';
+            editForm.style.display = 'block';
+
+            // Initialize Quill only if it hasn't been initialized before
+            if (!quillInstances[section]) {
+                quillInstances[section] = new Quill('#' + section + '-editor', { theme: 'snow' });
+
+                // Fetch the pre-existing content stored in the data attribute
+                let editorElement = document.getElementById(section + '-editor');
+                let existingContent = editorElement.getAttribute('data-content');
+
+                // Decode HTML entities and set it inside Quill editor
+                quillInstances[section].root.innerHTML = decodeEntities(existingContent);
+            }
+        }
+    }
+
+    // Function to decode HTML entities properly
+    function decodeEntities(encodedString) {
+        let textArea = document.createElement('textarea');
+        textArea.innerHTML = encodedString;
+        return textArea.value;
+    }
+
+    // Ensure form submits the Quill content properly
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            let section = this.id.replace('-edit-form', '');
+            document.getElementById(section + '_content').value = quillInstances[section].root.innerHTML;
+        });
+    });
+</script>
 
 @endsection
