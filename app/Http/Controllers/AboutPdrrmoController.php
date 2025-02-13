@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutPdrrmo;
 use Illuminate\Http\Request;
+use App\Models\AboutPDRRMO;
 
-class AboutPdrrmoController extends Controller
+class AboutPDRRMOController extends Controller
 {
     public function index()
     {
