@@ -1,95 +1,200 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container my-5">
-    <div class="row d-flex">
-        <!-- Accordion Section -->
-        <div class="col-lg-8 mb-4 mb-lg-0 d-flex flex-column">
-            <h2 class="text-orange mb-3">INTERNAL SERVICES</h2>
-            <div class="accordion" id="servicesAccordion">
-                <!-- First Item -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            FINANCIAL ASSISTANCE FOR LOCAL GOVERNMENT UNITS (LGUs) ON THEIR CALAMITY PREVENTION / DAMAGED STRUCTURES
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#servicesAccordion">
-                        <div class="accordion-body">
-                            Details about this financial assistance program, including eligibility, process, and required documents.
-                        </div>
+<div class="container-fluid my-5">
+    <div class="row g-0">
+        <!-- Internal Services Section -->
+        <div class="col-lg-6 mb-4 mb-lg-0 d-flex flex-column">
+            <div class="text-center mb-4">
+                <h4 class="text-orange fw-bold">INTERNAL SERVICES</h4>
+            </div>
+            <div class="card shadow-sm rounded-3">
+                <div class="card-body">
+                    <div class="accordion" id="servicesAccordion">
+                        @if($files->isEmpty())
+                            <p class="text-center">No files available.</p>
+                        @else
+                            @foreach ($files as $file)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ $file->id }}">
+                                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
+                                            <strong>{{ $file->title }}</strong>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ $file->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $file->id }}" data-bs-parent="#servicesAccordion">
+                                        <div class="accordion-body p-4">
+                                            <p>{{ $file->description }}</p>
+            
+                                            @if($file->file_path)
+                                                <p>
+                                                    <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link">
+                                                        <i class="fas fa-download"></i> Download Attachment
+                                                    </a>
+                                                </p>
+                                            @else
+                                                <p>No file attached.</p>
+                                            @endif
+            
+                                            <!-- Edit and Delete Buttons inside description -->
+                                            <div class="d-flex justify-content-end mt-3">
+                                                <!-- Edit Button -->
+                                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{ $file->id }}">
+                                                    Edit
+                                                </button>
+            
+                                                <!-- Delete Button -->
+                                                <form action="{{ route('programs-services.internal.destroy', $file->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
-                </div>
-
-                <!-- Second Item -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            FINANCIAL ASSISTANCE FROM THE OFFICE OF CIVIL DEFENSE — NATIONAL DISASTER RISK REDUCTION AND MANAGEMENT COUNCIL
+            
+                    <!-- Upload File Button -->
+                    <div class="d-flex justify-content-center mt-3">
+                        <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                            <i class="fas fa-upload"></i> Upload File
                         </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#servicesAccordion">
-                        <div class="accordion-body">
-                            Information about the assistance program provided by the Office of Civil Defense for disaster management.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Third Item -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            NOMINATION FOR GAWAD KALAMIDAD AT SAKUNA LABANAN, SARILING GALING ANG KALIGTASAN (KALASAG)
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#servicesAccordion">
-                        <div class="accordion-body">
-                            Details on the nomination process for the Gawad Kalasag awards, recognizing disaster response excellence.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fourth Item -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFour">
-                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                            FINANCIAL ASSISTANCE FROM THE PROVINCIAL DRRM FUND TO OTHER LGUs DECLARED UNDER THE STATES OF CALAMITY
-                        </button>
-                    </h2>
-                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#servicesAccordion">
-                        <div class="accordion-body">
-                            Explanation of how the Provincial DRRM fund is allocated to LGUs during states of calamity.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fifth Item -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFive">
-                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                            REQUEST FOR THE CONDUCT OF TRAININGS ON DRRM
-                        </button>
-                    </h2>
-                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#servicesAccordion">
-                        <div class="accordion-body">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                        </div>
                     </div>
                 </div>
             </div>
+            
+            
         </div>
 
-        <!-- Card Section for Disasters and Calamity Updates -->
-        <div class="col-lg-4 d-flex flex-column">
-            <div class="card w-100 mb- flex-grow-1">
-                <div class="card-header bg-orange text-black">
-                    DISASTERS AND CALAMITY UPDATES
-                </div>
-                <div class="card-body">
-                    <p class="no-record"></p>
+        <!-- Disaster and Calamity Updates Section -->
+        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+            <div class="card shadow-sm rounded-lg w-100">
+                <div class="card-body text-center">
+                    <h5 class="fw-bold mb-4">LATEST UPDATES</h5>
+                    <div class="alert alert-warning fw-bold fs-6 mb-4" id="current-time">
+                        <!-- Real-time date and time will be inserted here -->
+                    </div>
+                    <div class="fb-page"
+                        data-href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
+                        data-tabs="timeline" data-width="700" data-height="800"
+                        data-small-header="false" data-adapt-container-width="true"
+                        data-hide-cover="false" data-show-facepile="false">
+                        <blockquote
+                            cite="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
+                            class="fb-xfbml-parse-ignore">
+                            <a
+                                href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/">Your
+                                Page Name</a>
+                        </blockquote>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Edit Modal -->
+@foreach ($files as $file)
+    <div class="modal fade" id="editModal{{ $file->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $file->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel{{ $file->id }}">Edit File: {{ $file->title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('programs-services.internal.update', $file->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $file->title) }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required>{{ old('description', $file->description) }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="file" class="form-label">File</label>
+                            <input type="file" class="form-control" id="file" name="file">
+                            <small>Current File: <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">{{ basename($file->file_path) }}</a></small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+<!-- File Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">File Upload</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('programs-services.internal.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for the file" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter a description for the file" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Choose File</label>
+                        <input type="file" class="form-control" id="fileUpload" name="file" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Update time function
+    function updateTime() {
+        const now = new Date();
+        const options = {
+            month: 'long',
+            day: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        };
+        const dateString = now.toLocaleString('en-GB', options);
+        document.getElementById('current-time').innerHTML = dateString;
+    }
+
+    setInterval(updateTime, 1000); // Update every second
+    updateTime(); // Initial call to set the time immediately
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>
+
 @endsection

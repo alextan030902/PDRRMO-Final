@@ -1,167 +1,201 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>PDRRMO</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
 
-    <!-- Favicons -->
-    <link href="{{ asset('assets/img/final-logo.png') }}" rel="icon" type="image/png">
-    <link href="{{ asset('assets/img/final-logo.png') }}" rel="apple-touch-icon">
+  <!-- Favicons -->
+<link href="{{ asset('assets/img/final-logo.png') }}" rel="icon">
+<link href="{{ asset('assets/img/final-logo.png') }}" rel="apple-touch-icon">
 
-    <!-- SEO and Social Media Meta Tags -->
-    <meta name="description" content="PDRRMO VI - Providing disaster management services for Region VI">
-    <meta name="keywords" content="PDRRMO, Region VI, Disaster Risk Reduction, Emergency Services">
-    <meta name="author" content="PDRRMO VI">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+ <!-- Vendor CSS Files -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
-    <!-- Main CSS File -->
-    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+<!-- Main CSS File -->
+<link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+
+
+  <!-- =======================================================
+  * Template Name: Company
+  * Template URL: https://bootstrapmade.com/company-free-html-bootstrap-template/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
-<body class="index-page d-flex flex-column min-vh-100">
+<body class="index-page">
 
-    <!-- Header Section -->
-    <header id="header" class="header d-flex align-items-center sticky-top">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <!-- Logo and Site Name -->
-            <a href="{{ route('pdrrmo-home.index') }}" class="logo d-flex align-items-center">
-                <img src="{{ asset('assets/img/final-logo.png') }}" alt="PDRRMO VI Logo" class="img-fluid" style="max-height: 50px;">
-                <h2 class="sitename ms-2">PDRRMO VI</h2>
-            </a>
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container position-relative d-flex align-items-center">
 
-            <!-- Navigation Menu -->
-            <nav id="navmenu" class="navmenu d-flex align-items-center">
-                <ul class="nav">
-                    <li class="nav-item"><a href="{{ route('pdrrmo-home.index') }}" class="nav-link active">Home</a></li>
-                    <li class="nav-item"><a href="{{ route('about-pdrrmo.index') }}" class="nav-link">About PDRRMO</a></li>
-                    <li class="nav-item"><a href="{{ route('about-pdrrmc.index') }}" class="nav-link">About PDRRMC</a></li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Programs and Services</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ route('programs-services.external-services.index') }}" class="dropdown-item">External Services</a></li>
-                            <li><a href="{{ route('programs-services.internal-services.index') }}" class="dropdown-item">Internal Services</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a href="{{ route('resources.index') }}" class="nav-link">Resources</a></li>
-                    <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Operations Center</a></li>
-                </ul>
+      <a href="{{ route('about-pdrrmo.index') }}" class="logo d-flex align-items-center me-auto">
+        <img src="{{ asset('assets/img/final-logo.png') }}" alt="">
+        <h1 class="sitename">PDRRMO ILOILO</h1>
+      </a>
 
-                <!-- Emergency Contact Button -->
-                <a href="#" class="btn btn-warning rounded-pill px-3 py-2 ms-3" style="font-size: 14px;">
-                    Emergency Contact
-                </a>
-            </nav>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li class="nav-item"><a href="{{ route('pdrrmo-home.index') }}" class="nav-link active">Home</a></li>
+          <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+                <li><a href="{{ route('about-pdrrmo.index') }}" class="dropdown-item">About PDRRMO</a></li>
+                <li><a href="{{ route('about-pdrrmc.index') }}" class="dropdown-item">About PDRRMC</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Programs and Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+                <li><a href="{{ route('programs-services.external-services.index') }}" class="dropdown-item">External Services</a></li>
+                <li><a href="{{ route('programs-services.internal-services.index') }}" class="dropdown-item">Internal Services</a></li>
+                <li><a href="{{ route('programs-services.rescue-operations.index') }}" class="dropdown-item">Rescue Operations</a></li> 
+            </ul>
+          </li>
+          <li class="nav-item"><a href="{{ route('resources.index') }}" class="nav-link">Resources</a></li>
+          <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Operations Center</a></li>
+          <li><a href="{{ route('contact.index') }}" class="nav-link">Emergency Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
-            <!-- Mobile Navigation Toggle -->
-            <button class="navbar-toggler d-xl-none btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
+      <div class="header-social-links">
+        @auth
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="logout-button btn btn-danger">
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
             </button>
-        </div>
-    </header>
+        </form>
+        @endauth
+     </div>
+    
+    </div>
+  </header>
 
-    <!-- Main Content Area -->
-    <main id="content" class="flex-grow-1">
-        @yield('content')
-    </main>
+  <main id="content" class="flex-grow-1">
+    @yield('content')
+ </main>
 
     <!-- Footer Section -->
-    <footer id="footer" class="footer bg-dark text-light py-4">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-lg-4 col-md-6 footer-about">
-                    <a href="{{ route('pdrrmo-home.index') }}" class="logo d-flex align-items-center">
-                        <span class="sitename">PDRRMO VI</span>
-                    </a>
-                    <div class="footer-contact pt-3">
-                        <p>A108 Adam Street, New York, NY 535022</p>
-                        <p><strong>Phone:</strong> +1 5589 55488 55</p>
-                        <p><strong>Email:</strong> info@example.com</p>
-                    </div>
-                    <div class="social-links d-flex mt-4">
-                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
+    <footer class="footer bg-light text-dark py-4">
+      <hr>
+  
+      <!-- Responsive Contact and Social Links -->
+      <div class="container">
+          <div class="d-block d-md-table w-100">
+              <table class="table table-borderless text-start d-none d-md-table">
+                  <colgroup>
+                      <col style="width: 29%;">
+                      <col style="width: 10%;">
+                      <col style="width: 20%;">
+                      <col style="width: 20%;">
+                      <col style="width: 20%;">
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td class="text-center" rowspan="2" style="width: 400px;">
+                              {{-- <img src="{{ asset('assets/img/CapitolSeal.png') }}" alt="Logo 1" style="height: 60px;">
+                              <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo 2" style="height: 60px;">
+                              <img src="{{ asset('assets/img/BagongPilipinas.png') }}" alt="Logo 3" style="height: 60px;">
+                              <img src="{{ asset('assets/img/MoRProGres.png') }}" alt="Logo 4" style="height: 60px;"> --}}
+                          </td>
+                          <td><strong>Contact Us</strong></td>
+                          <td><i class="bi bi-geo-alt-fill"></i> 3rd Floor, Left Wing, Iloilo Provincial Capitol, Bonifacio Drive, Iloilo City</td>
+                          <td><i class="bi bi-envelope"></i> <a href="mailto:pdrrmo_iloilo@yahoo.com.ph">pdrrmo_iloilo@yahoo.com.ph</a></td>
+                          <td><i class="bi bi-telephone"></i> (033) 328-7920 / 328-7900</td>
+                      </tr>
+                      <tr>
+                          <td><strong>Follow Us</strong></td>
+                          <td><a href="https://www.facebook.com/iloilopdrrmo" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> PDRRMO Iloilo</a></td>
+                          <td><a href="https://www.facebook.com/profile.php?id=61570456584511" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> Operation Center PDRRMO Iloilo</a></td>
+                          <td></td>
+                      </tr>
+                  </tbody>
+              </table>
+  
+              <!-- Mobile Version (Stacked View) -->
+              <div class="d-md-none text-center">
+                  <div class="mb-3">
+                      {{-- <img src="{{ asset('assets/img/jpg.png') }}" alt="Logo 1" style="height: 50px;">
+                      <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo 2" style="height: 50px;">
+                      <img src="{{ asset('assets/img/BagongPilipinas.png') }}" alt="Logo 3" style="height: 50px;">
+                      <img src="{{ asset('assets/img/MoRProGres.png') }}" alt="Logo 4" style="height: 50px;"> --}}
+                  </div>
+                  <p><strong>Contact Us</strong></p>
+                  <p><i class="bi bi-geo-alt-fill"></i> 3rd Floor, Left Wing, Iloilo Provincial Capitol, Bonifacio Drive, Iloilo City</p>
+                  <p><i class="bi bi-envelope"></i> <a href="mailto:pdrrmo_iloilo@yahoo.com.ph">pdrrmo_iloilo@yahoo.com.ph</a></p>
+                  <p><i class="bi bi-telephone"></i> (033) 328-7920 / 328-7900</p>
+                  <p><strong>Follow Us</strong></p>
+                  <p>
+                      <a href="https://www.facebook.com/iloilopdrrmo" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> PDRRMO Iloilo</a><br>
+                      <a href="https://www.facebook.com/profile.php?id=61570456584511" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> Operation Center PDRRMO Iloilo</a>
+                  </p>
+              </div>
+          </div>
+      </div>
+  
+      <hr>
+  
+      <!-- Responsive Footer Bottom -->
+      <div class="container">
+          <table class="table table-borderless d-none d-md-table">
+              <colgroup>
+                  <col style="width: 34%;">
+                  <col style="width: 35%;">
+                  <col style="width: 32%;">
+              </colgroup>
+              <tbody>
+                  <tr>
+                      <td class="text-start">Provincial Disaster Risk Reduction & Management Office (PDRRMO)</td>
+                      <td class="text-center">© 2025 All Rights Reserved</td>
+                      <td></td>
+                  </tr>
+              </tbody>
+          </table>
+  
+          <!-- Mobile Version -->
+          <div class="d-md-none text-center">
+              <p>Provincial Disaster Risk Reduction & Management Office (PDRRMO)</p>
+              <p>© 2025 All Rights Reserved</p>
+          </div>
+      </div>
+  </footer>
 
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Terms of service</a></li>
-                        <li><a href="#">Privacy policy</a></li>
-                    </ul>
-                </div>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><a href="#">Web Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Product Management</a></li>
-                        <li><a href="#">Marketing</a></li>
-                        <li><a href="#">Graphic Design</a></li>
-                    </ul>
-                </div>
+  <!-- Preloader -->
+  <div id="preloader"></div>
 
-                <div class="col-lg-4 col-md-12 footer-newsletter">
-                    <h4>Our Newsletter</h4>
-                    <p>Subscribe to our newsletter to get the latest updates on our programs and services.</p>
-                    <form action="forms/newsletter.php" method="post" class="php-email-form">
-                        <div class="newsletter-form d-flex">
-                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
-                            <input type="submit" value="Subscribe" class="btn btn-primary ms-2">
-                        </div>
-                        <div class="loading">Loading...</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Thank you for subscribing!</div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="container text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">PDRRMO VI</strong> <span>All Rights Reserved</span></p>
-            <div class="credits">
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | Distributed by <a href="https://themewagon.com">ThemeWagon</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scroll Top Button -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center" aria-label="Scroll to top">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
-
-    <!-- Preloader -->
-    <div id="preloader"></div>
-    <!-- Vendor JS Files -->
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
-    <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-
-    <!-- Main JS File -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
+  <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script> --}}
+  
+  <!-- Main JS File -->
+  <script src="{{ asset('assets/js/main.js') }}"></script>
+  
 
 </body>
 
