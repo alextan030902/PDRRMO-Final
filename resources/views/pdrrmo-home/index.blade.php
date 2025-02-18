@@ -2,7 +2,7 @@
 
 @section('content')
 
-<<<<<<< HEAD
+
   <!-- Banner Section -->
   <div class="container-fluid mt-0 mb-4 p-0" style="overflow-x: hidden;">
     <div class="row">
@@ -11,9 +11,7 @@
       </div>
     </div>
   </div>
-=======
     <main class="main">
->>>>>>> f2ebacf4ea37a7b81a751f80ee0312768b0af3d3
 
     <!-- Welcome Modal -->
     @if (session('welcome_message'))
