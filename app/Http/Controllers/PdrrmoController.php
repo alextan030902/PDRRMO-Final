@@ -15,32 +15,23 @@ class PdrrmoController extends Controller
      */
     public function index()
     {
-        // Fetch all activities with their related images (eager loading)
         $activities = Activity::with('images')->get();
 
-        // Fetch the latest CarouselImage record and all other carousel images
-        $carousel = CarouselImage::latest()->first();
-        $carouselImages = CarouselImage::all();
+        $carouselImage = CarouselImage::first();
 
-        // Get the image paths from the latest carousel record
-        $carouselImage1 = $carousel ? $carousel->image_path_1 : null;
-        $carouselImage2 = $carousel ? $carousel->image_path_2 : null;
-        $carouselImage3 = $carousel ? $carousel->image_path_3 : null;
+        if ($carouselImage && $carouselImage->image_paths) {
+            $carouselImage->image_paths = json_decode($carouselImage->image_paths, true);
+        }
 
-        // Fetch the latest Pdrrmo record and its image path
         $pdrrmo = Pdrrmo::latest()->first();
-        $pdrrmoImagePath = $pdrrmo ? $pdrrmo->image_path : null;
 
-        // Fetch all files (if needed)
+        $pdrrmoImagePath = $pdrrmo && $pdrrmo->image_path ? $pdrrmo->image_path : null;
+
         $files = File::all();
 
-        // Pass all the variables to the view
         return view('pdrrmo-home.index', compact(
             'activities',
-            'carouselImage1',
-            'carouselImage2',
-            'carouselImage3',
-            'carouselImages',
+            'carouselImage',
             'pdrrmo',
             'pdrrmoImagePath',
             'files'
@@ -149,33 +140,5 @@ class PdrrmoController extends Controller
         session()->flash('success', 'Image deleted successfully!');
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Image deleted successfully!');
-    }
-
-    public function delete($imageIndex)
-    {
-        // Fetch the latest CarouselImage record
-        $carousel = CarouselImage::latest()->first();
-
-        // Handle deletion based on the image index
-        switch ($imageIndex) {
-            case 1:
-                $carousel->image_path_1 = null;
-                break;
-            case 2:
-                $carousel->image_path_2 = null;
-                break;
-            case 3:
-                $carousel->image_path_3 = null;
-                break;
-        }
-
-        // Save the changes to the database
-        $carousel->save();
-
-        // Use session to pass success message
-        session()->flash('success', 'Carousel image deleted successfully');
-
-        // Redirect back to the carousel index with a success message
-        return redirect()->route('carousel.index')->with('success', 'Image deleted successfully');
     }
 }

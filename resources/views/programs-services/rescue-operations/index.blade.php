@@ -5,9 +5,11 @@
 <!-- Portfolio Section -->
 <section id="portfolio" class="portfolio section position-relative">
 
-    <button type="button" class="btn btn-primary position-absolute top-0 end-0 m-3" data-bs-toggle="modal" data-bs-target="#addImageModal">
-        <i class="fas fa-plus"></i> Add Image
-    </button>
+    @auth
+        <button type="button" class="btn btn-primary position-absolute top-0 end-0 m-3" data-bs-toggle="modal" data-bs-target="#addImageModal">
+            <i class="fas fa-plus"></i> Add Image
+        </button>
+    @endauth
 
     <!-- Add Image Modal -->
     <div class="modal fade" id="addImageModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -100,7 +102,7 @@
                                 @endif
                             @endif
                         </div>
-            
+                     @auth
                         <div class="btn-group mt-3 flex-shrink-0" role="group" aria-label="Action Buttons">
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
                                 <i class="fas fa-plus"></i> Add
@@ -117,6 +119,7 @@
                                 </button>
                             </form>
                         </div>
+                     @endauth
                     </div>
                 </div>
             </div>

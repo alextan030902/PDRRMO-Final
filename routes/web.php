@@ -14,17 +14,11 @@ use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HeroCarouselController;
-
-
-Route::get('/admin/hero-carousel', [HeroCarouselController::class, 'index'])->name('hero-carousel.index');
-Route::post('/admin/hero-carousel', [HeroCarouselController::class, 'store'])->name('hero-carousel.store');
-Route::delete('/admin/hero-carousel/{carousel}', [HeroCarouselController::class, 'destroy'])->name('hero-carousel.destroy');
-
 
 Route::get('/', function () {
-    return view('pdrrmo-home.index');
+    return redirect()->route('pdrrmo-home.index');
 });
+
 Route::get('/super-admin-login', function () {
     return view('super-admin.login');
 });
@@ -42,7 +36,7 @@ Route::post('/super-admin-login', 'SuperAdminController@authenticate')->name('su
 
 // CarouselImageController
 Route::post('/carousel-images', [CarouselImageController::class, 'store'])->name('carousel-image.store');
-Route::delete('/carousel-images/{imageIndex}', [PdrrmoController::class, 'delete'])->name('carousel.destroy');
+Route::delete('/carousel-images/{imageIndex}', [CarouselImageController::class, 'delete'])->name('carousel.destroy');
 
 // PdrrmoController
 Route::get('/pdrrmo-home', [PdrrmoController::class, 'index'])->name('pdrrmo-home.index');
@@ -100,3 +94,13 @@ Route::put('/programs-services/rescue-operations/{id}', [RescueOperationControll
 Route::get('/programs-services/rescue-operations/{category}', [RescueOperationController::class, 'show'])->name('programs-services.rescue-operations.show');
 Route::delete('/programs-services/rescue-operations/{id}', [RescueOperationController::class, 'destroy'])->name('programs-services.rescue-operations.destroy');
 Route::delete('/programs-services/rescue-operations/{id}', [RescueOperationController::class, 'contentDestroy'])->name('programs-services.rescue-operations.destroy');
+
+// OperationsCenter
+Route::get('/operations-center/index', [OperationsCenterController::class, 'index'])->name('operations-center.index');
+Route::resource('operation-center', OperationsCenterController::class);
+
+// ContactController
+Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/contact/edit/{id}', [ContactController::class, 'edit'])->name('contact.edit');
+Route::put('/contact/update/{id}', [ContactController::class, 'update'])->name('contact.update');
+Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');

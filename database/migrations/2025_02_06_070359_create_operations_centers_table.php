@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carousel_images', function (Blueprint $table) {
+        Schema::create('operations_centers', function (Blueprint $table) {
             $table->id();
-            $table->string('image_path_1')->nullable();
-            $table->string('image_path_2')->nullable();
-            $table->string('image_path_3')->nullable();
+            $table->string('name');
+            $table->string('image');
+            $table->enum('type', ['vehicle', 'equipment'])->default('vehicle');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carousel_images');
+        Schema::dropIfExists('operations_centers');
     }
 };

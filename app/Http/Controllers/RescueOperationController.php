@@ -137,7 +137,6 @@ class RescueOperationController extends Controller
         return redirect()->route('programs-services.rescue-operations.index')->with('success', 'Image deleted successfully.');
     }
 
-
     public function content(Request $request)
     {
         // Validate the incoming data
@@ -160,7 +159,7 @@ class RescueOperationController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'content' => 'required|string|max:5000', 
+            'content' => 'required|string|max:5000',
         ]);
 
         $rescueOperation = RescueOperation::findOrFail($id);

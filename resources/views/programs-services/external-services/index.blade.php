@@ -2,23 +2,23 @@
 
 @section('content')
 <div class="container-fluid my-5">
-    <div class="row g-0">
+    <div class="row g-4"> <!-- Increased gap between columns -->
         <!-- Internal Services Section -->
         <div class="col-lg-6 mb-4 mb-lg-0 d-flex flex-column">
             <div class="text-center mb-4">
-                <h4 class="text-orange fw-bold">EXTERNAL SERVICES</h4>
+                <h4 class="text-orange fw-bold display-6">EXTERNAL SERVICES</h4> <!-- Larger font size -->
             </div>
-            <div class="card shadow-sm rounded-3">
+            <div class="card shadow-lg rounded-3 border-light">
                 <div class="card-body">
                     <div class="accordion" id="servicesAccordion">
                         @if($files->isEmpty())
-                            <p class="text-center">No files available.</p>
+                            <p class="text-center text-muted">No files available.</p> <!-- Muted text -->
                         @else
                             @foreach ($files as $file)
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="heading{{ $file->id }}">
-                                        <button class="accordion-button btn-custom collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
-                                            <strong>{{ $file->title }}</strong>
+                                        <button class="accordion-button btn-custom collapsed fs-5 fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
+                                            {{ $file->title }}
                                         </button>
                                     </h2>
                                     <div id="collapse{{ $file->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $file->id }}" data-bs-parent="#servicesAccordion">
@@ -27,27 +27,27 @@
             
                                             @if($file->file_path)
                                                 <p>
-                                                    <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link">
+                                                    <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link text-primary">
                                                         <i class="fas fa-download"></i> Download Attachment
                                                     </a>
                                                 </p>
                                             @else
-                                                <p>No file attached.</p>
+                                                <p class="text-muted">No file attached.</p> <!-- Muted text -->
                                             @endif
             
                                             <!-- Edit and Delete Buttons inside description -->
                                             <div class="d-flex justify-content-end mt-3">
                                                 <!-- Edit Button -->
-                                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{ $file->id }}">
-                                                    Edit
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $file->id }}">
+                                                    <i class="fas fa-edit"></i> Edit
                                                 </button>
             
                                                 <!-- Delete Button -->
                                                 <form action="{{ route('programs-services.external.destroy', $file->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
-                                                        Delete
+                                                    <button type="submit" class="btn btn-outline-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
+                                                        <i class="fas fa-trash-alt"></i> Delete
                                                     </button>
                                                 </form>
                                             </div>
@@ -59,8 +59,8 @@
                     </div>
             
                     <!-- Upload File Button -->
-                    <div class="d-flex justify-content-center mt-3">
-                        <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                    <div class="d-flex justify-content-center mt-4">
+                        <button class="btn btn-primary rounded-pill ms-auto" data-bs-toggle="modal" data-bs-target="#uploadModal">
                             <i class="fas fa-upload"></i> Upload File
                         </button>
                     </div>
@@ -70,10 +70,10 @@
 
         <!-- Disaster and Calamity Updates Section -->
         <div class="col-lg-6 d-flex justify-content-center align-items-center">
-            <div class="card shadow-sm rounded-lg w-100">
+            <div class="card shadow-lg rounded-lg w-100 border-light">
                 <div class="card-body text-center">
-                    <h5 class="fw-bold mb-4">LATEST UPDATES</h5>
-                    <div class="alert alert-warning fw-bold fs-6 mb-4" id="current-time">
+                    <h5 class="fw-bold mb-4 text-primary">LATEST UPDATES</h5> <!-- Primary color text -->
+                    <div class="alert alert-warning fw-bold fs-5 mb-4" id="current-time">
                         <!-- Real-time date and time will be inserted here -->
                     </div>
                     <div class="fb-page"
@@ -119,7 +119,7 @@
                         <div class="mb-3">
                             <label for="file" class="form-label">File</label>
                             <input type="file" class="form-control" id="file" name="file">
-                            <small>Current File: <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">{{ basename($file->file_path) }}</a></small>
+                            <small class="text-muted">Current File: <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">{{ basename($file->file_path) }}</a></small>
                         </div>
                     </div>
                     <div class="modal-footer">

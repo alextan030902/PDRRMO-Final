@@ -21,4 +21,3 @@ class CreateAboutPdrmmoTable extends Migration
         Schema::dropIfExists('about_pdrmmo');
     }
 }
-

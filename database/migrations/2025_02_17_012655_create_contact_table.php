@@ -8,17 +8,18 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
-        Schema::create('rescue_operations', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('category');
-            $table->text('description');
-            $table->text('content');
-            $table->json('images')->nullable();
+            $table->string('district');
+            $table->string('municipality');
+            $table->string('focal_person');
+            $table->bigInteger('contact_number');
+            $table->string('email');
+            $table->string('response_team');
             $table->timestamps();
         });
     }
@@ -30,7 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rescue_operations');
+        Schema::dropIfExists('contacts');
     }
 };
-$table->text('content')->change();

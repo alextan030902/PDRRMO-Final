@@ -47,7 +47,7 @@
 
       <a href="{{ route('about-pdrrmo.index') }}" class="logo d-flex align-items-center me-auto">
         <img src="{{ asset('assets/img/final-logo.png') }}" alt="">
-        <h1 class="sitename">PDRRMO ILOILO</h1>
+        <h3 class="sitename">PDRRMO ILOILO</h3>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -66,9 +66,16 @@
                 <li><a href="{{ route('programs-services.rescue-operations.index') }}" class="dropdown-item">Rescue Operations</a></li> 
             </ul>
           </li>
-          <li class="nav-item"><a href="{{ route('resources.index') }}" class="nav-link">Resources</a></li>
-          <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Operations Center</a></li>
-          <li><a href="{{ route('contact.index') }}" class="nav-link">Emergency Contact</a></li>
+          <li class="dropdown"><a href="#"><span>Operations Center</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+                <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Resources</a></li>
+            </ul>
+          </li>
+          
+          {{-- <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Operations Center</a></li> --}}
+          <li class="nav-item">
+            <a href="{{ route('contact.index') }}" class="btn" style="background-color: #fe6305; color: white; font-size: 14px; padding: 5px 15px; text-align: center; border-radius: 50px;">Emergency Contact</a>
+          </li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
