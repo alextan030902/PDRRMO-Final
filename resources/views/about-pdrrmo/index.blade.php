@@ -27,75 +27,77 @@
 </div>
 @endif
 
-    <div class="card shadow-sm rounded-lg p-5">
+<!-- Main Content Container -->
+<div class="card shadow-lg rounded-lg p-5 mb-5">
 
-        <!-- About Section with Border and Title -->
+    <!-- About Section with Border and Title -->
+    <div class="position-relative mb-4">
+        @auth
+        <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('about')"><i class="bi bi-pencil"></i> Edit</button>
+        @endauth
+        <div class="border border-primary rounded p-4 bg-light">
+            <h2 class="text-center mb-4" style="color: #FF9A00"><strong>About PDRRMO</strong></h2>
+            <div id="about-display">
+                <p class="card-text">{!! $about->content ?? 'Add text' !!}</p>
+            </div>
+
+            <form id="about-edit-form" action="{{ route('about-pdrrmo.update', 'about') }}" method="POST" style="display: none;">
+                @csrf
+                <input type="hidden" name="content" id="about_content">
+                <div id="about-editor" class="quill-editor" data-content="{{ htmlentities($about->content ?? 'Add text') }}"></div>
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bi bi-save"></i> Save
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="toggleEdit('about')">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Other Sections (Mandate, Vision, Mission, Functions) -->
+    @foreach(['mandate', 'vision', 'mission', 'functions'] as $section)
         <div class="position-relative mb-4">
             @auth
-            <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('about')"><i class="bi bi-pencil"></i> Edit</button>
+            <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('{{ $section }}')"><i class="bi bi-pencil"></i> Edit</button>
             @endauth
-            <div class="border border-primary rounded p-4">
-                <h2 class="text-center mb-4" style="color: #FF9A00"><strong>About PDRRMO</strong></h2>
-                <div id="about-display">
-                    <p class="card-text">{!! $about->content ?? 'Add text' !!}</p>
-                </div>
-
-                <form id="about-edit-form" action="{{ route('about-pdrrmo.update', 'about') }}" method="POST" style="display: none;">
-                    @csrf
-                    <input type="hidden" name="content" id="about_content">
-                    <div id="about-editor" class="quill-editor" data-content="{{ htmlentities($about->content ?? 'Add text') }}"></div>
-                    <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-primary me-2">
-                            <i class="bi bi-save"></i> Save
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="toggleEdit('about')">
-                            <i class="bi bi-x-circle"></i> Cancel
-                        </button>
-                    </div>
-                </form>
+            <h2 class="mb-4" style="color: #FF9A00"><strong>{{ ucfirst($section) }}</strong></h2>
+            <div id="{{ $section }}-display">
+                <p class="card-text">{!! ${$section}->content ?? 'Add text' !!}</p>
             </div>
+
+            <form id="{{ $section }}-edit-form" action="{{ route('about-pdrrmo.update', $section) }}" method="POST" style="display: none;">
+                @csrf
+                <input type="hidden" name="content" id="{{ $section }}_content">
+                <div id="{{ $section }}-editor" class="quill-editor" data-content="{{ htmlentities(${$section}->content ?? 'Add text') }}"></div>
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bi bi-save"></i> Save
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="toggleEdit('{{ $section }}')">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                </div>
+            </form>
         </div>
+        <hr class="my-4">
+    @endforeach
 
-        <!-- Other Sections (Without Border) -->
-        @foreach(['mandate', 'vision', 'mission', 'functions'] as $section)
-            <div class="position-relative mb-4">
-                @auth
-                <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('{{ $section }}')"><i class="bi bi-pencil"></i> Edit</button>
-                @endauth
-                <h2 class="mb-4" style="color: #FF9A00"><strong>{{ ucfirst($section) }}</strong></h2>
-                <div id="{{ $section }}-display">
-                    <p class="card-text">{!! ${$section}->content ?? 'Add text' !!}</p>
-                </div>
-
-                <form id="{{ $section }}-edit-form" action="{{ route('about-pdrrmo.update', $section) }}" method="POST" style="display: none;">
-                    @csrf
-                    <input type="hidden" name="content" id="{{ $section }}_content">
-                    <div id="{{ $section }}-editor" class="quill-editor" data-content="{{ htmlentities(${$section}->content ?? 'Add text') }}"></div>
-                    <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-primary me-2">
-                            <i class="bi bi-save"></i> Save
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="toggleEdit('{{ $section }}')">
-                            <i class="bi bi-x-circle"></i> Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <hr>
-        @endforeach
-
-        <!-- Organizational Structure Section -->
-        <div class="card shadow-sm rounded-lg mb-3">
-            <div class="card-body shadow-sm border-0 text-center">
-                <h2 class="card-title mb-4" style="color: #FF9A00">
-                    <strong>Organizational Structure</strong>
-                </h2>
-                <div class="col-12 text-center">
-                    <img src="{{ asset('assets/img/OrgStruct.jpg') }}" alt="Organizational Structure" class="img-fluid rounded-lg">
-                </div>
+    <!-- Organizational Structure Section -->
+    <div class="card shadow-lg rounded-lg mb-3 bg-light">
+        <div class="card-body border-0 text-center">
+            <h2 class="card-title mb-4" style="color: #FF9A00">
+                <strong>Organizational Structure</strong>
+            </h2>
+            <div class="col-12 text-center">
+                <img src="{{ asset('assets/img/OrgStruct.jpg') }}" alt="Organizational Structure" class="img-fluid rounded-lg shadow-sm">
             </div>
         </div>
     </div>
+
+</div>
 
 <!-- Include Quill.js -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">

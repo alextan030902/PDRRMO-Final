@@ -17,30 +17,6 @@ class PdrrmoController extends Controller
     {
         $activities = Activity::with('images')->get();
 
-<<<<<<< HEAD
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-=======
         $carouselImage = CarouselImage::first();
 
         if ($carouselImage && $carouselImage->image_paths) {
@@ -97,7 +73,6 @@ class PdrrmoController extends Controller
 
             return redirect()->route('pdrrmo-home.index');
         }
->>>>>>> f2ebacf4ea37a7b81a751f80ee0312768b0af3d3
     }
 
     /**
@@ -117,57 +92,6 @@ class PdrrmoController extends Controller
     /**
      * Handle updating the pdrrmo-home data.
      */
-<<<<<<< HEAD
-    // Method to update the banner image
-    public function updateBanner(Request $request)
-    {
-        // Validate the incoming request
-        $request->validate([
-            'banner_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Check if a new banner image was uploaded
-        if ($request->hasFile('banner_image')) {
-            // Store the new banner image
-            $path = $request->file('banner_image')->store('public/banners');
-
-            // Save the path to the database (optional, depending on your app)
-            // Banner::update(['image_path' => $path]);
-
-            // Optionally, delete the old image from storage
-            // Storage::delete($oldBannerImagePath);
-        }
-
-        return back()->with('success', 'Banner image updated successfully!');
-    }
-
-    // Method to update the carousel images
-    public function updateCarousel(Request $request)
-    {
-        // Validate the incoming request
-        $request->validate([
-            'carousel_image_1' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'carousel_image_2' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'carousel_image_3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Loop through each carousel image and store if uploaded
-        for ($i = 1; $i <= 3; $i++) {
-            $carouselImage = 'carousel_image_'.$i;
-            if ($request->hasFile($carouselImage)) {
-                // Store the carousel image
-                $path = $request->file($carouselImage)->store('public/carousels');
-
-                // Save the path to the database (optional, depending on your app)
-                // Carousel::updateOrCreate(['image' => $path]);
-
-                // Optionally, delete the old images from storage if you store paths in DB
-                // Storage::delete($oldCarouselImagePath);
-            }
-        }
-
-        return back()->with('success', 'Carousel images updated successfully!');
-=======
     public function update(Request $request, $id)
     {
         // Find the resource by ID
@@ -192,7 +116,6 @@ class PdrrmoController extends Controller
 
         // Redirect back to the edit view
         return redirect()->route('pdrrmo-home.edit', $id);
->>>>>>> f2ebacf4ea37a7b81a751f80ee0312768b0af3d3
     }
 
     /**

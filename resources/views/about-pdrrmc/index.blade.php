@@ -2,6 +2,7 @@
 
 @section('content')
 
+    <!-- Toast Notifications -->
     @if(session('success'))
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -28,14 +29,15 @@
     </div>
     @endif
 
-    <div class="card shadow-sm rounded-lg p-5">
-
+    <!-- Main Card with Shadow and Rounded Corners -->
+    <div class="card shadow-lg rounded-lg p-5 mb-5">
+        
         <!-- About Section with Border and Title -->
         <div class="position-relative mb-4">
             @auth
             <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('about')"><i class="bi bi-pencil"></i> Edit</button>
             @endauth
-            <div class="border border-primary rounded p-4">
+            <div class="border border-primary rounded p-4 bg-light">
                 <h2 class="text-center mb-4" style="color: #FF9A00"><strong>About PDRRMC</strong></h2>
                 <div id="about-display">
                     <p class="card-text">{!! $about->content ?? 'Add text' !!}</p>
@@ -82,83 +84,83 @@
                     </div>
                 </form>
             </div>
-            <hr>
+            <hr class="my-4">
         @endforeach
 
         <!-- Organizational Structure Section -->
-        <div class="card shadow-sm rounded-lg mb-3">
-            <div class="card-body shadow-sm border-0 text-center">
+        <div class="card shadow-lg rounded-lg mb-3 bg-light">
+            <div class="card-body border-0 text-center">
                 <h2 class="card-title mb-4" style="color: #FF9A00">
                     <strong>Organizational Structure</strong>
                 </h2>
                 <div class="col-12 text-center">
-                    <img src="{{ asset('assets/img/OrgStruct.jpg') }}" alt="Organizational Structure" class="img-fluid rounded-lg">
+                    <img src="{{ asset('assets/img/OrgStruct.jpg') }}" alt="Organizational Structure" class="img-fluid rounded-lg shadow-sm">
                 </div>
             </div>
         </div>
     </div>
 
-<!-- Include Quill.js -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- Include Quill.js -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
-<script>
-    let quillInstances = {};
+    <script>
+        let quillInstances = {};
 
-    function toggleEdit(section) {
-        let displayDiv = document.getElementById(section + '-display');
-        let editForm = document.getElementById(section + '-edit-form');
+        function toggleEdit(section) {
+            let displayDiv = document.getElementById(section + '-display');
+            let editForm = document.getElementById(section + '-edit-form');
 
-        if (displayDiv.style.display === 'none') {
-            displayDiv.style.display = 'block';
-            editForm.style.display = 'none';
-        } else {
-            displayDiv.style.display = 'none';
-            editForm.style.display = 'block';
+            if (displayDiv.style.display === 'none') {
+                displayDiv.style.display = 'block';
+                editForm.style.display = 'none';
+            } else {
+                displayDiv.style.display = 'none';
+                editForm.style.display = 'block';
 
-            // Initialize Quill only if it hasn't been initialized before
-            if (!quillInstances[section]) {
-                quillInstances[section] = new Quill('#' + section + '-editor', { theme: 'snow' });
+                // Initialize Quill only if it hasn't been initialized before
+                if (!quillInstances[section]) {
+                    quillInstances[section] = new Quill('#' + section + '-editor', { theme: 'snow' });
 
-                // Fetch the pre-existing content stored in the data attribute
-                let editorElement = document.getElementById(section + '-editor');
-                let existingContent = editorElement.getAttribute('data-content');
+                    // Fetch the pre-existing content stored in the data attribute
+                    let editorElement = document.getElementById(section + '-editor');
+                    let existingContent = editorElement.getAttribute('data-content');
 
-                // Decode HTML entities and set it inside Quill editor
-                quillInstances[section].root.innerHTML = decodeEntities(existingContent);
+                    // Decode HTML entities and set it inside Quill editor
+                    quillInstances[section].root.innerHTML = decodeEntities(existingContent);
+                }
             }
         }
-    }
 
-    // Function to decode HTML entities properly
-    function decodeEntities(encodedString) {
-        let textArea = document.createElement('textarea');
-        textArea.innerHTML = encodedString;
-        return textArea.value;
-    }
+        // Function to decode HTML entities properly
+        function decodeEntities(encodedString) {
+            let textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
+        }
 
-    // Ensure form submits the Quill content properly
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function(event) {
-            let section = this.id.replace('-edit-form', '');
-            document.getElementById(section + '_content').value = quillInstances[section].root.innerHTML;
+        // Ensure form submits the Quill content properly
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                let section = this.id.replace('-edit-form', '');
+                document.getElementById(section + '_content').value = quillInstances[section].root.innerHTML;
+            });
         });
-    });
 
-    // Ensure toast displays when session success or error is set
-    document.addEventListener("DOMContentLoaded", function() {
-        // Check and show success toast
-        if (document.getElementById('successToast')) {
-            var successToast = new bootstrap.Toast(document.getElementById('successToast'));
-            successToast.show();
-        }
+        // Ensure toast displays when session success or error is set
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check and show success toast
+            if (document.getElementById('successToast')) {
+                var successToast = new bootstrap.Toast(document.getElementById('successToast'));
+                successToast.show();
+            }
 
-        // Check and show error toast
-        if (document.getElementById('errorToast')) {
-            var errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
-            errorToast.show();
-        }
-    });
-</script>
+            // Check and show error toast
+            if (document.getElementById('errorToast')) {
+                var errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+                errorToast.show();
+            }
+        });
+    </script>
 
 @endsection

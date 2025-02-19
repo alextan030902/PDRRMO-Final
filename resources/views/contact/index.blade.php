@@ -335,7 +335,8 @@
 
             // Update form action URL dynamically with the correct contact ID
             const form = document.getElementById('editContactForm');
-            form.action = `/contacts/${contactId}`;
+            form.action = `/contact/update/${contactId}`;
+
         });
     });
 });
