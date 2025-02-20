@@ -2,63 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutPdrrmo;
 use Illuminate\Http\Request;
 
 class AboutPdrrmoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('about-pdrrmc.index');
+        return view('about-pdrrmo.index', [
+            'about' => AboutPdrrmo::where('section', 'about')->first(),
+            'mandate' => AboutPdrrmo::where('section', 'mandate')->first(),
+            'vision' => AboutPdrrmo::where('section', 'vision')->first(),
+            'mission' => AboutPdrrmo::where('section', 'mission')->first(),
+            'functions' => AboutPdrrmo::where('section', 'functions')->first(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $request, $section)
     {
-        //
-    }
+        AboutPdrrmo::updateOrCreate(
+            ['section' => $section],
+            ['content' => $request->content]
+        );
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('about-pdrrmo.index')->with('success', 'Content updated successfully!');
     }
 }
