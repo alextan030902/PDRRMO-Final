@@ -13,6 +13,7 @@ use App\Http\Controllers\ProgramServicesExternalController;
 use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,7 +37,8 @@ Route::post('/super-admin-login', 'SuperAdminController@authenticate')->name('su
 
 // CarouselImageController
 Route::post('/carousel-images', [CarouselImageController::class, 'store'])->name('carousel-image.store');
-Route::delete('/carousel-images/{imageIndex}', [CarouselImageController::class, 'delete'])->name('carousel.destroy');
+Route::delete('/carousel-images/delete', [CarouselImageController::class, 'delete'])->name('carousel-images.delete');
+
 
 // PdrrmoController
 Route::get('/pdrrmo-home', [PdrrmoController::class, 'index'])->name('pdrrmo-home.index');
@@ -104,3 +106,6 @@ Route::post('/contact/store', [ContactController::class, 'store'])->name('contac
 Route::get('/contact/edit/{id}', [ContactController::class, 'edit'])->name('contact.edit');
 Route::put('/contact/update/{id}', [ContactController::class, 'update'])->name('contact.update');
 Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+
+
+Route::post('/video/store', [VideoController::class, 'store'])->name('video.store');

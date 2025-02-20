@@ -2,7 +2,7 @@
 
 @section('content')
 
-<main class="main">
+    <main class="main">
 
     <!-- Welcome Modal -->
     @if (session('welcome_message'))
@@ -65,6 +65,8 @@
         </div>
     </section>
     
+    
+
     <!--Create Modal -->
     <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -97,6 +99,7 @@
         </div>
     </div>
 
+       
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
         <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
@@ -150,33 +153,8 @@
             @endauth
         </div>
     </section>
-
+        
     <!-- Modal for uploading images for all carousel items -->
-    <div class="modal fade" id="carouselUpload" tabindex="-1" aria-labelledby="carouselUploadLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="carouselUploadLabel">Upload Multiple Images for Carousel</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('carousel-image.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <!-- Multiple Image Upload -->
-                        <div class="mb-3">
-                            <label for="carouselImages" class="form-label">Choose Images for Carousel</label>
-                            <input type="file" class="form-control" id="carouselImages" name="carousel_images[]"
-                                accept="image/*" multiple required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload Images</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for deleteing images for all carousel items -->
     <div class="modal fade" id="carouselDelete" tabindex="-1" aria-labelledby="carouselDeleteLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -204,6 +182,7 @@
             </div>
         </div>
     </div>
+
 
      <!-- Services Section -->
     <section id="latest-updates" class="py-5 bg-light">
@@ -453,7 +432,45 @@
                                         </div>
                                     </div>
                                 </div>
-                                @include('pdrrmo-home.featured-videos') 
+
+                                <section id="services" class="services section light-background">
+                                    <div class="container section-title" data-aos="fade-up">
+                                        <h2>Featured Videos</h2>
+                                        </div><!-- End Section Title -->
+                                    <div class="container">
+                                
+                                        <div class="row gy-4">
+
+                                            <!-- First iframe -->
+                                            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                                <div class="service-item item-cyan position-relative">
+                                                <div class="embed-responsive embed-responsive-ratio ratio-16x9">
+                                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qqhLKMcV-4g" allowfullscreen></iframe>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Second iframe (Add another iframe here) -->
+                                            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                                                <div class="service-item item-cyan position-relative">
+                                                <div class="embed-responsive embed-responsive-ratio ratio-16x9">
+                                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Om93Fzu64Oo?si=Mdw9hj1sHsoO6_zr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Service Item with Icon -->
+                                            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                                                <div class="service-item item-cyan position-relative">
+                                                    <div class="embed-responsive embed-responsive-ratio ratio-16x9">
+                                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/oQYDHzkPXts?si=SQa-ZdcxnTAiJqoB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    </section><!-- /Services Section -->
+
                             </div>
                         </div>
                     </div>
@@ -461,96 +478,99 @@
             </div>
         </div>
     </section>
-</main>
+
+    </main>
+
 
     <script>
-        // Function to update the current time
-        function updateTime() {
-            const now = new Date();
-            const options = {
-                month: 'long',
-                day: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            // Get both date and time in desired format
-            const dateString = now.toLocaleString('en-GB', options);
-            document.getElementById('current-time').innerHTML = dateString;
-        }
-    
-        // Initialize time update every second
-        setInterval(updateTime, 1000);
-        updateTime();
-    
-        // Function to display the welcome modal (if set in session)
-        document.addEventListener('DOMContentLoaded', function () {
-            @if (session('welcome_message'))
-                var myModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {
-                    keyboard: false,
-                    backdrop: 'static'
-                });
-                myModal.show();
-    
-                // Auto close the modal after 5 seconds
-                setTimeout(function() {
-                    myModal.hide();
-                }, 5000); // 5000ms = 5 seconds
-            @endif
+
+document.addEventListener('DOMContentLoaded', function () {
+        // Ensure image_paths is an array even if it's null or undefined
+        const images = @json($carouselImage && $carouselImage->image_paths ? $carouselImage->image_paths : []);
+        const container = document.getElementById('deleteImagesContainer');
+
+        // Get the base URL for images
+        const baseUrl = "{{ asset('storage/') }}";  
+
+        images.forEach(function (imagePath) {
+            const imageDiv = document.createElement('div');
+            imageDiv.classList.add('form-check');
+            
+            imageDiv.innerHTML = `
+                <input class="form-check-input" type="checkbox" value="${imagePath}" id="image-${imagePath}" name="image_paths[]">
+                <label class="form-check-label" for="image-${imagePath}">
+                    <img src="${baseUrl}/${imagePath}" class="img-fluid mx-auto d-block" style="max-width: 50%; object-fit: contain;">
+                </label>
+            `;
+            
+            container.appendChild(imageDiv);
         });
-    
-        // Function to populate the image paths in the delete images container
-        document.addEventListener('DOMContentLoaded', function () {
-            // Ensure image_paths is an array even if it's null or undefined
-            const images = @json($carouselImage && $carouselImage->image_paths ? $carouselImage->image_paths : []);
-            const container = document.getElementById('deleteImagesContainer');
-            const baseUrl = "{{ asset('storage/') }}";  // Base URL for images
-    
-            // Populate the delete image container with checkboxes for each image
-            images.forEach(function (imagePath) {
-                const imageDiv = document.createElement('div');
-                imageDiv.classList.add('form-check');
-                
-                imageDiv.innerHTML = `
-                    <input class="form-check-input" type="checkbox" value="${imagePath}" id="image-${imagePath}" name="image_paths[]">
-                    <label class="form-check-label" for="image-${imagePath}">
-                        <img src="${baseUrl}/${imagePath}" class="img-fluid mx-auto d-block" style="max-width: 50%; object-fit: contain;">
-                    </label>
-                `;
-                
-                container.appendChild(imageDiv);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show Welcome Modal (if set in session)
+        @if (session('welcome_message'))
+            var myModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {
+                keyboard: false,
+                backdrop: 'static'
             });
-        });
-    
-        // Function to initialize the delete modal with selected image information
-        function openDeleteModal(imagesToDelete) {
-            const deleteImagesContainer = document.getElementById('deleteImagesContainer');
-            deleteImagesContainer.innerHTML = '';  // Clear any previous selected images
-    
-            if (imagesToDelete.length === 0) {
-                alert("No images selected to delete.");
-                return;
-            }
-    
-            // Create a list of selected images
-            imagesToDelete.forEach(function(image) {
-                const imageDiv = document.createElement('div');
-                imageDiv.textContent = image;
-                deleteImagesContainer.appendChild(imageDiv);
-            });
-    
-            // Set the form action to delete the selected images
-            const form = document.getElementById('carouselDeleteForm');
-            form.action = '/carousel-image/delete'; // Modify this route as per your backend logic
+            myModal.show();
+
+            // Auto close the modal after 5 seconds
+            setTimeout(function() {
+                myModal.hide();
+            }, 5000); // 5000ms = 5 seconds
+        @endif
+
+    })
+
+    function updateTime() {
+        const now = new Date();
+        const options = {
+            month: 'long',
+            day: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        };
+        // Get both date and time
+        const dateString = now.toLocaleString('en-GB', options);
+        document.getElementById('current-time').innerHTML = dateString;
+    }
+
+        setInterval(updateTime, 1000); 
+        updateTime(); 
+
+        
+
+    // Function to initialize the delete modal with selected image information
+    function openDeleteModal(imagesToDelete) {
+        // Clear the previous selected images
+        const deleteImagesContainer = document.getElementById('deleteImagesContainer');
+        deleteImagesContainer.innerHTML = '';
+
+        if (imagesToDelete.length === 0) {
+            alert("No images selected to delete.");
+            return;
         }
+
+        // Create list of selected images
+        imagesToDelete.forEach(function(image) {
+            const imageDiv = document.createElement('div');
+            imageDiv.textContent = image;
+            deleteImagesContainer.appendChild(imageDiv);
+        });
+
+        // Set the form action to delete the selected images
+        const form = document.getElementById('carouselDeleteForm');
+        form.action = '/carousel-image/delete'; // Modify this route as per your backend logic
+    }
     
         // Example usage: Call this function when the delete button is clicked
         // openDeleteModal(['image1.jpg', 'image2.jpg']);
     </script>
-    
 
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>
-
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>
 @endsection

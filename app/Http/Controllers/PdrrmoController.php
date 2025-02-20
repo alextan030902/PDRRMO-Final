@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\CarouselImage;
 use App\Models\File;
 use App\Models\Pdrrmo;
+use App\Models\Videos;
 use Illuminate\Http\Request;
 
 class PdrrmoController extends Controller
@@ -15,28 +16,41 @@ class PdrrmoController extends Controller
      */
     public function index()
     {
+        // Fetch all activities with images
         $activities = Activity::with('images')->get();
 
+        // Fetch the first carousel image, if it exists
         $carouselImage = CarouselImage::first();
 
+        // If no carousel image exists, set image_paths to an empty array
         if ($carouselImage && $carouselImage->image_paths) {
             $carouselImage->image_paths = json_decode($carouselImage->image_paths, true);
+        } else {
+            $carouselImage = (object) ['image_paths' => []];  
         }
+        $videos = Videos::all();
 
+
+        // Get the latest Pdrrmo record
         $pdrrmo = Pdrrmo::latest()->first();
 
+        // Get the image path for Pdrrmo, if it exists
         $pdrrmoImagePath = $pdrrmo && $pdrrmo->image_path ? $pdrrmo->image_path : null;
 
+        // Fetch all files (you may need this depending on your use case)
         $files = File::all();
 
+        // Return the view with all the necessary data
         return view('pdrrmo-home.index', compact(
             'activities',
-            'carouselImage',
+            'carouselImage',  
             'pdrrmo',
             'pdrrmoImagePath',
+            'videos',
             'files'
         ));
     }
+
 
     /**
      * Show the form for uploading a new image.

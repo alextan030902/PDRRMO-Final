@@ -31,13 +31,6 @@
 <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
 
-  <!-- =======================================================
-  * Template Name: Company
-  * Template URL: https://bootstrapmade.com/company-free-html-bootstrap-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="index-page">
@@ -72,7 +65,6 @@
             </ul>
           </li>
           
-          {{-- <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Operations Center</a></li> --}}
           <li class="nav-item">
             <a href="{{ route('contact.index') }}" class="btn" style="background-color: #fe6305; color: white; font-size: 14px; padding: 5px 15px; text-align: center; border-radius: 50px;">Emergency Contact</a>
           </li>
@@ -116,10 +108,10 @@
                   <tbody>
                       <tr>
                           <td class="text-center" rowspan="2" style="width: 400px;">
-                              {{-- <img src="{{ asset('assets/img/CapitolSeal.png') }}" alt="Logo 1" style="height: 60px;">
-                              <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo 2" style="height: 60px;">
-                              <img src="{{ asset('assets/img/BagongPilipinas.png') }}" alt="Logo 3" style="height: 60px;">
-                              <img src="{{ asset('assets/img/MoRProGres.png') }}" alt="Logo 4" style="height: 60px;"> --}}
+                              <img src="{{ asset('assets/img/3.png') }}" alt="Logo 3" style="height: 60px;">
+                              <img src="{{ asset('assets/img/1.png') }}" alt="Logo 1" style="height: 60px;">
+                              <img src="{{ asset('assets/img/2.png') }}" alt="Logo 2" style="height: 60px;">
+                              <img src="{{ asset('assets/img/4.png') }}" alt="Logo 4" style="height: 60px;">
                           </td>
                           <td><strong>Contact Us</strong></td>
                           <td><i class="bi bi-geo-alt-fill"></i> 3rd Floor, Left Wing, Iloilo Provincial Capitol, Bonifacio Drive, Iloilo City</td>
@@ -181,7 +173,7 @@
               <p>© 2025 All Rights Reserved</p>
           </div>
       </div>
-  </footer>
+    </footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -198,7 +190,6 @@
   <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
   <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script> --}}
   
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
