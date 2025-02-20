@@ -14,6 +14,7 @@ use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\ContactInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -107,5 +108,12 @@ Route::get('/contact/edit/{id}', [ContactController::class, 'edit'])->name('cont
 Route::put('/contact/update/{id}', [ContactController::class, 'update'])->name('contact.update');
 Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
 
-
+// VideoController
 Route::post('/video/store', [VideoController::class, 'store'])->name('video.store');
+
+
+// ContactInfoController
+Route::get('/contact-info', [ContactInfoController::class, 'show'])->name('contact-info.show');
+Route::put('/contact-info/{id}', [ContactInfoController::class, 'update'])->name('contact-info.update');
+Route::post('/contact-info', [ContactInfoController::class, 'store'])->name('contact-info.store');
+

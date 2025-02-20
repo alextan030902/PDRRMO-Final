@@ -56,7 +56,7 @@
             <ul>
                 <li><a href="{{ route('programs-services.external-services.index') }}" class="dropdown-item">External Services</a></li>
                 <li><a href="{{ route('programs-services.internal-services.index') }}" class="dropdown-item">Internal Services</a></li>
-                <li><a href="{{ route('programs-services.rescue-operations.index') }}" class="dropdown-item">Rescue Operations</a></li> 
+                <li><a href="{{ route('programs-services.rescue-operations.index') }}" class="dropdown-item">Rescue Operations</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#"><span>Operations Center</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -64,7 +64,7 @@
                 <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Resources</a></li>
             </ul>
           </li>
-          
+
           <li class="nav-item">
             <a href="{{ route('contact.index') }}" class="btn" style="background-color: #fe6305; color: white; font-size: 14px; padding: 5px 15px; text-align: center; border-radius: 50px;">Emergency Contact</a>
           </li>
@@ -82,7 +82,7 @@
         </form>
         @endauth
      </div>
-    
+
     </div>
   </header>
 
@@ -91,89 +91,7 @@
  </main>
 
     <!-- Footer Section -->
-    <footer class="footer bg-light text-dark py-4">
-      <hr>
-  
-      <!-- Responsive Contact and Social Links -->
-      <div class="container">
-          <div class="d-block d-md-table w-100">
-              <table class="table table-borderless text-start d-none d-md-table">
-                  <colgroup>
-                      <col style="width: 29%;">
-                      <col style="width: 10%;">
-                      <col style="width: 20%;">
-                      <col style="width: 20%;">
-                      <col style="width: 20%;">
-                  </colgroup>
-                  <tbody>
-                      <tr>
-                          <td class="text-center" rowspan="2" style="width: 400px;">
-                              <img src="{{ asset('assets/img/3.png') }}" alt="Logo 3" style="height: 60px;">
-                              <img src="{{ asset('assets/img/1.png') }}" alt="Logo 1" style="height: 60px;">
-                              <img src="{{ asset('assets/img/2.png') }}" alt="Logo 2" style="height: 60px;">
-                              <img src="{{ asset('assets/img/4.png') }}" alt="Logo 4" style="height: 60px;">
-                          </td>
-                          <td><strong>Contact Us</strong></td>
-                          <td><i class="bi bi-geo-alt-fill"></i> 3rd Floor, Left Wing, Iloilo Provincial Capitol, Bonifacio Drive, Iloilo City</td>
-                          <td><i class="bi bi-envelope"></i> <a href="mailto:pdrrmo_iloilo@yahoo.com.ph">pdrrmo_iloilo@yahoo.com.ph</a></td>
-                          <td><i class="bi bi-telephone"></i> (033) 328-7920 / 328-7900</td>
-                      </tr>
-                      <tr>
-                          <td><strong>Follow Us</strong></td>
-                          <td><a href="https://www.facebook.com/iloilopdrrmo" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> PDRRMO Iloilo</a></td>
-                          <td><a href="https://www.facebook.com/profile.php?id=61570456584511" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> Operation Center PDRRMO Iloilo</a></td>
-                          <td></td>
-                      </tr>
-                  </tbody>
-              </table>
-  
-              <!-- Mobile Version (Stacked View) -->
-              <div class="d-md-none text-center">
-                  <div class="mb-3">
-                      {{-- <img src="{{ asset('assets/img/jpg.png') }}" alt="Logo 1" style="height: 50px;">
-                      <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo 2" style="height: 50px;">
-                      <img src="{{ asset('assets/img/BagongPilipinas.png') }}" alt="Logo 3" style="height: 50px;">
-                      <img src="{{ asset('assets/img/MoRProGres.png') }}" alt="Logo 4" style="height: 50px;"> --}}
-                  </div>
-                  <p><strong>Contact Us</strong></p>
-                  <p><i class="bi bi-geo-alt-fill"></i> 3rd Floor, Left Wing, Iloilo Provincial Capitol, Bonifacio Drive, Iloilo City</p>
-                  <p><i class="bi bi-envelope"></i> <a href="mailto:pdrrmo_iloilo@yahoo.com.ph">pdrrmo_iloilo@yahoo.com.ph</a></p>
-                  <p><i class="bi bi-telephone"></i> (033) 328-7920 / 328-7900</p>
-                  <p><strong>Follow Us</strong></p>
-                  <p>
-                      <a href="https://www.facebook.com/iloilopdrrmo" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> PDRRMO Iloilo</a><br>
-                      <a href="https://www.facebook.com/profile.php?id=61570456584511" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> Operation Center PDRRMO Iloilo</a>
-                  </p>
-              </div>
-          </div>
-      </div>
-  
-      <hr>
-  
-      <!-- Responsive Footer Bottom -->
-      <div class="container">
-          <table class="table table-borderless d-none d-md-table">
-              <colgroup>
-                  <col style="width: 34%;">
-                  <col style="width: 35%;">
-                  <col style="width: 32%;">
-              </colgroup>
-              <tbody>
-                  <tr>
-                      <td class="text-start">Provincial Disaster Risk Reduction & Management Office (PDRRMO)</td>
-                      <td class="text-center">© 2025 All Rights Reserved</td>
-                      <td></td>
-                  </tr>
-              </tbody>
-          </table>
-  
-          <!-- Mobile Version -->
-          <div class="d-md-none text-center">
-              <p>Provincial Disaster Risk Reduction & Management Office (PDRRMO)</p>
-              <p>© 2025 All Rights Reserved</p>
-          </div>
-      </div>
-    </footer>
+    @include('pdrrmo-home.footer')
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -190,10 +108,10 @@
   <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
   <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
+
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
-  
+
 
 </body>
 
