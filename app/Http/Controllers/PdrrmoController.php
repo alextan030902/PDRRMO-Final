@@ -7,6 +7,7 @@ use App\Models\CarouselImage;
 use App\Models\File;
 use App\Models\Pdrrmo;
 use App\Models\Videos;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class PdrrmoController extends Controller
@@ -16,6 +17,7 @@ class PdrrmoController extends Controller
      */
     public function index()
     {
+        $contactInfo = ContactInfo::first(); // Assuming there's only one entry
         // Fetch all activities with images
         $activities = Activity::with('images')->get();
 
@@ -26,7 +28,7 @@ class PdrrmoController extends Controller
         if ($carouselImage && $carouselImage->image_paths) {
             $carouselImage->image_paths = json_decode($carouselImage->image_paths, true);
         } else {
-            $carouselImage = (object) ['image_paths' => []];  
+            $carouselImage = (object) ['image_paths' => []];
         }
         $videos = Videos::all();
 
@@ -43,8 +45,9 @@ class PdrrmoController extends Controller
         // Return the view with all the necessary data
         return view('pdrrmo-home.index', compact(
             'activities',
-            'carouselImage',  
+            'carouselImage',
             'pdrrmo',
+            'contactInfo',
             'pdrrmoImagePath',
             'videos',
             'files'
