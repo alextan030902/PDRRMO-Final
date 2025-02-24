@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Videos;
 use Illuminate\Http\Request;
 
@@ -14,11 +15,10 @@ class VideoController extends Controller
         ]);
 
         // Save the video URL to the database
-        $video = new Videos();
+        $video = new Videos;
         $video->video_url = $request->video_url;
         $video->save();
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Link uploaded successfully!');
     }
-
 }

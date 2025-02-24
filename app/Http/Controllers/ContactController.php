@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -10,8 +11,9 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::all();
+        $contactInfo = ContactInfo::first();
 
-        return view('contact.index', compact('contacts'));
+        return view('contact.index', compact('contacts','contactInfo'));
     }
 
     public function store(Request $request)

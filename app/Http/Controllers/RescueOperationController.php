@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RescueOperation;
 use Illuminate\Http\Request;
+use App\Models\ContactInfo;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,7 +14,8 @@ class RescueOperationController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
+        $contactInfo = ContactInfo::first();
         // Fetch the latest rescue operation record
         $rescueOperation = RescueOperation::latest()->first();
 
@@ -24,7 +26,7 @@ class RescueOperationController extends Controller
         $rescueOperations = RescueOperation::all();
 
         // Pass all data to the view
-        return view('programs-services.rescue-operations.index', compact('rescueOperation', 'categories', 'rescueOperations'));
+        return view('programs-services.rescue-operations.index', compact('rescueOperation', 'categories', 'contactInfo', 'rescueOperations'));
     }
 
     /**

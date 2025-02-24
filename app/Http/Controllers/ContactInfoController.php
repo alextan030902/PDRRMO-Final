@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ContactInfoController extends Controller
 {
+    public function index()
+    {
+        $contactInfo = ContactInfo::first();
+        // dd($contactInfo);
+        return view('layouts.footer', compact('contactInfo'));
+    }
+    
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -48,7 +55,7 @@ class ContactInfoController extends Controller
     {
         $contactInfo = ContactInfo::find($id);
 
-        if (!$contactInfo) {
+        if (! $contactInfo) {
             return redirect()->route('contact-info.index')->with('error', 'Contact information not found.');
         }
 

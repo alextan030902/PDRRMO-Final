@@ -1,15 +1,15 @@
-{{-- <footer class="footer bg-light text-dark py-4">
-        <div class="d-flex justify-content-end gap-2">
-            @auth
-            <button type="button" class="btn btn-success" title="Add" data-bs-toggle="modal" data-bs-target="#addContactModal">
-                <i class="bi bi-plus-circle"></i> Add Contact Info
-            </button>
+<footer class="footer bg-light text-dark py-4">
+    <div class="d-flex justify-content-end gap-2">
+        @auth
+        <button type="button" class="btn btn-success" title="Add" data-bs-toggle="modal" data-bs-target="#addContactModal">
+            <i class="bi bi-plus-circle"></i> Add Contact Info
+        </button>
 
-            <button class="btn btn-outline-secondary" title="Edit" data-bs-toggle="modal" data-bs-target="#editModal">
-                <i class="bi bi-pencil"></i> Edit
-            </button>
-            @endauth
-        </div>
+        <button class="btn btn-outline-secondary" title="Edit" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="bi bi-pencil"></i> Edit
+        </button>
+        @endauth
+    </div>
 
     <div class="container">
         <div class="d-block d-md-table w-100">
@@ -41,13 +41,14 @@
                                     @endif
                                 </div>
                             @else
+                                <!-- Fallback if no logos are available -->
                                 <img src="{{ asset('assets/img/default-logo.png') }}" alt="Default Logo" style="height: 60px;">
                             @endif
                         </td>
                         <td><strong>Contact Us</strong></td>
-                        <td><i class="bi bi-geo-alt-fill"></i> {{ $contactInfo ? $contactInfo->address : 'Address not available' }}</td>
-                        <td><i class="bi bi-envelope"></i> <a href="mailto:{{ $contactInfo ? $contactInfo->email : 'Email not available' }}">{{ $contactInfo ? $contactInfo->email : 'Email not available' }}</a></td>
-                        <td><i class="bi bi-telephone"></i> {{ $contactInfo ? $contactInfo->phone : 'Phone not available' }}</td>
+                        <td><i class="bi bi-geo-alt-fill"></i> {{ $contactInfo->address ?? 'Address not available' }}</td>
+                        <td><i class="bi bi-envelope"></i> <a href="mailto:{{ $contactInfo->email ?? 'Email not available' }}">{{ $contactInfo->email ?? 'Email not available' }}</a></td>
+                        <td><i class="bi bi-telephone"></i> {{ $contactInfo->phone ?? 'Phone not available' }}</td>
                     </tr>
                     <tr>
                         <td><strong>Follow Us</strong></td>
@@ -60,6 +61,7 @@
 
             <div class="d-md-none text-center">
                 <div class="mb-3">
+                    <!-- Check if images exist for mobile view -->
                     @if ($contactInfo)
                         <div class="logo-images">
                             @if ($contactInfo->logo1)
@@ -80,9 +82,9 @@
                     @endif
                 </div>
                 <p><strong>Contact Us</strong></p>
-                <p><i class="bi bi-geo-alt-fill"></i> {{ $contactInfo ? $contactInfo->address : 'Address not available' }}</p>
-                <p><i class="bi bi-envelope"></i> <a href="mailto:{{ $contactInfo ? $contactInfo->email : 'Email not available' }}">{{ $contactInfo ? $contactInfo->email : 'Email not available' }}</a></p>
-                <p><i class="bi bi-telephone"></i> {{ $contactInfo ? $contactInfo->phone : 'Phone not available' }}</p>
+                <p><i class="bi bi-geo-alt-fill"></i> {{ $contactInfo->address ?? 'Address not available' }}</p>
+                <p><i class="bi bi-envelope"></i> <a href="mailto:{{ $contactInfo->email ?? 'Email not available' }}">{{ $contactInfo->email ?? 'Email not available' }}</a></p>
+                <p><i class="bi bi-telephone"></i> {{ $contactInfo->phone ?? 'Phone not available' }}</p>
                 <p><strong>Follow Us</strong></p>
                 <p>
                     <a href="https://www.facebook.com/iloilopdrrmo" class="text-dark"><i class="bi bi-facebook" style="color: #1877F2"></i> PDRRMO Iloilo</a><br>
@@ -91,8 +93,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div class="container">
         <table class="table table-borderless d-none d-md-table">
@@ -187,25 +187,21 @@
                     @csrf
                     @method('PUT')
 
-                    <!-- Address Field -->
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" value="{{ $contactInfo ? $contactInfo->address : '' }}">
+                        <input type="text" class="form-control" id="address" name="address" value="{{ $contactInfo->address ?? '' }}">
                     </div>
 
-                    <!-- Email Field -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ $contactInfo ? $contactInfo->email : '' }}">
+                        <input type="email" class="form-control" id="email" name="email" value="{{ $contactInfo->email ?? '' }}">
                     </div>
 
-                    <!-- Phone Field -->
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="{{ $contactInfo ? $contactInfo->phone : '' }}">
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ $contactInfo->phone ?? '' }}">
                     </div>
 
-                    <!-- Image Uploads -->
                     <div class="mb-3">
                         <label for="logo1" class="form-label">Logo 1</label>
                         <input type="file" class="form-control" id="logo1" name="logo1">
@@ -232,4 +228,4 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div>

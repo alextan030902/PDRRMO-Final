@@ -12,6 +12,6 @@ class ContactInfo extends Model
     protected $table = 'contact_info';
 
     protected $fillable = [
-        'address', 'email', 'phone', 'logo1', 'logo2', 'logo3', 'logo4'
+        'address', 'email', 'phone', 'logo1', 'logo2', 'logo3', 'logo4',
     ];
 }

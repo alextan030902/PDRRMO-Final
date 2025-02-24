@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\CarouselImage;
+use App\Models\ContactInfo;
 use App\Models\File;
 use App\Models\Pdrrmo;
 use App\Models\Videos;
-use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class PdrrmoController extends Controller
@@ -17,7 +17,7 @@ class PdrrmoController extends Controller
      */
     public function index()
     {
-        $contactInfo = ContactInfo::first(); // Assuming there's only one entry
+        $contactInfo = ContactInfo::first();
         // Fetch all activities with images
         $activities = Activity::with('images')->get();
 
@@ -31,7 +31,6 @@ class PdrrmoController extends Controller
             $carouselImage = (object) ['image_paths' => []];
         }
         $videos = Videos::all();
-
 
         // Get the latest Pdrrmo record
         $pdrrmo = Pdrrmo::latest()->first();
@@ -53,7 +52,6 @@ class PdrrmoController extends Controller
             'files'
         ));
     }
-
 
     /**
      * Show the form for uploading a new image.

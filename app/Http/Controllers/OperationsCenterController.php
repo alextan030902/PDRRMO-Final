@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OperationsCenter;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,8 +12,9 @@ class OperationsCenterController extends Controller
     public function index()
     {
         $items = OperationsCenter::all();
+        $contactInfo = ContactInfo::first();
 
-        return view('operations-center.index', compact('items'));
+        return view('operations-center.index', compact('items','contactInfo'));
     }
 
     public function create()

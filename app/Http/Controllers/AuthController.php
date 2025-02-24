@@ -29,15 +29,15 @@ class AuthController extends Controller
             $remember = $request->has('remember');
 
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
-                Log::info('User logged in: ' . $user->email);
+                Log::info('User logged in: '.$user->email);
 
-                session()->flash('welcome_message', 'Welcome back, ' . $user->name . '!');
+                session()->flash('welcome_message', 'Welcome back, '.$user->name.'!');
 
                 return redirect()->route('pdrrmo-home.index');
             }
         }
 
-        Log::warning('Failed login attempt for email: ' . $request->email);
+        Log::warning('Failed login attempt for email: '.$request->email);
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
