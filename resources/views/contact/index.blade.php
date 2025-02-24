@@ -46,7 +46,7 @@
     <table class="table table-bordered border-info">
         <thead class="text-center">
             <tr>
-                <th scope="col" class="d-none">Category</th>
+                <th scope="col">Category</th>
                 <th scope="col">District</th>
                 <th scope="col">Municipality</th>
                 <th scope="col">Focal Person</th>
@@ -76,7 +76,7 @@
         
                     @foreach($districtContacts as $contact)
                         <tr class="text-center">
-                            <td class="d-none">{{ $contact->category }}</td>
+                            <td>{{ $contact->category }}</td>
                             <td>{{ $contact->district }}</td>
                             <td>{{ $contact->municipality }}</td>
                             <td>{{ $contact->focal_person }}</td>
