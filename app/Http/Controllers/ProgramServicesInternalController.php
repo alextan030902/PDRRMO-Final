@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InternalFile;
 use App\Models\ContactInfo;
+use App\Models\InternalFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +14,7 @@ class ProgramServicesInternalController extends Controller
         $files = InternalFile::all();
         $contactInfo = ContactInfo::first();
 
-        return view('programs-services.internal-services.index', compact('files','contactInfo'));
+        return view('programs-services.internal-services.index', compact('files', 'contactInfo'));
     }
 
     /**
@@ -25,12 +25,12 @@ class ProgramServicesInternalController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,png,jpeg|max:2048', 
+            'file' => 'required|file|mimes:pdf,doc,docx,jpg,png,jpeg|max:2048',
         ]);
 
         try {
             if ($request->hasFile('file') && $request->file('file')->isValid()) {
-                $filePath = $request->file('file')->store('uploads', 'public'); 
+                $filePath = $request->file('file')->store('uploads', 'public');
 
                 InternalFile::create([
                     'title' => $request->title,
@@ -79,12 +79,10 @@ class ProgramServicesInternalController extends Controller
     {
         $file = InternalFile::findOrFail($id);
 
-        // Delete the file from storage
         if (Storage::exists($file->file_path)) {
             Storage::delete($file->file_path);
         }
 
-        // Delete the record from the database
         $file->delete();
 
         return redirect()->route('programs-services.internal-services.index')->with('success', 'File deleted successfully');

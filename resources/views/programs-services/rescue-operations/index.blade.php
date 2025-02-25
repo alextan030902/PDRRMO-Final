@@ -2,7 +2,6 @@
 
 @section('content')
 
-<!-- Portfolio Section -->
 <section id="portfolio" class="portfolio section position-relative">
 
     @auth

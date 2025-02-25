@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OperationsCenter;
 use App\Models\ContactInfo;
+use App\Models\OperationsCenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +14,7 @@ class OperationsCenterController extends Controller
         $items = OperationsCenter::all();
         $contactInfo = ContactInfo::first();
 
-        return view('operations-center.index', compact('items','contactInfo'));
+        return view('operations-center.index', compact('items', 'contactInfo'));
     }
 
     public function create()
@@ -35,7 +35,7 @@ class OperationsCenterController extends Controller
         $item = OperationsCenter::create([
             'name' => $request->name,
             'image' => $imagePath,
-            'type' => $request->type, // Save the type
+            'type' => $request->type,
         ]);
 
         return response()->json(['success' => 'Item added successfully', 'item' => $item]);
@@ -51,7 +51,7 @@ class OperationsCenterController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'type' => 'required|in:vehicle,equipment', // Validate the type
+            'type' => 'required|in:vehicle,equipment',
         ]);
 
         if ($request->hasFile('image')) {
@@ -61,7 +61,7 @@ class OperationsCenterController extends Controller
         }
 
         $operationCenter->name = $request->name;
-        $operationCenter->type = $request->type; // Update the type
+        $operationCenter->type = $request->type;
         $operationCenter->save();
 
         return response()->json(['success' => 'Item updated successfully', 'item' => $operationCenter]);

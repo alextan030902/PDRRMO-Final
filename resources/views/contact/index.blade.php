@@ -5,11 +5,10 @@
     <h1 class="text-center" style="color: #003489; margin-bottom: 1rem;">CONTACT DETAILS</h1>
     
     @auth
-        <!-- Add Contact Button in Top Left Corner -->
         <button type="button" class="btn btn-primary position-absolute top-0 start-0 m-3" data-bs-toggle="modal" data-bs-target="#addRowModal">
             <i class="bi bi-person-plus"></i> Add Contact
         </button>
-
+    @endauth
         <!-- Category Filter in Top Right Corner -->
         <div class="position-absolute top-0 end-0 m-3" style="right: 120px;">
             <form method="GET" action="{{ route('contact.index') }}">
@@ -27,7 +26,7 @@
                 </div>
             </form>
         </div>
-    @endauth
+   
 
     @php
         // If $contacts is null, make it an empty collection

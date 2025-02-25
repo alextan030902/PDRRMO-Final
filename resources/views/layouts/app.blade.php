@@ -63,6 +63,9 @@
             <ul>
                 <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Resources</a></li>
             </ul>
+            <ul>
+              <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Teams</a></li>
+          </ul>
           </li>
 
           <li class="nav-item">

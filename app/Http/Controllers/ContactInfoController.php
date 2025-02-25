@@ -11,10 +11,10 @@ class ContactInfoController extends Controller
     public function index()
     {
         $contactInfo = ContactInfo::first();
-        // dd($contactInfo);
+
         return view('layouts.footer', compact('contactInfo'));
     }
-    
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -27,17 +27,14 @@ class ContactInfoController extends Controller
             'logo4' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Initialize an empty array to store logo paths
         $logos = [];
 
-        // Iterate through each logo and store it if the file exists
         foreach (['logo1', 'logo2', 'logo3', 'logo4'] as $logo) {
             if ($request->hasFile($logo)) {
-                $logos[$logo] = $request->file($logo)->store('logos');
+                $logos[$logo] = $request->file($logo)->storePublicly('logos', 'public');
             }
         }
 
-        // Create the contact information record with the logos
         ContactInfo::create([
             'address' => $data['address'],
             'email' => $data['email'],
@@ -76,24 +73,19 @@ class ContactInfoController extends Controller
 
         $contactInfo = ContactInfo::find($id);
 
-        // Update the basic fields
         $contactInfo->address = $validated['address'];
         $contactInfo->email = $validated['email'];
         $contactInfo->phone = $validated['phone'];
 
-        // Iterate through each logo field, deleting the old ones and storing the new ones
         foreach (['logo1', 'logo2', 'logo3', 'logo4'] as $logo) {
             if ($request->hasFile($logo)) {
-                // Delete the old image from storage if it exists
                 if ($contactInfo->$logo) {
                     Storage::delete($contactInfo->$logo);
                 }
-                // Store the new logo and update the contact information
                 $contactInfo->$logo = $request->file($logo)->store('logos');
             }
         }
 
-        // Save the updated contact information
         $contactInfo->save();
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Contact information updated successfully!');
