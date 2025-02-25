@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactInfo;
 use App\Models\ExternalFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,8 +12,9 @@ class ProgramServicesExternalController extends Controller
     public function index()
     {
         $files = ExternalFile::all();
+        $contactInfo = ContactInfo::first();
 
-        return view('programs-services.external-services.index', compact('files'));
+        return view('programs-services.external-services.index', compact('files', 'contactInfo'));
     }
 
     public function store(Request $request)

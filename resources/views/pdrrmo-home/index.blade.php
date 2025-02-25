@@ -455,6 +455,7 @@
                                 </div>
                                 @include('pdrrmo-home.featured-videos') 
                             </div>
+                            @include('pdrrmo-home.links') 
                         </div>
                     </div>
                 </div>

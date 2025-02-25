@@ -6,6 +6,7 @@ use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarouselImageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactInfoController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\OperationsCenterController;
 use App\Http\Controllers\PdrrmoController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\VideoController;
-use App\Http\Controllers\ContactInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,7 +39,6 @@ Route::post('/super-admin-login', 'SuperAdminController@authenticate')->name('su
 // CarouselImageController
 Route::post('/carousel-images', [CarouselImageController::class, 'store'])->name('carousel-image.store');
 Route::delete('/carousel-images/delete', [CarouselImageController::class, 'delete'])->name('carousel-images.delete');
-
 
 // PdrrmoController
 Route::get('/pdrrmo-home', [PdrrmoController::class, 'index'])->name('pdrrmo-home.index');
@@ -111,9 +110,8 @@ Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('con
 // VideoController
 Route::post('/video/store', [VideoController::class, 'store'])->name('video.store');
 
-
 // ContactInfoController
 Route::get('/contact-info', [ContactInfoController::class, 'show'])->name('contact-info.show');
 Route::put('/contact-info/{id}', [ContactInfoController::class, 'update'])->name('contact-info.update');
 Route::post('/contact-info', [ContactInfoController::class, 'store'])->name('contact-info.store');
-
+Route::get('/contact-info/index', [ContactInfoController::class, 'index'])->name('contact-info.index');

@@ -2,10 +2,11 @@
     <div class="container section-title" data-aos="fade-up">
         <h2>Featured Videos</h2>
 
+        @auth
          <button type="button" class="btn btn-primary position-absolute top-0 end-0 m-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="bi bi-plus-circle"></i> Add Link
         </button>
-
+        @endauth
     </div>
 
     <div class="container position-relative pt-4"> 

@@ -63,6 +63,9 @@
             <ul>
                 <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Resources</a></li>
             </ul>
+            <ul>
+              <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Teams</a></li>
+          </ul>
           </li>
 
           <li class="nav-item">
@@ -91,7 +94,7 @@
  </main>
 
     <!-- Footer Section -->
-    @include('pdrrmo-home.footer')
+    @include('layouts.footer')
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
