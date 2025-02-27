@@ -25,16 +25,17 @@
 
 <main class="main">
     <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background" style="margin-bottom: 30px;">
+    {{-- <section id="hero" class="hero section dark-background" style="margin-bottom: 30px;">
         <div id="heroes-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2000">
-            <div class="carousel-item active">
+            <div class="carousel-item active"> --}}
+            <header class="masthead mb-2 position-relative">
                 @if ($pdrrmoImagePath)
                     <img src="{{ asset('storage/' . $pdrrmoImagePath) }}" alt="Banner Image" class="banner-image img-fluid">
                 @else
-                    <div class="d-flex justify-content-center align-items-center" style="height: 100%; background-color: #090909;">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100%; background-color: #ffffff;">
                         <div class="text-center">
-                            <i class="fas fa-upload fa-3x text-warning"></i>
-                            <p class="mt-2 text-warning">No image available. Please upload a banner.</p>
+                            <i class="fas fa-upload fa-3x text-danger"></i>
+                            <p class="mt-2 text-danger">No image available. Please upload a banner.</p>
                         </div>
                     </div>
                 @endif
@@ -51,16 +52,15 @@
                             <i class="fas fa-edit"></i> Change Photo
                         </a>
                         @if ($pdrrmo)
-                            <form action="{{ route('pdrrmo-home.destroy', ['id' => $pdrrmo->id]) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
-                            </form>
-                        @endif
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fas fa-trash-alt"></i> Delete
+                           
+                        </button>
+                    @endif
+                    
                     </div>
                 @endauth
+            </header>
             </div>
         </div>
     </section>
@@ -97,59 +97,95 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-        <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-            @php
-                // Fetch available images (ensure to replace this with your actual model logic)
-                $images = $carouselImage ? $carouselImage->image_paths : [];
-            @endphp
-            
-            @if (count($images) > 0)
-                <!-- Carousel Indicators (only loop once for indicators) -->
-                <ol class="carousel-indicators"></ol>
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this image? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                    
+                    <form action="{{ route('pdrrmo-home.destroy', ['id' => $pdrrmo->id]) }}" method="POST" id="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- Carousel Items (Images) -->
+ <!-- Hero Section -->
+ <section class="carousel-section position-relative">
+    @php
+        // Fetch available images (ensure to replace this with your actual model logic)
+        $images = $carouselImage ? $carouselImage->image_paths : [];
+    @endphp
+
+    @if (count($images) > 0)
+        <!-- Carousel Items (Images) -->
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
                 @foreach ($images as $index => $image)
                     <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                        <img src="{{ asset('storage/' . $image) }}" alt="Carousel Image {{ $index + 1 }}" loading="lazy">
+                        <img src="{{ asset('storage/' . $image) }}" alt="Carousel Image {{ $index + 1 }}" class="d-block w-100" loading="lazy">
                     </div>
                 @endforeach
-
-            @else
-                <div class="carousel-item active">
-                    <div class="no-image-placeholder">
-                        <i class="fas fa-image fa-3x"></i>
-                        <p>No Image Available</p>
-                    </div>
-                </div>
-            @endif
-
-            <!-- Carousel Controls -->
-            <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-            </a>
-    
-            @auth
-                <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
-                    @if (count($images) === 0)
-                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
-                            <i class="fas fa-plus-circle"></i> Add Photos
-                        </button>
-                    @endif
-                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
-                        <i class="fas fa-edit"></i> Change Photos
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#carouselDelete">
-                        <i class="fas fa-trash-alt"></i> Delete Photos
-                    </button>
-                </div>
-            @endauth
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-    </section>
+
+    @else
+        <div class="carousel-item active">
+            <div class="no-image-placeholder">
+                <i class="fas fa-image fa-3x"></i>
+                <p>No Image Available</p>
+            </div>
+        </div>
+    @endif
+
+    @auth
+        <!-- Admin Options -->
+        <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
+            @if (count($images) === 0)
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
+                    <i class="fas fa-plus-circle"></i> Add Photos
+                </button>
+            @else
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
+                    <i class="fas fa-edit"></i> Change Photos
+                </button>
+            @endif
+            @if (count($images) > 0)
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#carouselDelete">
+                    <i class="fas fa-trash-alt"></i> Delete Photos
+                </button>
+            @endif
+        </div>
+    @endauth
+</section>
+
+
+
+
+
 
     <!-- Modal for uploading images for all carousel items -->
     <div class="modal fade" id="carouselUpload" tabindex="-1" aria-labelledby="carouselUploadLabel"
@@ -169,7 +205,9 @@
                             <input type="file" class="form-control" id="carouselImages" name="carousel_images[]"
                                 accept="image/*" multiple required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Upload Images</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> Upload Images
+                          </button>
                     </form>
                 </div>
             </div>
@@ -261,20 +299,15 @@
                                                 </table>
                                             </div>
 
-                                            <!-- See More Button and Content below the Table -->
                                             @auth
-                                                <form action="{{ route('file.upload.submit') }}" method="POST"
-                                                    enctype="multipart/form-data" style="margin-top: 20px;">
+                                                <form action="{{ route('file.upload.submit') }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
                                                     @csrf
                                                     <div class="mt-3">
-                                                        <label for="file-upload" class="form-label">Choose Files to
-                                                            Upload</label>
-                                                        <input type="file" id="file-upload" name="file[]"
-                                                            class="form-control" multiple />
+                                                        <label for="file-upload" class="form-label">Choose Files to Upload</label>
+                                                        <input type="file" id="file-upload" name="file[]" class="form-control" multiple />
                                                     </div>
-                                                    <div class="mt-3">
-
-                                                        <button type="submit" class="btn btn-primary w-100">
+                                                    <div class="mt-3 d-flex justify-content-end">
+                                                        <button type="submit" class="btn btn-primary btn-sm">
                                                             <i class="fas fa-upload"></i> Upload Files
                                                         </button>
                                                     </div>
@@ -287,7 +320,6 @@
                                         style="max-width: 800px; margin: 0 auto; position: relative;">
                                         <div class="card-body">
                                             <h5 class="fw-bold mb-4">Recent Activities</h5>
-
                                             <!-- Image Carousel Wrapper -->
                                             <div id="recentActivitiesCarousel" class="carousel slide"
                                                 data-bs-ride="carousel">
@@ -332,10 +364,10 @@
                                                         data-bs-toggle="modal" data-bs-target="#activitiesUpload">
                                                         <i class="fas fa-plus-circle"></i> Add Photos
                                                     </button>
-                                                <button type="button" class="btn btn-warning btn-sm"
+                                                {{-- <button type="button" class="btn btn-warning btn-sm"
                                                     data-bs-toggle="modal" data-bs-target="#activitiesUpload">
                                                     <i class="fas fa-edit"></i> Change Photos
-                                                </button>
+                                                </button> --}}
 
                                                 <!-- Button for Deleting Photos -->
                                                     <button type="button" class="btn btn-danger btn-sm"
@@ -385,61 +417,52 @@
                                         </div>
                                     </div>
 
-
-                                    <!-- Modal for Deleting Photos -->
-                                    <div class="modal fade" id="activitiesDelete" tabindex="-1"
-                                        aria-labelledby="activitiesDeleteLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="activitiesDeleteLabel">Delete Selected
-                                                        Photos</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Form for Deleting Images -->
-                                                    <form action="{{ route('activities.delete') }}" method="POST">
-                                                        @csrf
-                                                        <div class="form-group">
-                                                            @foreach ($activities as $activity)
-                                                                @foreach ($activity->images as $index => $image)
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input"
-                                                                            type="checkbox" name="image_ids[]"
-                                                                            value="{{ $image->id }}"
-                                                                            id="deleteImage{{ $image->id }}">
-                                                                        <label class="form-check-label"
-                                                                            for="deleteImage{{ $image->id }}">
-                                                                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                                                                width="100"
-                                                                                alt="Activity {{ $activity->id }} Image {{ $index + 1 }}">
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
+                                <!-- Modal for Deleting Photos -->
+                                <div class="modal fade" id="activitiesDelete" tabindex="-1" aria-labelledby="activitiesDeleteLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="activitiesDeleteLabel">Delete Selected Photos</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete these images? This action cannot be undone.</p>
+                                                <!-- Form for Deleting Images -->
+                                                <form action="{{ route('activities.delete') }}" method="POST">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        @foreach ($activities as $activity)
+                                                            @foreach ($activity->images as $index => $image)
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" name="image_ids[]" value="{{ $image->id }}" id="deleteImage{{ $image->id }}">
+                                                                    <label class="form-check-label" for="deleteImage{{ $image->id }}">
+                                                                        <div class="image-container" style="text-align: center; display: flex; justify-content: center; align-items: center;">
+                                                                            <img src="{{ asset('storage/' . $image->image_path) }}" style="max-width: 100%; height: auto; margin-bottom: 10px;" alt="Activity {{ $activity->id }} Image {{ $index + 1 }}">
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
                                                             @endforeach
-                                                        </div>
-                                                        <button type="submit" class="btn btn-danger btn-sm">
-                                                            <i class="fas fa-trash-alt"></i> Delete Selected Photos
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash-alt"></i> Delete Selected Photos
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- Right Column: Disasters and Calamity Updates -->
                                 <div class="col-lg-6 d-flex justify-content-center align-items-center">
                                     <div class="card shadow-sm rounded-lg w-100">
                                         <div class="card-body text-center">
                                             <h5 class="fw-bold mb-4">Latest Updates</h5>
                                             <div class="alert alert-warning fw-bold fs-6 mb-4" id="current-time">
-                                                <!-- Real-time date and time will be inserted here -->
                                             </div>
                                             <div class="fb-page"
                                                 data-href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
-                                                data-tabs="timeline" data-width="700" data-height="800"
+                                                data-tabs="timeline" data-width="700" data-height="700"
                                                 data-small-header="false" data-adapt-container-width="true"
                                                 data-hide-cover="false" data-show-facepile="false">
                                                 <blockquote
@@ -462,10 +485,10 @@
             </div>
         </div>
     </section>
+    
 </main>
 
     <script>
-        // Function to update the current time
         function updateTime() {
             const now = new Date();
             const options = {
@@ -547,8 +570,27 @@
             form.action = '/carousel-image/delete'; // Modify this route as per your backend logic
         }
     
-        // Example usage: Call this function when the delete button is clicked
-        // openDeleteModal(['image1.jpg', 'image2.jpg']);
+     
+
+        function previewImage(event) {
+            var reader = new FileReader();
+            
+            reader.onload = function() {
+                var imagePreview = document.getElementById('imagePreview');
+                
+                imagePreview.src = reader.result;
+                
+                imagePreview.style.display = 'block';
+            };
+            
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+        document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; 
+            var form = document.getElementById('delete-form');
+        });
+
     </script>
     
 

@@ -2,93 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactInfo;
+use App\Models\Activity;
+use App\Models\ActivityImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ContactInfoController extends Controller
+class ActivitiesController extends Controller
 {
-    public function index()
-    {
-        $contactInfo = ContactInfo::first();
-
-        return view('layouts.footer', compact('contactInfo'));
-    }
-
+    // Store a new activity with multiple images
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'address' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'logo1' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'logo2' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'logo3' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'logo4' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        // Validate the input data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate each file
         ]);
 
-        $logos = [];
-
-        foreach (['logo1', 'logo2', 'logo3', 'logo4'] as $logo) {
-            if ($request->hasFile($logo)) {
-                $logos[$logo] = $request->file($logo)->store('logos', 'public');
-            }
-        }
-
-        ContactInfo::create([
-            'address' => $data['address'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'logo1' => $logos['logo1'] ?? null,
-            'logo2' => $logos['logo2'] ?? null,
-            'logo3' => $logos['logo3'] ?? null,
-            'logo4' => $logos['logo4'] ?? null,
+        // Create the activity record
+        $activity = Activity::create([
+            'title' => $request->title,
+            'description' => $request->description,
         ]);
 
-        return redirect()->route('pdrrmo-home.index')->with('success', 'Contact information updated successfully!');
-    }
+        // Store images and link them to the activity
+        foreach ($request->file('images') as $image) {
+            // Store the image in the 'activity_images' folder within the 'public' disk
+            $imagePath = $image->store('activity_images', 'public');
 
-    public function edit($id)
-    {
-        $contactInfo = ContactInfo::find($id);
-
-        if (! $contactInfo) {
-            return redirect()->route('contact-info.index')->with('error', 'Contact information not found.');
+            // Create a new ActivityImage record for each image
+            ActivityImage::create([
+                'activity_id' => $activity->id, // Link the image to the activity
+                'image_path' => $imagePath, // Store the image path
+            ]);
         }
 
-        return view('contact.edit', compact('contactInfo'));
+        // Redirect or return a response (you can customize this)
+        return redirect()->route('pdrrmo-home.index')->with('success', 'Activity and images uploaded successfully!');
     }
 
-    public function update(Request $request, $id)
+    // Show a specific activity with its images
+    public function show($id)
     {
+        // Fetch the activity and its images
+        $activity = Activity::with('images')->findOrFail($id);
+
+        // Pass the data to the view
+        return view('pdrrmo-home.edit', compact('activity'));
+    }
+
+    public function deleteImages(Request $request)
+    {
+        // Validate that the IDs are an array
         $validated = $request->validate([
-            'address' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:255',
-            'logo1' => 'nullable|image|mimes:jpg,png,jpeg,gif',
-            'logo2' => 'nullable|image|mimes:jpg,png,jpeg,gif',
-            'logo3' => 'nullable|image|mimes:jpg,png,jpeg,gif',
-            'logo4' => 'nullable|image|mimes:jpg,png,jpeg,gif',
+            'image_ids' => 'required|array',
+            'image_ids.*' => 'exists:activity_images,id', // Ensure that each ID exists in the database
         ]);
 
-        $contactInfo = ContactInfo::find($id);
-
-        $contactInfo->address = $validated['address'];
-        $contactInfo->email = $validated['email'];
-        $contactInfo->phone = $validated['phone'];
-
-        foreach (['logo1', 'logo2', 'logo3', 'logo4'] as $logo) {
-            if ($request->hasFile($logo)) {
-                if ($contactInfo->$logo) {
-                    Storage::disk('public')->delete($contactInfo->$logo);
-                }
-
-                $contactInfo->$logo = $request->file($logo)->store('logos', 'public');
+        // Delete each image by ID
+        foreach ($validated['image_ids'] as $imageId) {
+            $image = ActivityImage::find($imageId); // Use ActivityImage model instead of Activity
+            if ($image) {
+                // Delete the image file from storage
+                Storage::delete('public/'.$image->image_path); // Make sure to adjust the path if needed
+                $image->delete(); // Remove the image record from the database
             }
         }
 
-        $contactInfo->save();
+        return redirect()->route('pdrrmo-home.index')->with('success', 'Image deleted successfully!');
 
-        return redirect()->route('pdrrmo-home.index')->with('success', 'Contact information updated successfully!');
     }
 }

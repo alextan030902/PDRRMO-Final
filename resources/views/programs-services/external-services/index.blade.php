@@ -1,13 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+
+ <!-- Page Title -->
+ <div class="page-title accent-background">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+      <h1 class="mb-2 mb-lg-0">External Services</h1>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li class="current">Team</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
+
 <div class="container-fluid my-5">
     <div class="row g-4 align-items-stretch"> <!-- Ensures equal height for both columns -->
-        <!-- Internal Services Section -->
+        
         <div class="col-lg-6 mb-4 mb-lg-0">
             <div class="d-flex flex-column h-100"> <!-- Flexbox and full height column -->
                 <div class="text-center mb-4">
-                    <h5 class="text-orange fw-bold display-6">EXTERNAL SERVICES</h5>
+                    <h5 class="text-orange fw-bold" style="font-size: 1.5rem;">EXTERNAL SERVICES</h5>
                 </div>
                 <div class="card shadow-lg rounded-3 border-light h-100"> <!-- Full height card -->
                     <div class="card-body">
@@ -45,7 +59,7 @@
                                                     <form action="{{ route('programs-services.external.destroy', $file->id) }}" method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-outline-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
+                                                        <button type="button" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{ $file->id }}">
                                                             <i class="fas fa-trash-alt"></i> Delete
                                                         </button>
                                                     </form>
@@ -54,15 +68,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-        
-                                <!-- See More Button if there are more files -->
-                                @if($files->count() > 15)
-                                    <div class="d-flex justify-content-center mt-3">
-                                        <button class="btn btn-link text-primary" data-bs-toggle="collapse" data-bs-target="#extraFiles" aria-expanded="false" aria-controls="extraFiles">
-                                            <i class="fas fa-chevron-down"></i> See More
-                                        </button>
-                                    </div>
-                                @endif
         
                                 <!-- Display the remaining files, initially collapsed -->
                                 <div id="extraFiles" class="collapse">
@@ -95,7 +100,7 @@
                                                         <form action="{{ route('programs-services.external.destroy', $file->id) }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-outline-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
+                                                            <button type="button" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{ $file->id }}">
                                                                 <i class="fas fa-trash-alt"></i> Delete
                                                             </button>
                                                         </form>
@@ -105,6 +110,16 @@
                                         </div>
                                     @endforeach
                                 </div>
+        
+                                <!-- See More / See Less Button if there are more files -->
+                                @if($files->count() > 15)
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button id="seeMoreButton" class="btn btn-link text-primary" data-bs-toggle="collapse" data-bs-target="#extraFiles" aria-expanded="false" aria-controls="extraFiles">
+                                            <i class="fas fa-chevron-down"></i> See More
+                                        </button>
+                                    </div>
+                                @endif
+        
                             @endif
                         </div>
         
@@ -122,7 +137,7 @@
         
         <!-- Disaster and Calamity Updates Section -->
         <div class="col-lg-6 d-flex flex-column mb-4 mb-lg-0">
-            <div class="card shadow-lg rounded-lg w-100 border-light h-100"> <!-- Full height card -->
+            <div class="card shadow-lg rounded-lg w-55 border-light h-100"> <!-- Full height card -->
                 <div class="card-body text-center h-100">
                     <h5 class="fw-bold mb-4">LATEST UPDATES</h5> <!-- Primary color text -->
                     <div class="alert alert-warning fw-bold fs-5 mb-4" id="current-time">
@@ -130,7 +145,7 @@
                     </div>
                     <div class="fb-page"
                         data-href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
-                        data-tabs="timeline" data-width="700" data-height="800"
+                        data-tabs="timeline" data-width="500" data-height="800"
                         data-small-header="false" data-adapt-container-width="true"
                         data-hide-cover="false" data-show-facepile="false">
                         <blockquote
@@ -148,7 +163,32 @@
 </div>
 
 
-
+<!-- Delete Modal -->
+    <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteItemModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this file?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- Form for Deletion -->
+                    <form action="{{ route('programs-services.external.destroy', $file->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 <!-- Edit Modal -->
 @foreach ($files as $file)
     <div class="modal fade" id="editModal{{ $file->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $file->id }}" aria-hidden="true">
@@ -246,7 +286,25 @@
 
     setInterval(updateTime, 1000); // Update every second
     updateTime(); // Initial call to set the time immediately
+
+    // Get the 'See More' button and extra files
+    document.addEventListener('DOMContentLoaded', function () {
+        const seeMoreButton = document.getElementById('seeMoreButton');
+        const extraFiles = document.getElementById('extraFiles');
+
+        if (seeMoreButton && extraFiles) {
+            // Listen to collapse events
+            extraFiles.addEventListener('shown.bs.collapse', function () {
+                seeMoreButton.innerHTML = '<i class="fas fa-chevron-up"></i> See Less';
+            });
+
+            extraFiles.addEventListener('hidden.bs.collapse', function () {
+                seeMoreButton.innerHTML = '<i class="fas fa-chevron-down"></i> See More';
+            });
+        }
+    });
 </script>
+
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>
 
 @endsection

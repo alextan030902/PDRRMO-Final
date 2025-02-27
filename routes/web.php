@@ -14,6 +14,7 @@ use App\Http\Controllers\ProgramServicesExternalController;
 use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,7 @@ Route::post('/carousel-images', [CarouselImageController::class, 'store'])->name
 Route::delete('/carousel-images/delete', [CarouselImageController::class, 'delete'])->name('carousel-images.delete');
 
 // PdrrmoController
+Route::get('/', [PdrrmoController::class, 'index'])->name('pdrrmo.index');
 Route::get('/pdrrmo-home', [PdrrmoController::class, 'index'])->name('pdrrmo-home.index');
 Route::post('/pdrrmo-home/upload', [PdrrmoController::class, 'upload'])->name('pdrrmo-home.upload');
 Route::get('/pdrrmo-home/edit/{id}', [PdrrmoController::class, 'edit'])->name('pdrrmo-home.edit');
@@ -109,9 +111,13 @@ Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('con
 
 // VideoController
 Route::post('/video/store', [VideoController::class, 'store'])->name('video.store');
+Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.destroy');
 
 // ContactInfoController
 Route::get('/contact-info', [ContactInfoController::class, 'show'])->name('contact-info.show');
 Route::put('/contact-info/{id}', [ContactInfoController::class, 'update'])->name('contact-info.update');
 Route::post('/contact-info', [ContactInfoController::class, 'store'])->name('contact-info.store');
 Route::get('/contact-info/index', [ContactInfoController::class, 'index'])->name('contact-info.index');
+
+// TeamsController
+Route::get('/super-admin/team', [TeamsController::class, 'index'])->name('super-admin.team');

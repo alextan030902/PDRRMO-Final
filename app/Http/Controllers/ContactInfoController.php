@@ -56,7 +56,7 @@ class ContactInfoController extends Controller
             return redirect()->route('contact-info.index')->with('error', 'Contact information not found.');
         }
 
-        return view('contact.edit', compact('contactInfo'));
+        return view('pdrrmo-home.index', compact('contactInfo'));
     }
 
     public function update(Request $request, $id)
@@ -73,19 +73,28 @@ class ContactInfoController extends Controller
 
         $contactInfo = ContactInfo::find($id);
 
+        if (! $contactInfo) {
+            return redirect()->route('contact-info.index')->with('error', 'Contact information not found.');
+        }
+
+        // Update non-logo fields
         $contactInfo->address = $validated['address'];
         $contactInfo->email = $validated['email'];
         $contactInfo->phone = $validated['phone'];
 
+        // Handle logo updates, only update if a new file is provided
         foreach (['logo1', 'logo2', 'logo3', 'logo4'] as $logo) {
             if ($request->hasFile($logo)) {
+                // Delete old logo if it exists
                 if ($contactInfo->$logo) {
                     Storage::delete($contactInfo->$logo);
                 }
-                $contactInfo->$logo = $request->file($logo)->store('logos');
+                // Store the new logo
+                $contactInfo->$logo = $request->file($logo)->store('logos', 'public');
             }
         }
 
+        // Save the updated contact information
         $contactInfo->save();
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Contact information updated successfully!');

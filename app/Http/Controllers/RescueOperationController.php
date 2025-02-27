@@ -82,10 +82,9 @@ class RescueOperationController extends Controller
             return redirect()->route('portfolio')->with('error', 'No Rescue Operations found for this category.');
         }
 
-        return view('programs-services.rescue-operations.show', compact('rescueOperations', 'category','contactInfo'));
+        return view('programs-services.rescue-operations.show', compact('rescueOperations', 'category', 'contactInfo'));
     }
 
-   
     public function destroy(string $id)
     {
         $operation = RescueOperation::findOrFail($id);
@@ -101,7 +100,7 @@ class RescueOperationController extends Controller
 
         $operation->delete();
 
-        return redirect()->route('programs-services.rescue-operations.index')->with('success', 'Image deleted successfully.');
+        return redirect()->route('programs-services.rescue-operations.index')->with('success', 'Content deleted successfully.');
     }
 
     public function content(Request $request)

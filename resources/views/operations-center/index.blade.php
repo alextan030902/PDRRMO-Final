@@ -2,6 +2,20 @@
 
 @section('content')
 
+<div class="page-title accent-background py-4">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Resources</h1>
+        <nav class="breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Resources</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <div class="container text-center d-flex justify-content-between align-items-center">
     <div>
         <h3 class="mt-3" style="font-family: 'Poppins', sans-serif; color: #FE6305;">Equipment and Vehicles</h3>
@@ -12,13 +26,13 @@
         </p>
     </div>
 
-    <!-- Button to trigger modal -->
+    @auth
     <button type="button" class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addItemModal">
         <i class="bi bi-plus-square"></i> Add New
     </button>
+    @endauth
 </div>
 
-<!-- Emergency Vehicles Section -->
 <div class="container text-start">
     <h3 class="mt-5" style="font-family: 'Poppins', sans-serif; color: #FE6305;">Emergency Vehicles</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -30,6 +44,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $item->name }}</h5>
                             <div class="d-flex justify-content-between">
+                                @auth
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#editItemModal"
                                     onclick="setEditForm({{ $item->id }}, '{{ $item->name }}', '{{ $item->type }}')">
@@ -40,6 +55,7 @@
                                     onclick="setDeleteForm({{ $item->id }})">
                                     <i class="bi bi-trash"></i> Delete
                                 </button>
+                                @endauth
                             </div>
                         </div>
                     </div>
@@ -49,7 +65,6 @@
     </div>
 </div>
 
-<!-- Equipments Section -->
 <div class="container text-start mb-5">
     <h3 class="mt-5" style="font-family: 'Poppins', sans-serif; color: #FE6305;">Equipments</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -61,6 +76,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $item->name }}</h5>
                             <div class="d-flex justify-content-between">
+                                @auth
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#editItemModal"
                                     onclick="setEditForm({{ $item->id }}, '{{ $item->name }}', '{{ $item->type }}')">
@@ -71,6 +87,7 @@
                                     onclick="setDeleteForm({{ $item->id }})">
                                     <i class="bi bi-trash"></i> Delete
                                 </button>
+                                @endauth
                             </div>
                         </div>
                     </div>
@@ -80,9 +97,7 @@
     </div>
 </div>
 
-<!-- Modal Structure -->
 <div class="container">
-    <!-- Add Item Modal -->
     <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -115,9 +130,8 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteItemModalLabel">Confirm Deletion</h5>
@@ -137,6 +151,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel" aria-hidden="true">

@@ -69,6 +69,18 @@
 /*--------------------------------------------------------------
 # General Styling & Shared Classes
 --------------------------------------------------------------*/
+.masthead img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ensures full coverage without white bars */
+}
+
+@media (max-width: 480px) {
+  .masthead {
+      min-height: 30vh;
+  }
+}
 
 /* Centering the collage */
 .collage-row {

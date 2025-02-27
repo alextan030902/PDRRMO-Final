@@ -1,13 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+
+<!-- Page Title -->
+<div class="page-title accent-background">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+      <h1 class="mb-2 mb-lg-0">Internal Services</h1>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li class="current">Internal Services</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
+
+
 <div class="container-fluid my-5">
-    <div class="row g-4 align-items-stretch"> <!-- Ensures equal height for both columns -->
-        <!-- Internal Services Section -->
+    <div class="row g-4 align-items-stretch"> 
         <div class="col-lg-6 mb-4 mb-lg-0">
-            <div class="d-flex flex-column h-100"> <!-- Flexbox and full height column -->
+            <div class="d-flex flex-column h-100"> 
                 <div class="text-center mb-4">
-                    <h5 class="text-orange fw-bold display-6">INTERNAL SERVICES</h5>
+                    <h5 class="text-orange fw-bold" style="font-size: 1.5rem;">INTERNAL SERVICES</h5>
                 </div>
                 <div class="card shadow-lg rounded-3 border-light h-100"> <!-- Full height card -->
                     <div class="card-body">

@@ -19,4 +19,12 @@ class VideoController extends Controller
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Link uploaded successfully!');
     }
+
+    public function destroy($id)
+    {
+        $video = Videos::findOrFail($id);
+        $video->delete();
+
+        return redirect()->route('pdrrmo-home.index')->with('success', 'Video deleted successfully!');
+    }
 }

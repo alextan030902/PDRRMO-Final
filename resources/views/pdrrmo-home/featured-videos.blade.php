@@ -10,7 +10,6 @@
     </div>
 
     <div class="container position-relative pt-4"> 
-       
         <div class="row gy-4">
             @foreach($videos as $video)
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
@@ -30,6 +29,15 @@
                                 <p>Invalid video URL</p> 
                             @endif
                         </div>
+                        @auth
+                            <form action="{{ route('video.destroy', $video->id) }}" method="POST" style="position: absolute; top: 10px; right: 10px;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </form>
+                        @endauth
                     </div>
                 </div>
             @endforeach

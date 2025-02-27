@@ -1,31 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="page-title accent-background py-4">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Contact Details</h1>
+        <nav class="breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Contact Details</li>
+            </ol>
+        </nav>
+    </div>
+</div><!-- End Page Title -->
+
+
 <div class="container mt-5 position-relative">
-    <h1 class="text-center" style="color: #003489; margin-bottom: 1rem;">CONTACT DETAILS</h1>
+    <h1 class="text-center" style="color: #003489; margin-bottom: 16px;">CONTACT DETAILS</h1>
     
     @auth
         <button type="button" class="btn btn-primary position-absolute top-0 start-0 m-3" data-bs-toggle="modal" data-bs-target="#addRowModal">
             <i class="bi bi-person-plus"></i> Add Contact
         </button>
     @endauth
-        <!-- Category Filter in Top Right Corner -->
-        <div class="position-absolute top-0 end-0 m-3" style="right: 120px;">
-            <form method="GET" action="{{ route('contact.index') }}">
-                <div class="input-group">
-                    <select name="category" class="form-select" id="categoryFilter">
-                        <option value="">Select Category</option>
-                        <option value="MDRRMO" {{ request()->category == 'MDRRMO' ? 'selected' : '' }}>MDRRMO</option>
-                        <option value="HOSPITALS" {{ request()->category == 'HOSPITALS' ? 'selected' : '' }}>HOSPITALS</option>
-                        <option value="IPPO" {{ request()->category == 'IPPO' ? 'selected' : '' }}>IPPO</option>
-                        <option value="BFP" {{ request()->category == 'BFP' ? 'selected' : '' }}>BFP</option>
-                    </select>
-                    <button type="submit" class="btn btn-info">
-                        <i class="bi bi-funnel"></i> Filter
-                    </button>
-                </div>
-            </form>
-        </div>
+
+    <!-- Category Filter in Top Right Corner -->
+    <div class="position-absolute top-0 end-0 m-3" style="right: 120px;">
+        <form method="GET" action="{{ route('contact.index') }}" id="filterForm">
+            <div class="input-group">
+                <select name="category" class="form-select" id="categoryFilter" onchange="document.getElementById('filterForm').submit()">
+                    <option value="">Select Category</option>
+                    <option value="MDRRMO" {{ request()->category == 'MDRRMO' ? 'selected' : '' }}>MDRRMO</option>
+                    <option value="HOSPITALS" {{ request()->category == 'HOSPITALS' ? 'selected' : '' }}>HOSPITALS</option>
+                    <option value="IPPO" {{ request()->category == 'IPPO' ? 'selected' : '' }}>IPPO</option>
+                    <option value="BFP" {{ request()->category == 'BFP' ? 'selected' : '' }}>BFP</option>
+                </select>
+                <button type="submit" class="btn btn-info" style="display:none;">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+            </div>
+        </form>
+    </div>
    
 
     @php
@@ -46,7 +62,6 @@
         <thead class="text-center">
             <tr>
                 <th scope="col">Category</th>
-                <th scope="col">District</th>
                 <th scope="col">Municipality</th>
                 <th scope="col">Focal Person</th>
                 <th scope="col">Contact Number</th>

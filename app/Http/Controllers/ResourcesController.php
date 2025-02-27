@@ -12,6 +12,7 @@ class ResourcesController extends Controller
     public function index()
     {
         $contactInfo = ContactInfo::first();
+
         return view('resources.index', compact('contactInfo'));
     }
 

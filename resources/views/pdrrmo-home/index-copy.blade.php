@@ -1583,3 +1583,165 @@
 
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>
 @endsection
+
+
+
+
+            <!-- Banner Section -->
+            <style>
+                .masthead img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    /* Ensures full coverage without white bars */
+                }
+
+                @media (max-width: 480px) {
+                    .masthead {
+                        min-height: 30vh;
+                    }
+                }
+            </style>
+
+            <header class="masthead mb-2 position-relative">
+                @if ($pdrrmoImagePath)
+                    <img src="{{ asset('storage/' . $pdrrmoImagePath) }}" alt="Masthead Image" class="w-100 h-100">
+                @else
+                    <div class="text-center text-warning d-flex justify-content-center align-items-center h-100">
+                        <i class="fas fa-upload fa-3x"></i>
+                        <p class="mt-2">No image available. Please upload a banner.</p>
+                    </div>
+                @endif              @auth
+                    <div class="btn-group position-absolute bottom-0 end-0 m-3" role="group">
+                        @if (!$pdrrmoImagePath)
+                            <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#uploadModal">
+                                <i class="fas fa-plus"></i> Add
+                            </a>
+                        @endif
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Change Photo
+                        </a>
+                        @if ($pdrrmo)
+                            <form action="{{ route('pdrrmo-home.destroy', ['id' => $pdrrmo->id]) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                @endauth
+            </header>
+
+               <!-- Hero Section -->
+               <section class="carousel-section position-relative">
+                @php
+                    // Fetch available images (ensure to replace this with your actual model logic)
+                    $images = $carouselImage ? $carouselImage->image_paths : [];
+                @endphp
+            
+                @if (count($images) > 0)
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Carousel Indicators -->
+                        <div class="carousel-indicators">
+                            @foreach ($images as $index => $image)
+                                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}" 
+                                    class="{{ $index === 0 ? 'active' : '' }}" aria-current="true" aria-label="Slide {{ $index + 1 }}">
+                                </button>
+                            @endforeach
+                        </div>
+            
+                        <!-- Carousel Inner -->
+                        <div class="carousel-inner">
+                            @foreach ($images as $index => $image)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <img src="{{ asset('storage/' . $image) }}" class="d-block w-100" alt="Carousel Image {{ $index + 1 }}" loading="lazy">
+                                </div>
+                            @endforeach
+                        </div>
+            
+                        <!-- Carousel Controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                @else
+                    <div class="carousel slide" id="carouselExample">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active text-center p-5">
+                                <i class="fas fa-image fa-3x"></i>
+                                <p>No Image Available</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            
+                @auth
+                    <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
+                        @if (count($images) === 0)
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#carouselUpload">
+                            <i class="fas fa-plus-circle"></i> Add Photos
+                        </button>
+                        @endif
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#carouselUpload">
+                            <i class="fas fa-edit"></i> Change Photos
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#carouselDelete">
+                            <i class="fas fa-trash-alt"></i> Delete Photos
+                        </button>
+                    </div>
+                @endauth
+            </section>
+
+            <div class="page-title accent-background py-4">
+                <div class="container d-lg-flex justify-content-between align-items-center">
+                    <h1 class="mb-2 mb-lg-0">Contact Details</h1>
+                    <nav class="breadcrumbs">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('pdrrmo.index') }}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Contact Details</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div><!-- End Page Title -->
+            
+            
+            <div class="container mt-5 position-relative">
+                <h1 class="text-center" style="color: #003489; margin-bottom: 16px;">CONTACT DETAILS</h1>
+                
+                @auth
+                    <button type="button" class="btn btn-primary position-absolute top-0 start-0 m-3" data-bs-toggle="modal" data-bs-target="#addRowModal">
+                        <i class="bi bi-person-plus"></i> Add Contact
+                    </button>
+                @endauth
+            
+                <!-- Category Filter in Top Right Corner -->
+                <div class="position-absolute top-0 end-0 m-3" style="right: 120px;">
+                    <form method="GET" action="{{ route('contact.index') }}" id="filterForm">
+                        <div class="input-group">
+                            <select name="category" class="form-select" id="categoryFilter" onchange="document.getElementById('filterForm').submit()">
+                                <option value="">Select Category</option>
+                                <option value="MDRRMO" {{ request()->category == 'MDRRMO' ? 'selected' : '' }}>MDRRMO</option>
+                                <option value="HOSPITALS" {{ request()->category == 'HOSPITALS' ? 'selected' : '' }}>HOSPITALS</option>
+                                <option value="IPPO" {{ request()->category == 'IPPO' ? 'selected' : '' }}>IPPO</option>
+                                <option value="BFP" {{ request()->category == 'BFP' ? 'selected' : '' }}>BFP</option>
+                            </select>
+                            <button type="submit" class="btn btn-info" style="display:none;">
+                                <i class="bi bi-funnel"></i> Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                

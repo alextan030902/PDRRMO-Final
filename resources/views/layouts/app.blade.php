@@ -62,9 +62,7 @@
           <li class="dropdown"><a href="#"><span>Operations Center</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Resources</a></li>
-            </ul>
-            <ul>
-              <li class="nav-item"><a href="{{ route('operations-center.index') }}" class="nav-link">Teams</a></li>
+                <li class="nav-item"><a href="{{ route('super-admin.team') }}" class="nav-link">Developer Team</a></li>
           </ul>
           </li>
 

@@ -2,6 +2,22 @@
 
 @section('content')
 
+<div class="page-title accent-background py-4">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">About PDRRMC</h1>
+        <nav class="breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">About PDRRMC</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+
     <div class="card shadow-lg rounded-lg p-5 mb-5">
         
         <!-- About Section with Border and Title -->

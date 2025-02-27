@@ -93,7 +93,7 @@
 
         .img-container img {
             max-width: 100%;
-            height: 150px; /* Enlarged logo size */
+            height: 150px; 
         }
 
         .modal-dialog {
@@ -146,7 +146,10 @@
                         <input type="checkbox" class="form-check-input" id="customCheck" name="remember">
                         <label class="form-check-label" for="customCheck">Remember Me</label>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                      </button>
+                      
                 </form>
             </div>
         </div>
@@ -156,7 +159,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-warning" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <p>Please wait...</p>
