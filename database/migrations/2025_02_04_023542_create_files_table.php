@@ -15,9 +15,13 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('name');  // Name of the uploaded file
-            $table->string('path');  // Path to the file in storage
-            $table->timestamps();    // Timestamps for created_at and updated_at
+            $table->string('name');
+            $table->string('path');
+            $table->string('extension');
+            $table->integer('size');
+            $table->string('category');
+            $table->date('date');
+            $table->timestamps();
         });
     }
 

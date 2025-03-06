@@ -112,6 +112,17 @@
             min-height: 100vh;
         }
 
+        .password-icon {
+            position: absolute;
+            right: 15px;
+            top: 45%;
+            cursor: pointer;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
         @media (max-width: 768px) {
             .card {
                 max-width: 100%;
@@ -137,10 +148,11 @@
                         @enderror
                     </div>
                     <div class="form-group mb-3">
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required id="passwordField">
                         @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <i class="fas fa-eye password-icon" id="togglePassword"></i>
                     </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="customCheck" name="remember">
@@ -148,8 +160,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="fas fa-sign-in-alt"></i> Login
-                      </button>
-                      
+                    </button>
                 </form>
             </div>
         </div>
@@ -173,6 +184,20 @@
     <script>
         const form = document.getElementById('loginForm');
         const loadingModal = new bootstrap.Modal(document.getElementById('loadingSpinnerModal'));
+        const passwordField = document.getElementById('passwordField');
+        const togglePasswordIcon = document.getElementById('togglePassword');
+
+        // Toggle password visibility when icon is clicked
+        togglePasswordIcon.addEventListener('click', function() {
+            // Toggle the type of the password field between 'password' and 'text'
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                togglePasswordIcon.classList.replace('fa-eye', 'fa-eye-slash'); // Change icon to eye-slash
+            } else {
+                passwordField.type = 'password';
+                togglePasswordIcon.classList.replace('fa-eye-slash', 'fa-eye'); // Change icon back to eye
+            }
+        });
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();

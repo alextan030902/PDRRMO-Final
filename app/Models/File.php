@@ -9,6 +9,24 @@ class File extends Model
 {
     use HasFactory;
 
-    // Define the columns that can be mass-assigned
-    protected $fillable = ['name', 'path'];
+    // The table associated with the model.
+    protected $table = 'files';
+
+    // The attributes that are mass assignable.
+    protected $fillable = [
+        'name',
+        'path',
+        'extension',
+        'size',
+        'category',
+        'date',
+    ];
+
+    // Optionally, you can define the date format if necessary
+    protected $dateFormat = 'Y-m-d H:i:s';
+
+    // If you are working with timestamps, you can define how the date columns should be handled
+    protected $casts = [
+        'date' => 'date',
+    ];
 }

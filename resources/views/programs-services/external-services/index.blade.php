@@ -2,18 +2,19 @@
 
 @section('content')
 
- <!-- Page Title -->
- <div class="page-title accent-background">
+<div class="page-title accent-background py-4">
     <div class="container d-lg-flex justify-content-between align-items-center">
-      <h1 class="mb-2 mb-lg-0">External Services</h1>
-      <nav class="breadcrumbs">
-        <ol>
-          <li><a href="index.html">Home</a></li>
-          <li class="current">Team</li>
-        </ol>
-      </nav>
+        <h1 class="mb-2 mb-lg-0">External Services</h1>
+        <nav class="breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">External Services</li>
+            </ol>
+        </nav>
     </div>
-  </div><!-- End Page Title -->
+</div>
 
 <div class="container-fluid my-5">
     <div class="row g-4 align-items-stretch"> <!-- Ensures equal height for both columns -->

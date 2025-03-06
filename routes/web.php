@@ -69,7 +69,8 @@ Route::get('/operations-center/index', [OperationsCenterController::class, 'inde
 Route::get('/resources/index', [ResourcesController::class, 'index'])->name('resources.index');
 
 // FileUploadController
-Route::post('/file/upload', [FileUploadController::class, 'upload'])->name('file.upload.submit');
+Route::get('/pddrmo-home/issuances', [FileUploadController::class, 'index'])->name('pdrrmo-home.issuances');
+Route::post('/file/upload', [FileUploadController::class, 'store'])->name('file.store');
 Route::delete('/file/{id}', [FileUploadController::class, 'destroy'])->name('file.delete');
 
 // ActivitiesController

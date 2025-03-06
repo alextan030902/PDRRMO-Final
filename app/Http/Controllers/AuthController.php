@@ -20,7 +20,6 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
-            'remember' => 'nullable|boolean',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -36,6 +35,8 @@ class AuthController extends Controller
                 return redirect()->route('pdrrmo-home.index');
             }
         }
+
+        // dd($user);
 
         Log::warning('Failed login attempt for email: '.$request->email);
 

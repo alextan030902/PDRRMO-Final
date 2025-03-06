@@ -8,7 +8,7 @@
       <h1 class="mb-2 mb-lg-0">Internal Services</h1>
       <nav class="breadcrumbs">
         <ol>
-          <li><a href="index.html">Home</a></li>
+            <a href="{{ route('pdrrmo.index') }}">Home</a>
           <li class="current">Internal Services</li>
         </ol>
       </nav>

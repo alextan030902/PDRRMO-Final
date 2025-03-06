@@ -257,8 +257,9 @@
                                     <div class="card shadow-sm rounded-lg mb-4"
                                         style="max-width: 800px; margin: 0 auto;">
                                         <div class="card-body">
-                                            <h5 class="fw-bold mb-4">Issuance</h5>
-
+                                            <h5 class="fw-bold mb-4">
+                                                <a href="{{ route('pdrrmo-home.issuances') }}" class="text-decoration-none">Issuance</a>
+                                              </h5>
                                             <!-- Table with Scrollable Content -->
                                             <div class="table-responsive"
                                                 style="max-height: 300px; overflow-y: auto;">
@@ -298,8 +299,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-
-                                            @auth
+                                            {{-- @auth
                                                 <form action="{{ route('file.upload.submit') }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
                                                     @csrf
                                                     <div class="mt-3">
@@ -312,7 +312,7 @@
                                                         </button>
                                                     </div>
                                                 </form>
-                                            @endauth
+                                            @endauth --}}
                                         </div>
                                     </div>
 
