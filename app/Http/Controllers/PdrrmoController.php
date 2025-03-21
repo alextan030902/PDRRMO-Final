@@ -116,18 +116,18 @@ class PdrrmoController extends Controller
      */
     public function destroy($id)
     {
+        // Check if the record exists
         $pdrrmo = Pdrrmo::find($id);
 
         if (! $pdrrmo) {
-            session()->flash('error', 'Image not found!');
-
+            // Redirect with error if the record is not found
             return redirect()->route('pdrrmo-home.index')->with('error', 'Image not found!');
         }
 
+        // Delete the record if it exists
         $pdrrmo->delete();
 
-        session()->flash('success', 'Image deleted successfully!');
-
+        // Success message after deletion
         return redirect()->route('pdrrmo-home.index')->with('success', 'Image deleted successfully!');
     }
 }

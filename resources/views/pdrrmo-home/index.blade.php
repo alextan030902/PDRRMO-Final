@@ -113,13 +113,17 @@
                         <i class="bi bi-x-circle"></i> Cancel
                     </button>
                     
-                    <form action="{{ route('pdrrmo-home.destroy', ['id' => $pdrrmo->id]) }}" method="POST" id="delete-form">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash"></i> Delete
-                        </button>
-                    </form>
+                    @if($pdrrmo)
+                        <form action="{{ route('pdrrmo-home.destroy', ['id' => $pdrrmo->id]) }}" method="POST" id="delete-form">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    @else
+                        <p class="text-danger">Image not found, cannot delete!</p>
+                    @endif
                 </div>
             </div>
         </div>
