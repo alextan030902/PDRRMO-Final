@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\ActivityImage;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,10 +47,11 @@ class ActivitiesController extends Controller
     public function show($id)
     {
         // Fetch the activity and its images
+        $contactInfo = ContactInfo::first();
         $activity = Activity::with('images')->findOrFail($id);
 
         // Pass the data to the view
-        return view('pdrrmo-home.edit', compact('activity'));
+        return view('pdrrmo-home.edit', compact('activity', 'contactInfo'));
     }
 
     public function deleteImages(Request $request)

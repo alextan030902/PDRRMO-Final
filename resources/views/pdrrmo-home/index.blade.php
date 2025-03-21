@@ -267,14 +267,14 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>
-                                                            <th>Action</th>
+                                                            <th class="text-center">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($files as $file)
                                                             <tr>
                                                                 <td><strong>{{ $file->name }}</strong></td>
-                                                                <td class="d-flex">
+                                                                <td class="text-center">
                                                                     <a href="{{ Storage::url($file->path) }}"
                                                                         class="btn btn-primary btn-sm"
                                                                         target="_blank">

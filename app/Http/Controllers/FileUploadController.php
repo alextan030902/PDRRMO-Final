@@ -12,73 +12,59 @@ class FileUploadController extends Controller
 {
     public function index(Request $request)
     {
-        // Fetch distinct years from the 'files' table
+        // Retrieve distinct categories
+        $categories = File::distinct()->pluck('category');
+        $contactInfo = ContactInfo::first();
+
+        // Retrieve distinct years using EXTRACT for PostgreSQL
+        $years = File::selectRaw('EXTRACT(YEAR FROM date) as year')
+            ->distinct()
+            ->pluck('year');
+
+        // Get the selected filters from the request
+        $selectedCategory = $request->input('category');
+        $selectedYear = $request->input('year');
+
+        // Filter the files based on the selected category and year
+        $files = File::query()
+            ->when($selectedCategory, function ($query) use ($selectedCategory) {
+                return $query->where('category', $selectedCategory);
+            })
+            ->when($selectedYear, function ($query) use ($selectedYear) {
+                return $query->whereRaw('EXTRACT(YEAR FROM date) = ?', [$selectedYear]);
+            })
+            ->get();
+
+        return view('pdrrmo-home.issuances', compact('files', 'categories', 'years', 'contactInfo'));
+    }
+
+    public function getYearsByCategory(Request $request)
+    {
+        // Get the selected category
+        $selectedCategory = $request->input('category');
+
+        // Fetch distinct years for the selected category
         $years = DB::table('files')
             ->select(DB::raw('EXTRACT(YEAR FROM date) as year'))
             ->distinct()
+            ->when($selectedCategory, function ($query) use ($selectedCategory) {
+                return $query->where('category', $selectedCategory);
+            })
+            ->orderBy(DB::raw('EXTRACT(YEAR FROM date)'), 'asc')
             ->pluck('year');
-    
-        // Get the selected year from the request
-        $selectedYear = $request->input('year');
-        
-        // Fetch all categories with optional year filter
-        $executiveOrders = File::where('category', 'Executive Order')
-            ->when($selectedYear, function ($query) use ($selectedYear) {
-                return $query->whereYear('date', $selectedYear);
-            })
-            ->get();
-    
-        $memos = File::where('category', 'Memo')
-            ->when($selectedYear, function ($query) use ($selectedYear) {
-                return $query->whereYear('date', $selectedYear);
-            })
-            ->get();
-    
-        $resolutions = File::where('category', 'Resolution')
-            ->when($selectedYear, function ($query) use ($selectedYear) {
-                return $query->whereYear('date', $selectedYear);
-            })
-            ->get();
-    
-        $advisories = File::where('category', 'Advisory')
-            ->when($selectedYear, function ($query) use ($selectedYear) {
-                return $query->whereYear('date', $selectedYear);
-            })
-            ->get();
-        
-        // Fetch contact info
-        $contactInfo = ContactInfo::first();
-    
-        // For AJAX requests, return filtered data as JSON
-        if ($request->ajax()) {
-            return response()->json([
-                'memos' => $memos,
-                'executiveOrders' => $executiveOrders,
-                'resolutions' => $resolutions,
-                'advisories' => $advisories,
-            ]);
-        }
-    
-        // For regular page load, return the view with data
-        return view('pdrrmo-home.issuances', compact(
-            'memos',
-            'executiveOrders',
-            'resolutions',
-            'advisories',
-            'years',
-            'contactInfo',
-            'selectedYear' // Pass the selected year to the view
-        ));
-    }
-    
 
+        // Return the years as JSON response
+        return response()->json([
+            'years' => $years,
+        ]);
+    }
 
     public function store(Request $request)
     {
         $request->validate([
             'category' => 'required|string',
             'filename' => 'required|string|max:255',
-            'file' => 'required|file|mimes:jpg,jpeg,png,pdf,docx|max:10240', 
+            'file' => 'required|file|mimes:jpg,jpeg,png,pdf,docx|max:10240',
             'date' => 'required|date',
         ]);
 
@@ -128,5 +114,3 @@ class FileUploadController extends Controller
         return redirect()->route('pdrrmo-home.issuances')->with('success', 'File deleted successfully.');
     }
 }
-
-

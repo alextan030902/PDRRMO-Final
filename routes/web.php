@@ -72,6 +72,7 @@ Route::get('/resources/index', [ResourcesController::class, 'index'])->name('res
 Route::get('/pddrmo-home/issuances', [FileUploadController::class, 'index'])->name('pdrrmo-home.issuances');
 Route::post('/file/upload', [FileUploadController::class, 'store'])->name('file.store');
 Route::delete('/file/{id}', [FileUploadController::class, 'destroy'])->name('file.delete');
+Route::get('/get-years-by-category', [FileUploadController::class, 'getYearsByCategory'])->name('get.years.by.category');
 
 // ActivitiesController
 Route::post('/activities', [ActivitiesController::class, 'store'])->name('activities.store');

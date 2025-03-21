@@ -91,7 +91,6 @@
                     @foreach($districtContacts as $contact)
                         <tr class="text-center">
                             <td>{{ $contact->category }}</td>
-                            <td>{{ $contact->district }}</td>
                             <td>{{ $contact->municipality }}</td>
                             <td>{{ $contact->focal_person }}</td>
                             <td>{{ $contact->contact_number }}</td>

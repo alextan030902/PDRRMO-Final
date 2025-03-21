@@ -16,135 +16,76 @@
   </div><!-- End Page Title -->
 
 
-<div class="container-fluid my-5">
+  <div class="container-fluid my-5">
     <div class="row g-4 align-items-stretch"> 
-        <div class="col-lg-6 mb-4 mb-lg-0">
-            <div class="d-flex flex-column h-100"> 
-                <div class="text-center mb-4">
+        <!-- internal Services Section -->
+        <div class="col-lg-6 d-flex flex-column">
+            <div class="card shadow-lg rounded-3 border-light h-100 d-flex flex-column">
+                <div class="text-center p-3">
                     <h5 class="text-orange fw-bold" style="font-size: 1.5rem;">INTERNAL SERVICES</h5>
                 </div>
-                <div class="card shadow-lg rounded-3 border-light h-100"> <!-- Full height card -->
-                    <div class="card-body">
-                        <div class="accordion" id="servicesAccordion">
-                            @if($files->isEmpty())
-                                <p class="text-center text-muted">No files available.</p>
-                            @else
-                                <!-- Display the first 15 files -->
-                                @foreach ($files->take(15) as $file)
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading{{ $file->id }}">
-                                            <button class="accordion-button btn-custom collapsed fs-5 fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
-                                                {{ $file->title }}
-                                            </button>
-                                        </h2>
-                                        <div id="collapse{{ $file->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $file->id }}" data-bs-parent="#servicesAccordion">
-                                            <div class="accordion-body p-4">
-                                                <p>{{ $file->description }}</p>
-        
-                                                @if($file->file_path)
-                                                    <p>
-                                                        <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link text-primary">
-                                                            <i class="fas fa-download"></i> Download Attachment
-                                                        </a>
-                                                    </p>
-                                                @else
-                                                    <p class="text-muted">No file attached.</p>
-                                                @endif
-        
-                                                <div class="d-flex justify-content-end mt-3">
-                                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $file->id }}">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </button>
-        
-                                                    <form action="{{ route('programs-services.internal.destroy', $file->id) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-outline-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
-                                                            <i class="fas fa-trash-alt"></i> Delete
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-        
-                                <!-- See More Button if there are more files -->
-                                @if($files->count() > 15)
-                                    <div class="d-flex justify-content-center mt-3">
-                                        <button class="btn btn-link text-primary" data-bs-toggle="collapse" data-bs-target="#extraFiles" aria-expanded="false" aria-controls="extraFiles">
-                                            <i class="fas fa-chevron-down"></i> See More
+                <div class="card-body p-4 flex-grow-1 overflow-auto" style="max-height: 800px;">
+                    <div class="accordion" id="servicesAccordion">
+                        @if($files->isEmpty())
+                            <p class="text-center text-muted">No files available.</p>
+                        @else
+                            @foreach ($files as $file)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ $file->id }}">
+                                        <button class="accordion-button btn-custom collapsed fs-5 fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
+                                            {{ $file->title }}
                                         </button>
-                                    </div>
-                                @endif
-        
-                                <!-- Display the remaining files, initially collapsed -->
-                                <div id="extraFiles" class="collapse">
-                                    @foreach ($files->skip(15) as $file)
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="heading{{ $file->id }}">
-                                                <button class="accordion-button btn-custom collapsed fs-5 fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
-                                                    {{ $file->title }}
+                                    </h2>
+                                    <div id="collapse{{ $file->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $file->id }}" data-bs-parent="#servicesAccordion">
+                                        <div class="accordion-body p-4">
+                                            <p>{{ $file->description }}</p>
+                                            @if($file->file_path)
+                                                <p>
+                                                    <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link text-primary">
+                                                        <i class="fas fa-download"></i> Download Attachment
+                                                    </a>
+                                                </p>
+                                            @else
+                                                <p class="text-muted">No file attached.</p>
+                                            @endif
+                                            <div class="d-flex justify-content-end mt-3">
+                                                <button type="button" class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal{{ $file->id }}">
+                                                    <i class="fas fa-edit"></i> Edit
                                                 </button>
-                                            </h2>
-                                            <div id="collapse{{ $file->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $file->id }}" data-bs-parent="#servicesAccordion">
-                                                <div class="accordion-body p-4">
-                                                    <p>{{ $file->description }}</p>
-        
-                                                    @if($file->file_path)
-                                                        <p>
-                                                            <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link text-primary">
-                                                                <i class="fas fa-download"></i> Download Attachment
-                                                            </a>
-                                                        </p>
-                                                    @else
-                                                        <p class="text-muted">No file attached.</p>
-                                                    @endif
-        
-                                                    <div class="d-flex justify-content-end mt-3">
-                                                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $file->id }}">
-                                                            <i class="fas fa-edit"></i> Edit
-                                                        </button>
-        
-                                                        <form action="{{ route('programs-services.internal.destroy', $file->id) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-outline-danger ms-2" onclick="return confirm('Are you sure you want to delete this file?')">
-                                                                <i class="fas fa-trash-alt"></i> Delete
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
+                                                <form action="{{ route('programs-services.internal.destroy', $file->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-outline-danger ms-2 rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{ $file->id }}">
+                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endif
-                        </div>
-        
-                        <!-- Upload File Button -->
-                        <div class="d-flex justify-content-center mt-4">
-                            <button class="btn btn-primary rounded-pill ms-auto" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                                <i class="fas fa-upload"></i> Upload File
-                            </button>
-                        </div>
+                            @endforeach
+                        @endif
                     </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> Upload File
+                    </button>
                 </div>
             </div>
         </div>
         
-        
         <!-- Disaster and Calamity Updates Section -->
-        <div class="col-lg-6 d-flex flex-column mb-4 mb-lg-0">
-            <div class="card shadow-lg rounded-lg w-100 border-light h-100"> <!-- Full height card -->
+        <div class="col-lg-6 d-flex flex-column">
+            <div class="card shadow-lg rounded-lg w-100 border-light h-100"> 
                 <div class="card-body text-center h-100">
-                    <h5 class="fw-bold mb-4">LATEST UPDATES</h5> <!-- Primary color text -->
+                    <h5 class="fw-bold mb-4">LATEST UPDATES</h5> 
                     <div class="alert alert-warning fw-bold fs-5 mb-4" id="current-time">
                         <!-- Real-time date and time will be inserted here -->
                     </div>
                     <div class="fb-page"
                         data-href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
-                        data-tabs="timeline" data-width="700" data-height="800"
+                        data-tabs="timeline" data-width="500" data-height="800"
                         data-small-header="false" data-adapt-container-width="true"
                         data-hide-cover="false" data-show-facepile="false">
                         <blockquote
@@ -161,7 +102,31 @@
     </div>
 </div>
 
-
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteItemModal{{ $file->id }}" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteItemModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this file?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- Form for Deletion -->
+                <form action="{{ route('programs-services.internal.destroy', $file->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Edit Modal -->
 @foreach ($files as $file)

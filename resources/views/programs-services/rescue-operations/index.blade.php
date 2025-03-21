@@ -102,7 +102,7 @@
                 <div class="card shadow-lg"> 
                     <div class="card-body d-flex flex-column" style="height: 200%;">
                         <div id="content" class="text-center flex-grow-1">
-                            <h2 class="mb-4">Iloilo Rescue Operation</h2> <!-- Adjust mb-4 to control space -->
+                            <h2 class="mb-4">Iloilo Rescue Operation</h2> 
                             @if($rescueOperation && $rescueOperation->content)
                                 <p>{{ $rescueOperation->content }}</p>
                             @else
@@ -137,9 +137,6 @@
                 </div>
             </div>
         </div>
-
-        
-       
 
         <!-- Add Modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -206,7 +203,7 @@
 
         <!-- Portfolio Filters -->
         <div class="isotope-layout mt-5">
-            <ul class="portfolio-filters isotope-filters d-flex justify-content-start mb-4" data-aos="fade-up" data-aos-delay="100">
+            <ul class="portfolio-filters isotope-filters d-flex justify-content-center align-items-center mb-4" data-aos="fade-up" data-aos-delay="100">
                 <li data-filter="*" class="filter-active">All</li>
                 @foreach($categories as $category)
                     @php
@@ -214,7 +211,7 @@
                             return $operation->category === $category->category && $operation->images && isset($operation->images[0]);
                         })->isNotEmpty();
                     @endphp
-        
+            
                     @if($hasOperations)
                         <li data-filter=".filter-{{ strtolower($category->category) }}">
                             {{ ucwords(str_replace(['_', '-'], ' ', $category->category)) }}

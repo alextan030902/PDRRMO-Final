@@ -17,7 +17,7 @@ class FileSeeder extends Seeder
         foreach ($categories as $category) {
             for ($i = 0; $i < 10; $i++) {
                 DB::table('files')->insert([
-                    'name' => $faker->word(),
+                    'name' => $category.' #'.rand(1, 100).'s.'.$faker->year(), // Format the name as requested
                     'path' => $faker->filePath(),
                     'extension' => $faker->fileExtension(),
                     'size' => $faker->numberBetween(100, 10000),

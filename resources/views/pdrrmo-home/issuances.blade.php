@@ -16,21 +16,45 @@
     </div>
 </div>
 
-<!-- Filter Button and Dropdown -->
-<div class="container mt-3 d-flex justify-content-between">
-    <button class="btn btn-outline-success" id="resetButton" data-bs-toggle="modal" data-bs-target="#addIssuanceModal">
-        <i class="fas fa-plus me-2"></i> Add Issuance
-    </button>
-
-    <!-- Year Filter Dropdown -->
-    <div class="d-flex align-items-center">
-        <label for="yearSelect" class="me-2">Filter by Year:</label>
-        <select class="form-select" id="yearSelect" name="year">
-            <option value="">Select a Year</option>
-            @foreach ($years as $year)
-                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>{{ $year }}</option>
-            @endforeach
-        </select>
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        @auth
+        <button class="btn btn-outline-success" id="resetButton" data-bs-toggle="modal" data-bs-target="#addIssuanceModal">
+            <i class="fas fa-plus me-2"></i> Add Issuance
+        </button>
+        @endauth
+        
+        <div class="d-flex justify-content-end align-items-center">
+            <form id="filterForm" method="GET" action="{{ route('pdrrmo-home.issuances') }}">
+                <div class="row g-2">
+                    <!-- Category Selection -->
+                    <div class="col-md-6 col-sm-12">
+                        <label for="categorySelect" class="form-label mb-0">Category:</label>
+                        <select class="form-select form-select-sm shadow-sm" id="categorySelect" name="category" onchange="updateYears()">
+                            <option value="">Select a Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>
+                                    {{ $category }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+            
+                    <!-- Year Selection -->
+                    <div class="col-md-6 col-sm-12">
+                        <label for="yearSelect" class="form-label mb-0">Filter by Year:</label>
+                        <select class="form-select form-select-sm shadow-sm" id="yearSelect" name="year" onchange="submitFormIfValid()">
+                            <option value="">Select a Year</option>
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                                    {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -73,7 +97,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                     <i class="fas fa-times me-2"></i> Close
                 </button>
                 <button type="submit" form="addIssuanceModalForm" class="btn btn-primary">
@@ -82,87 +106,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- Issuances Table -->
-<div class="container mt-5">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Category</th>
-                <th scope="col">Filename</th>
-                <th scope="col">Date</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Memos -->
-            @foreach ($memos as $memo)
-                <tr class="memo-item {{ $loop->index >= 10 ? 'd-none' : '' }}">
-                    <td>Memo</td>
-                    <td><a href="{{ asset('storage/' . $memo->path) }}" target="_blank">{{ $memo->name }}</a></td>
-                    <td>{{ $memo->date }}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $memo->id }}" data-name="{{ $memo->name }}">
-                            <i class="fas fa-trash-alt me-2"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-
-            <!-- Executive Orders -->
-            @foreach ($executiveOrders as $order)
-                <tr class="executive-order-item {{ $loop->index >= 10 ? 'd-none' : '' }}">
-                    <td>Executive Order</td>
-                    <td><a href="{{ asset('storage/' . $order->path) }}" target="_blank">{{ $order->name }}</a></td>
-                    <td>{{ $order->date }}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $order->id }}" data-name="{{ $order->name }}">
-                            <i class="fas fa-trash-alt me-2"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-
-            <!-- Resolutions -->
-            @foreach ($resolutions as $resolution)
-                <tr class="resolution-item {{ $loop->index >= 10 ? 'd-none' : '' }}">
-                    <td>Resolution</td>
-                    <td><a href="{{ asset('storage/' . $resolution->path) }}" target="_blank">{{ $resolution->name }}</a></td>
-                    <td>{{ $resolution->date }}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $resolution->id }}" data-name="{{ $resolution->name }}">
-                            <i class="fas fa-trash-alt me-2"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-
-            <!-- Advisories -->
-            @foreach ($advisories as $advisory)
-                <tr class="advisory-item {{ $loop->index >= 10 ? 'd-none' : '' }}">
-                    <td>Advisory</td>
-                    <td><a href="{{ asset('storage/' . $advisory->path) }}" target="_blank">{{ $advisory->name }}</a></td>
-                    <td>{{ $advisory->date }}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $advisory->id }}" data-name="{{ $advisory->name }}">
-                            <i class="fas fa-trash-alt me-2"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <!-- See More Button -->
-    @if($memos->count() > 10 || $executiveOrders->count() > 10 || $resolutions->count() > 10 || $advisories->count() > 10)
-        <div class="d-flex justify-content-center">
-            <button class="btn btn-primary btn-sm see-more" data-type="memo">See More</button>
-            <button class="btn btn-success btn-sm see-more" data-type="executive-order">See More</button>
-            <button class="btn btn-info btn-sm see-more" data-type="resolution">See More</button>
-            <button class="btn btn-warning btn-sm see-more" data-type="advisory">See More</button>
-        </div>
-    @endif
 </div>
 
 <!-- Modal for Delete Confirmation -->
@@ -192,40 +135,103 @@
     </div>
 </div>
 
+<!-- Issuances Table -->
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <!-- Combined Table for all files -->
+        <div class="col-lg-10 col-md-8 col-sm-10 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                </div>
+                <div class="card-body overflow-auto" style="max-height: 400px;">
+                    <table class="table table-bordered table-sm table-align-middle mx-auto">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($files as $file)
+                                <tr>
+                                    <td><strong>{{ $file->name }}</strong></td>
+                                    <td>{{ \Carbon\Carbon::parse($file->date)->format('m/d/Y') }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ asset('storage/' . $file->path) }}" class="btn btn-primary btn-sm" download="{{ $file->name }}">
+                                            <i class="fas fa-download me-2"></i> Download
+                                        </a>
+                                        @auth
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $file->id }}" data-name="{{ $file->name }}">
+                                            <i class="fas fa-trash-alt me-2"></i> Delete
+                                        </button>
+                                        @endauth
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted">No files found for the selected filters.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const seeMoreButtons = document.querySelectorAll('.see-more');
 
-        seeMoreButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                const type = button.getAttribute('data-type');
-                const items = document.querySelectorAll('.' + type + '-item');
-                
-                // Toggle the visibility of hidden items
-                items.forEach(function (item, index) {
-                    if (index >= 10) {
-                        item.classList.toggle('d-none');
-                    }
-                });
+    // This function will be triggered when the category is selected
+    function updateYears() {
+        // Get the selected category value
+        var category = document.getElementById("categorySelect").value;
 
-                // Toggle the button text between 'See More' and 'See Less'
-                if (button.textContent === "See More") {
-                    button.textContent = "See Less";
+        // Reset the year dropdown to its default state
+        var yearSelect = document.getElementById("yearSelect");
+        yearSelect.innerHTML = '<option value="">Select a Year</option>';
+
+        // If no category is selected, do nothing
+        if (!category) return;
+
+        // Make an AJAX request to get the years for the selected category
+        fetch(`/get-years-by-category?category=${category}`)
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                // Check if there are any years available for the selected category
+                if (data.years && data.years.length > 0) {
+                    // Populate the year dropdown with available years
+                    data.years.forEach(function(year) {
+                        var option = document.createElement("option");
+                        option.value = year;
+                        option.textContent = year;
+                        yearSelect.appendChild(option);
+                    });
                 } else {
-                    button.textContent = "See More";
+                    // If no years available, show a placeholder
+                    var option = document.createElement("option");
+                    option.value = "";
+                    option.textContent = "No years available";
+                    yearSelect.appendChild(option);
                 }
+            })
+            .catch(error => {
+                console.error('Error fetching years:', error);
             });
-        });
-    });
+    }
 
-    // When the year filter changes, reload the page with the selected year as a query parameter
-    document.getElementById('yearSelect').addEventListener('change', function () {
-        var selectedYear = this.value;
-        var url = new URL(window.location.href);
-        url.searchParams.set('year', selectedYear);
-        window.location.href = url.toString();
-    });
+    // Submit the form if both category and year are selected
+    function submitFormIfValid() {
+        var category = document.getElementById("categorySelect").value;
+        var year = document.getElementById("yearSelect").value;
 
+        // Only submit the form if both category and year are selected
+        if (category && year) {
+            document.getElementById("filterForm").submit();
+        }
+    }
     var deleteModal = document.getElementById('deleteModal');
     deleteModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
@@ -240,6 +246,7 @@
         fileIdInput.value = fileId;
         deleteForm.action = '/file/' + fileId;
     });
+
 </script>
 
 @endsection

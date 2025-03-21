@@ -2014,3 +2014,191 @@
                 
                 @endsection
                  --}}
+
+
+
+                 <!-- Add Issuance Modal -->
+<div class="modal fade" id="addIssuanceModal" tabindex="-1" aria-labelledby="addIssuanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addIssuanceModalLabel">Add New Issuance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addIssuanceModalForm" action="{{ route('file.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="categorySelect" class="form-label">Category</label>
+                        <select class="form-select" id="categorySelect" name="category" required>
+                            <option value="">Select a Category</option>
+                            <option value="Memo">Memo</option>
+                            <option value="Executive Order">Executive Order</option>
+                            <option value="Resolution">Resolution</option>
+                            <option value="Advisory">Advisory</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="filenameInput" class="form-label">Filename</label>
+                        <input type="text" class="form-control" id="filenameInput" name="filename" placeholder="Enter file name" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">File Upload</label>
+                        <input class="form-control" type="file" id="fileUpload" name="file" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="dateInput" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="dateInput" name="date" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i> Close
+                </button>
+                <button type="submit" form="addIssuanceModalForm" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i> Save Issuance
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Delete Confirmation -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the file: <strong id="fileName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" action="{{ route('file.delete', '') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" id="fileId" name="fileId">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-2"></i> Yes, Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteItemModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this file?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- Form for Deletion -->
+                <form action="{{ route('programs-services.external.destroy', $file->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+@foreach ($files as $file)
+<div class="modal fade" id="editModal{{ $file->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $file->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $file->id }}">Edit File: {{ $file->title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('programs-services.external.update', $file->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $file->title) }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required>{{ old('description', $file->description) }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File</label>
+                        <input type="file" class="form-control" id="file" name="file">
+                        <small class="text-muted">Current File: <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">{{ basename($file->file_path) }}</a></small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+<!-- File Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="uploadModalLabel">File Upload</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{ route('programs-services.external.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for the file" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" placeholder="Enter a description for the file" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="fileUpload" class="form-label">Choose File</label>
+                    <input type="file" class="form-control" id="fileUpload" name="file" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Upload
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
