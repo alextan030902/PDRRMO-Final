@@ -2,7 +2,7 @@
     <div class="container section-title" data-aos="fade-up">
         <h2>Useful Links</h2>
     </div>
-    <div class="container">
+    <div class="container-fluid"> 
     <div class="row g-3">
         <div class="col">
             <a href="https://www.pagasa.dost.gov.ph/" target="_blank">

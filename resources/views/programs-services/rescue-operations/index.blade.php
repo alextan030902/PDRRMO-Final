@@ -8,7 +8,9 @@
         <nav class="breadcrumbs">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                    <a href="{{ route('pdrrmo.index') }}">
+                        <i class="fas fa-home"></i> Home
+                      </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Rescue Operation</li>
             </ol>
@@ -226,10 +228,8 @@
                         <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ strtolower($operation->category) }}">
                             <img src="{{ asset('storage/' . $operation->images[0]) }}" class="img-fluid" alt="{{ $operation->category }}">
                             <div class="portfolio-info" style="display: flex; align-items: center; justify-content: space-between;">
-                                <!-- Category Title -->
                                 <h4>{{ ucwords(str_replace(['_', '-'], ' ', $operation->category)) }}</h4>
                             
-                                <!-- Image Preview Link -->
                                 <a href="{{ asset('storage/' . $operation->images[0]) }}" 
                                    title="{{ ucwords(str_replace(['_', '-'], ' ', $operation->category)) }}" 
                                    data-gallery="portfolio-gallery-{{ strtolower($operation->category) }}" 
@@ -237,7 +237,6 @@
                                     <i class="bi bi-zoom-in"></i>
                                 </a>
                             
-                                <!-- Delete Icon -->
                                 <form action="{{ route('programs-services.rescue-operations.destroy', $operation->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -254,6 +253,5 @@
             
         </div>
     </div>
-</section><!-- /Portfolio Section -->
-
+</section>
 @endsection

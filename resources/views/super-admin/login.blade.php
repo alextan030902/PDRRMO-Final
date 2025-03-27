@@ -187,15 +187,13 @@
         const passwordField = document.getElementById('passwordField');
         const togglePasswordIcon = document.getElementById('togglePassword');
 
-        // Toggle password visibility when icon is clicked
         togglePasswordIcon.addEventListener('click', function() {
-            // Toggle the type of the password field between 'password' and 'text'
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                togglePasswordIcon.classList.replace('fa-eye', 'fa-eye-slash'); // Change icon to eye-slash
+                togglePasswordIcon.classList.replace('fa-eye', 'fa-eye-slash'); 
             } else {
                 passwordField.type = 'password';
-                togglePasswordIcon.classList.replace('fa-eye-slash', 'fa-eye'); // Change icon back to eye
+                togglePasswordIcon.classList.replace('fa-eye-slash', 'fa-eye'); 
             }
         });
 

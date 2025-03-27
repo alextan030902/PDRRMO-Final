@@ -7,65 +7,61 @@
         <nav class="breadcrumbs">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                    <a href="{{ route('pdrrmo.index') }}">
+                        <i class="fas fa-home"></i> Home
+                      </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Contact Details</li>
             </ol>
         </nav>
     </div>
-</div><!-- End Page Title -->
-
+</div>
 
 <div class="container mt-5 position-relative">
     <h1 class="text-center" style="color: #003489; margin-bottom: 16px;">CONTACT DETAILS</h1>
-    
-    @auth
-        <button type="button" class="btn btn-primary position-absolute top-0 start-0 m-3" data-bs-toggle="modal" data-bs-target="#addRowModal">
-            <i class="bi bi-person-plus"></i> Add Contact
-        </button>
-    @endauth
 
-    <!-- Category Filter in Top Right Corner -->
-    <div class="position-absolute top-0 end-0 m-3" style="right: 120px;">
-        <form method="GET" action="{{ route('contact.index') }}" id="filterForm">
-            <div class="input-group">
-                <select name="category" class="form-select" id="categoryFilter" onchange="document.getElementById('filterForm').submit()">
-                    <option value="">Select Category</option>
-                    <option value="MDRRMO" {{ request()->category == 'MDRRMO' ? 'selected' : '' }}>MDRRMO</option>
-                    <option value="HOSPITALS" {{ request()->category == 'HOSPITALS' ? 'selected' : '' }}>HOSPITALS</option>
-                    <option value="IPPO" {{ request()->category == 'IPPO' ? 'selected' : '' }}>IPPO</option>
-                    <option value="BFP" {{ request()->category == 'BFP' ? 'selected' : '' }}>BFP</option>
-                </select>
-                <button type="submit" class="btn btn-info" style="display:none;">
-                    <i class="bi bi-funnel"></i> Filter
-                </button>
-            </div>
-        </form>
+    @auth
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addRowModal">
+        <i class="bi bi-person-plus"></i> Add Contact
+    </button>
+    @endauth
+    
+    <div class="row justify-content-end">
+        <div class="col-12 col-md-auto">
+            <form method="GET" action="{{ route('contact.index') }}" id="filterForm">
+                <div class="input-group">
+                    <select name="category" class="form-select" id="categoryFilter" onchange="document.getElementById('filterForm').submit()">
+                        <option value="">Select Category</option>
+                        <option value="MDRRMO" {{ request()->category == 'MDRRMO' ? 'selected' : '' }}>MDRRMO</option>
+                        <option value="HOSPITALS" {{ request()->category == 'HOSPITALS' ? 'selected' : '' }}>HOSPITALS</option>
+                        <option value="IPPO" {{ request()->category == 'IPPO' ? 'selected' : '' }}>IPPO</option>
+                        <option value="BFP" {{ request()->category == 'BFP' ? 'selected' : '' }}>BFP</option>
+                    </select>
+                </div>
+            </form>
+        </div>
     </div>
-   
+    
+
+    <div class="mt-4"></div>
 
     @php
-        // If $contacts is null, make it an empty collection
         $contacts = $contacts ?? collect();
 
-        // Apply category filter if selected
         if (request()->has('category') && request()->category != '') {
             $contacts = $contacts->where('category', request()->category);
         }
 
-        // Group contacts by district and then sort them numerically
         $contactsByDistrict = $contacts->groupBy('district')->sortKeys();
     @endphp
 
-    <!-- Table to display contacts -->
     <table class="table table-bordered border-info">
         <thead class="text-center">
             <tr>
-                <th scope="col">Category</th>
                 <th scope="col">Municipality</th>
                 <th scope="col">Focal Person</th>
                 <th scope="col">Contact Number</th>
-                <th scope="col">Email</th>
+                <th scope="col" class="d-none d-sm-table-cell">Email</th> 
                 <th scope="col">Response Team</th>
                 @auth
                     <th scope="col">Actions</th>
@@ -82,19 +78,17 @@
                     <tr>
                         <td colspan="{{ Auth::check() ? '7' : '6' }}" class="text-center bg-light"><strong>{{ $district }}</strong></td>
                     </tr>
-                    
+
                     @php
-                        // Sort the municipalities alphabetically
                         $districtContacts = $districtContacts->sortBy('municipality');
                     @endphp
-        
+
                     @foreach($districtContacts as $contact)
                         <tr class="text-center">
-                            <td>{{ $contact->category }}</td>
                             <td>{{ $contact->municipality }}</td>
                             <td>{{ $contact->focal_person }}</td>
                             <td>{{ $contact->contact_number }}</td>
-                            <td>{{ $contact->email }}</td>
+                            <td class="d-none d-sm-table-cell">{{ $contact->email }}</td> 
                             <td>{{ $contact->response_team }}</td>
                             @auth
                                 <td>
@@ -116,8 +110,10 @@
             @endif
         </tbody>
     </table>
+</div>
 
-   <!-- Modal for adding contact -->
+
+
    <div class="modal fade" id="addRowModal" tabindex="-1" aria-labelledby="addRowModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -286,7 +282,6 @@
     </div>
 </div>
 
-
 </div>
 
 <script>
@@ -302,10 +297,8 @@
         const district = this.value;
         const municipalitySelect = document.getElementById("municipality");
 
-        // Clear previous options
         municipalitySelect.innerHTML = '<option value="" disabled selected>Select a municipality</option>';
 
-        // Populate new options
         if (municipalities[district]) {
             municipalities[district].forEach(municipality => {
                 const option = document.createElement("option");
@@ -317,26 +310,21 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-    // Select all edit buttons
     const editButtons = document.querySelectorAll('.edit-btn');
 
-    // Attach click event listener to each edit button
     editButtons.forEach(button => {
         button.addEventListener('click', function(event) {
-            // Get the contact ID from the data-id attribute
             const contactId = event.target.getAttribute('data-id');
             
-            // Get the closest <tr> element to extract data for the fields
             const row = event.target.closest('tr');
-            const category = row.querySelector('td:nth-child(1)').innerText; // Category
-            const district = row.querySelector('td:nth-child(2)').innerText; // District
-            const municipality = row.querySelector('td:nth-child(3)').innerText; // Municipality
-            const focalPerson = row.querySelector('td:nth-child(4)').innerText; // Focal Person
-            const contactNumber = row.querySelector('td:nth-child(5)').innerText; // Contact Number
-            const email = row.querySelector('td:nth-child(6)').innerText; // Email
-            const responseTeam = row.querySelector('td:nth-child(7)').innerText; // Response Team
+            const category = row.querySelector('td:nth-child(1)').innerText;
+            const district = row.querySelector('td:nth-child(2)').innerText; 
+            const municipality = row.querySelector('td:nth-child(3)').innerText; 
+            const focalPerson = row.querySelector('td:nth-child(4)').innerText; 
+            const contactNumber = row.querySelector('td:nth-child(5)').innerText; 
+            const email = row.querySelector('td:nth-child(6)').innerText; 
+            const responseTeam = row.querySelector('td:nth-child(7)').innerText; 
 
-            // Fill the modal form fields with this data
             document.getElementById('edit_category').value = category;
             document.getElementById('edit_district').value = district;
             document.getElementById('edit_municipality').value = municipality;
@@ -346,7 +334,6 @@
             document.getElementById('edit_response_team').value = responseTeam;
             document.getElementById('editContactId').value = contactId;
 
-            // Update form action URL dynamically with the correct contact ID
             const form = document.getElementById('editContactForm');
             form.action = `/contact/update/${contactId}`;
 

@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="page-title accent-background py-4">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Rescue Operations</h1>
+        <nav class="breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('programs-services.rescue-operations.index') }}">Rescue Operations</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ ucwords(str_replace(['_', '-'], ' ', $category)) }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <section id="rescue-operation-details" class="rescue-operation-details section">
   <div class="container">
     <h2 class="text-center">{{ ucwords(str_replace(['_', '-'], ' ', $category)) }}</h2>

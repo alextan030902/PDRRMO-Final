@@ -8,7 +8,9 @@
         <nav class="breadcrumbs">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                    <a href="{{ route('pdrrmo.index') }}">
+                        <i class="fas fa-home"></i> Home
+                      </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Resources</li>
             </ol>

@@ -1,5 +1,5 @@
 <footer class="footer bg-light text-dark py-4">
-    <div class="container">
+    <div class="container-fluid">
         <div class="d-flex justify-content-end gap-2 mb-3">
             @auth
                 <button type="button" class="btn btn-success" title="Add" data-bs-toggle="modal" data-bs-target="#addContactModal">

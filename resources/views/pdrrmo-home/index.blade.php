@@ -6,21 +6,25 @@
 
     <!-- Welcome Modal -->
     @if (session('welcome_message'))
-        <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #003489; color: white;">
-                        <h5 class="modal-title" id="welcomeModalLabel">Welcome!</h5>
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #003489; color: white;">
+                    <h5 class="modal-title" id="welcomeModalLabel">Welcome!</h5>
+                </div>
+                <div class="modal-body" style="background-color: #f8f9fa; color: #333;">
+                    <div class="text-center mb-3">
+                        <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo" style="max-width: 100px; height: auto;">
                     </div>
-                    <div class="modal-body" style="background-color: #f8f9fa; color: #333;">
-                        <p class="text-center">{{ session('welcome_message') }}</p>
-                    </div>
-                    <div class="modal-footer" style="background-color: #f8f9fa; justify-content: center;">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
-                    </div>
+                    <p class="text-center">{{ session('welcome_message') }}</p>
+                </div>
+                <div class="modal-footer" style="background-color: #f8f9fa; justify-content: center;">
+                    <button type="button" class="btn" style="background-color: #fe6305; color: white;" data-bs-dismiss="modal">Okay</button>
                 </div>
             </div>
         </div>
+    </div>
+    
     @endif
 
 <main class="main">
@@ -132,12 +136,10 @@
  <!-- Hero Section -->
  <section class="carousel-section position-relative">
     @php
-        // Fetch available images (ensure to replace this with your actual model logic)
         $images = $carouselImage ? $carouselImage->image_paths : [];
     @endphp
 
     @if (count($images) > 0)
-        <!-- Carousel Items (Images) -->
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @foreach ($images as $index => $image)
@@ -166,7 +168,6 @@
     @endif
 
     @auth
-        <!-- Admin Options -->
         <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
             @if (count($images) === 0)
                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
@@ -186,12 +187,6 @@
     @endauth
 </section>
 
-
-
-
-
-
-    <!-- Modal for uploading images for all carousel items -->
     <div class="modal fade" id="carouselUpload" tabindex="-1" aria-labelledby="carouselUploadLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -203,7 +198,6 @@
                 <div class="modal-body">
                     <form action="{{ route('carousel-image.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <!-- Multiple Image Upload -->
                         <div class="mb-3">
                             <label for="carouselImages" class="form-label">Choose Images for Carousel</label>
                             <input type="file" class="form-control" id="carouselImages" name="carousel_images[]"
@@ -218,7 +212,6 @@
         </div>
     </div>
 
-    <!-- Modal for deleteing images for all carousel items -->
     <div class="modal fade" id="carouselDelete" tabindex="-1" aria-labelledby="carouselDeleteLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -228,12 +221,10 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete these images from the carousel? This action cannot be undone.</p>
-                    <!-- Form to delete images -->
                     <form action="{{ route('carousel-images.delete') }}" method="POST" id="carouselDeleteForm">
                         @csrf
                         @method('DELETE')
                         <div id="deleteImagesContainer">
-                            <!-- Dynamically filled with images -->
                         </div>
                         <button type="submit" class="btn btn-danger">
                             <i class="fas fa-trash-alt"></i> Delete Images
@@ -251,12 +242,10 @@
     <section id="latest-updates" class="py-5 bg-light">
         <div class="container-fluid">
             <div class="row">
-                <!-- Card Wrapper -->
                 <div class="col-12">
                     <div class="card shadow-sm rounded-lg">
                         <div class="card-body">
                             <div class="row">
-                                <!-- Left Column: Issuance and Activities -->
                                 <div class="col-lg-6 mb-4 mb-lg-0">
                                     <div class="card shadow-sm rounded-lg mb-4"
                                         style="max-width: 800px; margin: 0 auto;">
@@ -264,7 +253,6 @@
                                             <h5 class="fw-bold mb-4">
                                                 <a href="{{ route('pdrrmo-home.issuances') }}" class="text-decoration-none">Issuance</a>
                                               </h5>
-                                            <!-- Table with Scrollable Content -->
                                             <div class="table-responsive"
                                                 style="max-height: 300px; overflow-y: auto;">
                                                 <table class="table table-striped table-hover">
@@ -324,16 +312,13 @@
                                         style="max-width: 800px; margin: 0 auto; position: relative;">
                                         <div class="card-body">
                                             <h5 class="fw-bold mb-4">Recent Activities</h5>
-                                            <!-- Image Carousel Wrapper -->
                                             <div id="recentActivitiesCarousel" class="carousel slide"
                                                 data-bs-ride="carousel">
                                                 <div class="carousel-inner">
-                                                    <!-- Loop through the activities and their images -->
                                                     @foreach ($activities as $activity)
                                                         @foreach ($activity->images as $index => $image)
                                                             <div
                                                                 class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                                                <!-- Wrap the image in a clickable link -->
                                                                 <a
                                                                     href="{{ route('activities.show', $activity->id) }}">
                                                                     <img src="{{ asset('storage/' . $image->image_path) }}"
@@ -504,16 +489,13 @@
                 second: '2-digit',
                 hour12: true
             };
-            // Get both date and time in desired format
             const dateString = now.toLocaleString('en-GB', options);
             document.getElementById('current-time').innerHTML = dateString;
         }
     
-        // Initialize time update every second
         setInterval(updateTime, 1000);
         updateTime();
     
-        // Function to display the welcome modal (if set in session)
         document.addEventListener('DOMContentLoaded', function () {
             @if (session('welcome_message'))
                 var myModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {
@@ -522,21 +504,17 @@
                 });
                 myModal.show();
     
-                // Auto close the modal after 5 seconds
                 setTimeout(function() {
                     myModal.hide();
-                }, 5000); // 5000ms = 5 seconds
+                }, 5000);
             @endif
         });
     
-        // Function to populate the image paths in the delete images container
         document.addEventListener('DOMContentLoaded', function () {
-            // Ensure image_paths is an array even if it's null or undefined
             const images = @json($carouselImage && $carouselImage->image_paths ? $carouselImage->image_paths : []);
             const container = document.getElementById('deleteImagesContainer');
-            const baseUrl = "{{ asset('storage/') }}";  // Base URL for images
+            const baseUrl = "{{ asset('storage/') }}";  
     
-            // Populate the delete image container with checkboxes for each image
             images.forEach(function (imagePath) {
                 const imageDiv = document.createElement('div');
                 imageDiv.classList.add('form-check');
@@ -552,26 +530,23 @@
             });
         });
     
-        // Function to initialize the delete modal with selected image information
         function openDeleteModal(imagesToDelete) {
             const deleteImagesContainer = document.getElementById('deleteImagesContainer');
-            deleteImagesContainer.innerHTML = '';  // Clear any previous selected images
+            deleteImagesContainer.innerHTML = ''; 
     
             if (imagesToDelete.length === 0) {
                 alert("No images selected to delete.");
                 return;
             }
     
-            // Create a list of selected images
             imagesToDelete.forEach(function(image) {
                 const imageDiv = document.createElement('div');
                 imageDiv.textContent = image;
                 deleteImagesContainer.appendChild(imageDiv);
             });
     
-            // Set the form action to delete the selected images
             const form = document.getElementById('carouselDeleteForm');
-            form.action = '/carousel-image/delete'; // Modify this route as per your backend logic
+            form.action = '/carousel-image/delete'; 
         }
     
      

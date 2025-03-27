@@ -4,17 +4,20 @@
 
 <div class="page-title accent-background py-4">
     <div class="container d-lg-flex justify-content-between align-items-center">
-        <h5 class="mb-2 mb-lg-0 text-white">External Services</h5>
+        <h1 class="mb-2 mb-lg-0">External Services</h1>
         <nav class="breadcrumbs">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('pdrrmo.index') }}" class="text-white">Home</a>
+                    <a href="{{ route('pdrrmo.index') }}">
+                        <i class="fas fa-home"></i> Home
+                      </a>
                 </li>
-                <li class="breadcrumb-item active text-white" aria-current="page">External Services</li>
+                <li class="breadcrumb-item active" aria-current="page">External Services</li>
             </ol>
         </nav>
     </div>
 </div>
+
 
 <div class="container-fluid my-5">
     <div class="row g-4 align-items-stretch"> 

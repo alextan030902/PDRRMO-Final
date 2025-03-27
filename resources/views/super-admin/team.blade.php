@@ -10,7 +10,9 @@
         <nav class="breadcrumbs">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                  <a href="{{ route('pdrrmo.index') }}">
+                    <i class="fas fa-home"></i> Home
+                  </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Dev Team</li>
             </ol>
@@ -19,7 +21,6 @@
 </div>
 
 
-    <!-- Team Section -->
     <section id="team" class="team section">
 
       <div class="container">
@@ -39,10 +40,10 @@
               </div>
               <div class="member-info">
                 <h4>Saroj Kumar Tamang</h4>
-                <span>Lead Backend Developer</span> <!-- Assigned position in programming -->
+                <span>Lead Backend Developer</span> 
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
             <div class="team-member">
@@ -57,11 +58,10 @@
               </div>
               <div class="member-info">
                 <h4>Jennel Nazarene Reola</h4>
-                <span>Full Stack Developer</span> <!-- Assigned position in programming -->
+                <span>Full Stack Developer</span> 
               </div>
             </div>
-          </div><!-- End Team Member -->
-
+          </div>
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
             <div class="team-member">
               <div class="member-img">
@@ -75,10 +75,10 @@
               </div>
               <div class="member-info">
                 <h4>Aubrey Cajayon</h4>
-                <span>Frontend Developer</span> <!-- Assigned position in programming -->
+                <span>Frontend Developer</span> 
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
             <div class="team-member">
@@ -93,16 +93,15 @@
               </div>
               <div class="member-info">
                 <h4>Ralph Anthony Fontillon</h4>
-                <span>DevOps Engineer</span> <!-- Assigned position in programming -->
+                <span>DevOps Engineer</span> 
               </div>
             </div>
-          </div><!-- End Team Member -->
-
+          </div>
         </div>
 
       </div>
 
-    </section><!-- /Team Section -->
+    </section>
 
 </main>
 @endsection

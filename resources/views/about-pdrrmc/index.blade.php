@@ -8,7 +8,9 @@
         <nav class="breadcrumbs">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('pdrrmo.index') }}">Home</a>
+                    <a href="{{ route('pdrrmo.index') }}">
+                        <i class="fas fa-home"></i> Home
+                      </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">About PDRRMC</li>
             </ol>
@@ -47,33 +49,40 @@
             </div>
         </div>
 
-        <!-- Other Sections (Without Border) -->
-        @foreach(['mandate', 'vision', 'mission', 'functions'] as $section)
-            <div class="position-relative mb-4">
-                @auth
-                <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('{{ $section }}')"><i class="bi bi-pencil"></i> Edit</button>
-                @endauth
-                <h2 class="mb-4" style="color: #FF9A00"><strong>{{ ucfirst($section) }}</strong></h2>
-                <div id="{{ $section }}-display">
-                    <p class="card-text">{!! ${$section}->content ?? 'Add text' !!}</p>
-                </div>
-
-                <form id="{{ $section }}-edit-form" action="{{ route('about-pdrrmc.update', $section) }}" method="POST" style="display: none;">
-                    @csrf
-                    <input type="hidden" name="content" id="{{ $section }}_content">
-                    <div id="{{ $section }}-editor" class="quill-editor" data-content="{{ htmlentities(${$section}->content ?? 'Add text') }}"></div>
-                    <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-primary me-2">
-                            <i class="bi bi-save"></i> Save
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="toggleEdit('{{ $section }}')">
-                            <i class="bi bi-x-circle"></i> Cancel
-                        </button>
+        <div class="row">
+            @foreach(['mandate', 'vision', 'mission', 'functions'] as $section)
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            @auth
+                            <button class="btn btn-warning position-absolute top-0 end-0 m-2" onclick="toggleEdit('{{ $section }}')">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            @endauth
+                            <h5 class="card-title text-center" style="color: #FF9A00"><strong>{{ ucfirst($section) }}</strong></h5>
+                            <div id="{{ $section }}-display">
+                                <p class="card-text">{!! ${$section}->content ?? 'Add text' !!}</p>
+                            </div>
+        
+                            <form id="{{ $section }}-edit-form" action="{{ route('about-pdrrmc.update', $section) }}" method="POST" style="display: none;">
+                                @csrf
+                                <input type="hidden" name="content" id="{{ $section }}_content">
+                                <div id="{{ $section }}-editor" class="quill-editor" data-content="{{ htmlentities(${$section}->content ?? 'Add text') }}"></div>
+                                <div class="d-flex justify-content-end mt-3">
+                                    <button type="submit" class="btn btn-primary me-2">
+                                        <i class="bi bi-save"></i> Save
+                                    </button>
+                                    <button type="button" class="btn btn-danger" onclick="toggleEdit('{{ $section }}')">
+                                        <i class="bi bi-x-circle"></i> Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </form>
-            </div>
-            <hr class="my-4">
-        @endforeach
+                </div>
+            @endforeach
+        </div>
+        
 
         <!-- Organizational Structure Section -->
         <div class="card shadow-lg rounded-lg mb-3 bg-light">
