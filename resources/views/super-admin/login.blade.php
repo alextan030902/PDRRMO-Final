@@ -9,19 +9,15 @@
     <meta name="author" content="">
     <title>PDRRMO ILOILO</title>
 
-    <!-- Favicons -->
     <link href="{{ asset('assets/img/final-logo.png') }}" rel="icon" type="image/png">
     <link href="{{ asset('assets/img/final-logo.png') }}" rel="apple-touch-icon">
 
-    <!-- Custom fonts for this template-->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Bootstrap 5 CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <style>
         body {
             background: url('{{ asset('assets/img/background.png') }}') no-repeat center center fixed;

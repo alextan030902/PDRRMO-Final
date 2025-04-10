@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\Activity;
 use App\Models\CarouselImage;
 use App\Models\ContactInfo;
@@ -58,7 +59,15 @@ class PdrrmoController extends Controller
 
             $path = $request->file('image')->store('images', 'public');
 
-            Pdrrmo::create(['image_path' => $path]);
+            $pdrrmo = Pdrrmo::create(['image_path' => $path]);
+
+            event(new ActivityLogged(
+                auth()->user()->name,
+                'Uploaded a new image for PDRRMO',
+                'Pdrrmo',
+                $pdrrmo->id,
+                ['image_path' => $path]
+            ));
 
             $request->session()->flash('success', 'Image uploaded successfully!');
 
@@ -95,6 +104,9 @@ class PdrrmoController extends Controller
     {
         $pdrrmo = Pdrrmo::findOrFail($id);
 
+        // Store the original image path before updating
+        $oldImagePath = $pdrrmo->image_path;
+
         if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:102400',
@@ -106,6 +118,15 @@ class PdrrmoController extends Controller
 
         $pdrrmo->save();
 
+        // Log the activity for image update
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Updated image for PDRRMO (changed from '.$oldImagePath.' to '.$pdrrmo->image_path.')',
+            'Pdrrmo',
+            $pdrrmo->id,
+            ['old_image_path' => $oldImagePath, 'new_image_path' => $pdrrmo->image_path]
+        ));
+
         $request->session()->flash('success', 'Image updated successfully!');
 
         return redirect()->route('pdrrmo-home.edit', $id);
@@ -116,18 +137,22 @@ class PdrrmoController extends Controller
      */
     public function destroy($id)
     {
-        // Check if the record exists
         $pdrrmo = Pdrrmo::find($id);
 
         if (! $pdrrmo) {
-            // Redirect with error if the record is not found
             return redirect()->route('pdrrmo-home.index')->with('error', 'Image not found!');
         }
 
-        // Delete the record if it exists
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted image for PDRRMO with ID: '.$id,
+            'Pdrrmo',
+            $pdrrmo->id,
+            ['image_path' => $pdrrmo->image_path]
+        ));
+
         $pdrrmo->delete();
 
-        // Success message after deletion
         return redirect()->route('pdrrmo-home.index')->with('success', 'Image deleted successfully!');
     }
 }

@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
+  
  <!-- Vendor CSS Files -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -75,15 +75,36 @@
 
       <div class="header-social-links">
         @auth
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="logout-button btn btn-danger">
-                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle"></i> 
             </button>
-        </form>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="{{ route('authentication.profile') }}" style="color: black;">
+                        <i class="fas fa-user fa-sm fa-fw text-gray-400 me-2"></i> Profile
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="{{ route('activity.log') }}" style="color: black;">
+                        <i class="fas fa-list fa-sm fa-fw text-gray-400 me-2"></i> Activity Log
+                    </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}" 
+                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                     style="color: black;">
+                      <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400 me-2"></i> Log Out
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                  </form>
+              </li>
+            </ul>
+        </div>
         @endauth
-     </div>
-
+    </div>
+    
     </div>
   </header>
 

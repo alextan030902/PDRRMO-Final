@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\ContactInfo;
 use App\Models\RescueOperation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class RescueOperationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $contactInfo = ContactInfo::first();
@@ -25,9 +22,6 @@ class RescueOperationController extends Controller
         return view('programs-services.rescue-operations.index', compact('rescueOperation', 'categories', 'contactInfo', 'rescueOperations'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         Log::info('Request received:', $request->all());
@@ -59,6 +53,14 @@ class RescueOperationController extends Controller
                 'images' => $imagePaths,
             ]);
 
+            event(new ActivityLogged(
+                auth()->user()->name,
+                'Added a new rescue operation: '.$validated['category'],
+                'RescueOperation',
+                $rescueOperation->id,
+                ['category' => $validated['category'], 'description' => $validated['description']]
+            ));
+
             Log::info('Rescue operation saved:', $rescueOperation->toArray());
         } catch (\Exception $e) {
             Log::error('Error saving rescue operation:', ['error' => $e->getMessage()]);
@@ -70,9 +72,6 @@ class RescueOperationController extends Controller
             ->with('success', 'Rescue Operation added successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($category)
     {
         $contactInfo = ContactInfo::first();
@@ -87,13 +86,20 @@ class RescueOperationController extends Controller
 
     public function destroy(string $id)
     {
-        // Check if the operation exists before attempting to delete
         $operation = RescueOperation::find($id);
 
         if (! $operation) {
             return redirect()->route('programs-services.rescue-operations.index')
                 ->with('info', 'No available image.');
         }
+
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted rescue operation: '.$operation->category,
+            'RescueOperation',
+            $operation->id,
+            ['category' => $operation->category]
+        ));
 
         $operation->delete();
 
@@ -104,6 +110,14 @@ class RescueOperationController extends Controller
     public function contentDestroy(string $id)
     {
         $operation = RescueOperation::findOrFail($id);
+
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted content for rescue operation: '.$operation->category,
+            'RescueOperation',
+            $operation->id,
+            ['category' => $operation->category]
+        ));
 
         $operation->delete();
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\ContactInfo;
 use App\Models\InternalFile;
 use Illuminate\Http\Request;
@@ -17,9 +18,6 @@ class ProgramServicesInternalController extends Controller
         return view('programs-services.internal-services.index', compact('files', 'contactInfo'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -32,11 +30,19 @@ class ProgramServicesInternalController extends Controller
             if ($request->hasFile('file') && $request->file('file')->isValid()) {
                 $filePath = $request->file('file')->store('uploads', 'public');
 
-                InternalFile::create([
+                $internalFile = InternalFile::create([
                     'title' => $request->title,
                     'description' => $request->description,
                     'file_path' => $filePath,
                 ]);
+
+                event(new ActivityLogged(
+                    auth()->user()->name,
+                    'Uploaded a new internal file: '.$request->title,
+                    'InternalFile',
+                    $internalFile->id,
+                    ['file_path' => $filePath]
+                ));
 
                 return redirect()->back()->with('success', 'File uploaded successfully');
             } else {
@@ -56,6 +62,8 @@ class ProgramServicesInternalController extends Controller
         ]);
 
         $file = InternalFile::findOrFail($id);
+        $oldFilePath = $file->file_path;
+
         $file->title = $request->title;
         $file->description = $request->description;
 
@@ -63,24 +71,39 @@ class ProgramServicesInternalController extends Controller
             if (Storage::exists($file->file_path)) {
                 Storage::delete($file->file_path);
             }
+
             $filePath = $request->file('file')->store('uploads', 'public');
             $file->file_path = $filePath;
         }
 
         $file->save();
 
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Updated internal file: '.$request->title,
+            'InternalFile',
+            $file->id,
+            ['old_file_path' => $oldFilePath, 'new_file_path' => $file->file_path]
+        ));
+
         return redirect()->route('programs-services.internal-services.index', $file->id)->with('success', 'File updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $file = InternalFile::findOrFail($id);
+        $filePath = $file->file_path;
 
-        if (Storage::exists($file->file_path)) {
-            Storage::delete($file->file_path);
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted internal file: '.$file->title,
+            'InternalFile',
+            $file->id,
+            ['file_path' => $filePath]
+        ));
+
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
         }
 
         $file->delete();

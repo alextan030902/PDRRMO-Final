@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\ContactInfo;
 use App\Models\ExternalFile;
 use Illuminate\Http\Request;
@@ -32,11 +33,19 @@ class ProgramServicesExternalController extends Controller
         try {
             if ($request->hasFile('file') && $request->file('file')->isValid()) {
                 $filePath = $request->file('file')->store('uploads', 'public');
-                ExternalFile::create([
+                $externalFile = ExternalFile::create([
                     'title' => $request->title,
                     'description' => $request->description,
                     'file_path' => $filePath,
                 ]);
+
+                event(new ActivityLogged(
+                    auth()->user()->name,
+                    'Uploaded a new file: '.$request->title,
+                    'ExternalFile',
+                    $externalFile->id,
+                    ['file_path' => $filePath]
+                ));
 
                 return redirect()->back()->with('success', 'File uploaded successfully');
             } else {
@@ -56,6 +65,8 @@ class ProgramServicesExternalController extends Controller
         ]);
 
         $file = ExternalFile::findOrFail($id);
+        $oldFilePath = $file->file_path;
+
         $file->title = $request->title;
         $file->description = $request->description;
 
@@ -63,11 +74,20 @@ class ProgramServicesExternalController extends Controller
             if (Storage::exists($file->file_path)) {
                 Storage::delete($file->file_path);
             }
+
             $filePath = $request->file('file')->store('uploads', 'public');
             $file->file_path = $filePath;
         }
 
         $file->save();
+
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Updated file: '.$request->title,
+            'ExternalFile',
+            $file->id,
+            ['old_file_path' => $oldFilePath, 'new_file_path' => $file->file_path]
+        ));
 
         return redirect()->route('programs-services.external-services.index')->with('success', 'File updated successfully');
     }
@@ -75,9 +95,18 @@ class ProgramServicesExternalController extends Controller
     public function destroy($id)
     {
         $file = ExternalFile::findOrFail($id);
+        $filePath = $file->file_path;
 
-        if (Storage::exists($file->file_path)) {
-            Storage::delete($file->file_path);
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted file: '.$file->title,
+            'ExternalFile',
+            $file->id,
+            ['file_path' => $filePath]
+        ));
+
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
         }
 
         $file->delete();

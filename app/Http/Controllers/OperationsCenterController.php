@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\ContactInfo;
 use App\Models\OperationsCenter;
 use Illuminate\Http\Request;
@@ -38,6 +39,17 @@ class OperationsCenterController extends Controller
             'type' => $request->type,
         ]);
 
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Added new '.$request->type.' item: '.$request->name,
+            'OperationsCenter',
+            $item->id,
+            [
+                'name' => $request->name,
+                'type' => $request->type,
+            ]
+        ));
+
         return response()->json(['success' => 'Item added successfully', 'item' => $item]);
     }
 
@@ -54,6 +66,9 @@ class OperationsCenterController extends Controller
             'type' => 'required|in:vehicle,equipment',
         ]);
 
+        $oldName = $operationCenter->name;
+        $oldType = $operationCenter->type;
+
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($operationCenter->image);
             $imagePath = $request->file('image')->store('images', 'public');
@@ -64,6 +79,19 @@ class OperationsCenterController extends Controller
         $operationCenter->type = $request->type;
         $operationCenter->save();
 
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Updated '.$operationCenter->type.' item: '.$oldName.' to '.$operationCenter->name,
+            'OperationsCenter',
+            $operationCenter->id,
+            [
+                'old_name' => $oldName,
+                'old_type' => $oldType,
+                'new_name' => $operationCenter->name,
+                'new_type' => $operationCenter->type,
+            ]
+        ));
+
         return response()->json(['success' => 'Item updated successfully', 'item' => $operationCenter]);
     }
 
@@ -71,6 +99,14 @@ class OperationsCenterController extends Controller
     {
         Storage::disk('public')->delete($operationCenter->image);
         $operationCenter->delete();
+
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted '.$operationCenter->type.' item: '.$operationCenter->name,
+            'OperationsCenter',
+            $operationCenter->id,
+            ['name' => $operationCenter->name]
+        ));
 
         return redirect()->route('operations-center.index')->with('success', 'Item deleted successfully.');
     }

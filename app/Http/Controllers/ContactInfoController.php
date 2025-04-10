@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactInfo;
+use App\Events\ActivityLogged;
+use App\Models\ContactInfo;  // Import the ActivityLogged event
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,7 +36,7 @@ class ContactInfoController extends Controller
             }
         }
 
-        ContactInfo::create([
+        $contactInfo = ContactInfo::create([
             'address' => $data['address'],
             'email' => $data['email'],
             'phone' => $data['phone'],
@@ -44,6 +45,15 @@ class ContactInfoController extends Controller
             'logo3' => $logos['logo3'] ?? null,
             'logo4' => $logos['logo4'] ?? null,
         ]);
+
+        // Log the activity of creating new contact information
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Created contact information',
+            'ContactInfo',
+            $contactInfo->id,
+            ['address' => $data['address'], 'email' => $data['email'], 'phone' => $data['phone']]
+        ));
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Contact information updated successfully!');
     }
@@ -77,6 +87,9 @@ class ContactInfoController extends Controller
             return redirect()->route('contact-info.index')->with('error', 'Contact information not found.');
         }
 
+        // Save old data to log the changes later
+        $oldData = $contactInfo->toArray();
+
         // Update non-logo fields
         $contactInfo->address = $validated['address'];
         $contactInfo->email = $validated['email'];
@@ -96,6 +109,15 @@ class ContactInfoController extends Controller
 
         // Save the updated contact information
         $contactInfo->save();
+
+        // Log the activity of updating contact information
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Updated contact information',
+            'ContactInfo',
+            $contactInfo->id,
+            ['address' => $validated['address'], 'email' => $validated['email'], 'phone' => $validated['phone'], 'logos' => 'updated']
+        ));
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Contact information updated successfully!');
     }

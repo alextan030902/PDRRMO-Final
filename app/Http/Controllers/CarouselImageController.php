@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\CarouselImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -34,6 +35,15 @@ class CarouselImageController extends Controller
 
             $carouselImage->image_paths = json_encode($imagePaths);
             $carouselImage->save();
+
+            // Trigger the ActivityLogged event after storing the images
+            event(new ActivityLogged(
+                auth()->user()->name,
+                'Uploaded new carousel images',
+                'CarouselImage',
+                $carouselImage->id,
+                ['image_paths' => 'added']
+            ));
         }
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Images uploaded successfully!');
@@ -58,6 +68,15 @@ class CarouselImageController extends Controller
 
             $carouselImage->image_paths = json_encode(array_values($updatedImages));
             $carouselImage->save();
+
+            // Trigger the ActivityLogged event after deleting the images
+            event(new ActivityLogged(
+                auth()->user()->name,
+                'Deleted carousel images',
+                'CarouselImage',
+                $carouselImage->id,
+                ['image_paths' => 'deleted']
+            ));
         }
 
         return redirect()->route('pdrrmo-home.index')->with('success', 'Images deleted successfully!');

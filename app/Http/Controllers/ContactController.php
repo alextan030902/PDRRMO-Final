@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\Contact;
 use App\Models\ContactInfo;
 use Illuminate\Http\Request;
@@ -28,7 +29,15 @@ class ContactController extends Controller
             'response_team' => 'required|string|max:255',
         ]);
 
-        Contact::create($validated);
+        $contact = Contact::create($validated);
+
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Added a new contact',
+            'Contact',
+            $contact->id,
+            $validated
+        ));
 
         return redirect()->route('contact.index')->with('success', 'Contact added successfully!');
     }
@@ -46,7 +55,22 @@ class ContactController extends Controller
         ]);
 
         $contact = Contact::findOrFail($id);
+
+        $oldData = $contact->toArray();
+
         $contact->update($validated);
+
+        $changes = array_diff($contact->toArray(), $oldData);
+
+        if (! empty($changes)) {
+            event(new ActivityLogged(
+                auth()->user()->name,
+                'Updated a contact',
+                'Contact',
+                $contact->id,
+                $changes
+            ));
+        }
 
         return redirect()->route('contact.index')->with('success', 'Contact updated successfully!');
     }
@@ -54,6 +78,14 @@ class ContactController extends Controller
     public function destroy($id)
     {
         $contact = Contact::findOrFail($id);
+
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted a contact',
+            'Contact',
+            $contact->id,
+            []
+        ));
 
         $contact->delete();
 

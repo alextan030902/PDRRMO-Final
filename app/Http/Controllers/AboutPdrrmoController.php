@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\AboutPdrrmo;
 use App\Models\ContactInfo;
 use Illuminate\Http\Request;
@@ -22,11 +23,23 @@ class AboutPdrrmoController extends Controller
 
     public function update(Request $request, $section)
     {
-        AboutPdrrmo::updateOrCreate(
+        $existingContent = AboutPdrrmo::where('section', $section)->first();
+
+        $updatedSection = AboutPdrrmo::updateOrCreate(
             ['section' => $section],
             ['content' => $request->content]
         );
 
-        return redirect()->route('about-pdrrmo.index')->with('success', 'Content updated successfully!');
+        if ($existingContent && $existingContent->content !== $request->content) {
+            event(new ActivityLogged(
+                auth()->user()->name,
+                ucfirst($section).' section updated',
+                'AboutPdrrmo',
+                $updatedSection->id,
+                ['content' => 'updated']
+            ));
+        }
+
+        return redirect()->route('about-pdrrmo.index')->with('success', ucfirst($section).' Content updated successfully!');
     }
 }

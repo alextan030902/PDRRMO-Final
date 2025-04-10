@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityLogged;
 use App\Models\ContactInfo;
 use App\Models\File;
 use Illuminate\Http\Request;
@@ -80,6 +81,19 @@ class FileUploadController extends Controller
             'date' => $request->date,
         ]);
 
+        // Log the activity of uploading a new file
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Uploaded file: '.$request->filename,
+            'File',
+            $fileRecord->id,
+            [
+                'category' => $request->category,
+                'filename' => $request->filename,
+                'date' => $request->date,
+            ]
+        ));
+
         // Return a success response
         return back()->with('success', 'File uploaded successfully!');
     }
@@ -109,6 +123,15 @@ class FileUploadController extends Controller
 
         // After file deletion, delete the record from the database
         $file->delete();
+
+        // Log the activity of deleting a file
+        event(new ActivityLogged(
+            auth()->user()->name,
+            'Deleted file: '.$file->name,
+            'File',
+            $file->id,
+            ['name' => $file->name, 'category' => $file->category]
+        ));
 
         // Return success message
         return redirect()->route('pdrrmo-home.issuances')->with('success', 'File deleted successfully.');

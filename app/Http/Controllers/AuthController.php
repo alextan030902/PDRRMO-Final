@@ -36,8 +36,6 @@ class AuthController extends Controller
             }
         }
 
-        // dd($user);
-
         Log::warning('Failed login attempt for email: '.$request->email);
 
         return back()->withErrors([

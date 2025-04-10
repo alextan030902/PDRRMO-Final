@@ -10,11 +10,13 @@ use App\Http\Controllers\ContactInfoController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\OperationsCenterController;
 use App\Http\Controllers\PdrrmoController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramServicesExternalController;
 use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\UserActivityController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -123,3 +125,11 @@ Route::get('/contact-info/index', [ContactInfoController::class, 'index'])->name
 
 // TeamsController
 Route::get('/super-admin/team', [TeamsController::class, 'index'])->name('super-admin.team');
+
+// ProfileController
+Route::get('/profile', [ProfileController::class, 'show'])->name('authentication.profile');
+Route::put('/profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
+Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
+// UserActivityController
+Route::get('/activity-log', [UserActivityController::class, 'index'])->name('activity.log');
