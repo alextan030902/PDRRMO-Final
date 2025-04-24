@@ -26,7 +26,7 @@ class UsefulLinkController extends Controller
 
         $image = $request->file('image');
         $path = $image->store('links', 'public');
-        $imageUrl = 'storage/' . $path;
+        $imageUrl = 'storage/'.$path;
 
         $usefulLink = UsefulLink::create([
             'image' => $imageUrl,
@@ -36,7 +36,7 @@ class UsefulLinkController extends Controller
         if ($usefulLink && $usefulLink->id) {
             event(new ActivityLogged(
                 Auth::user()->name,
-                'Added a new useful link: ' . $request->link,
+                'Added a new useful link: '.$request->link,
                 'Useful Link',
                 $usefulLink->id,
                 [
@@ -55,7 +55,7 @@ class UsefulLinkController extends Controller
 
         event(new ActivityLogged(
             Auth::user()->name,
-            'Deleted a useful link: ' . $link->link,
+            'Deleted a useful link: '.$link->link,
             'Useful Link',
             $link->id,
             [
@@ -64,7 +64,7 @@ class UsefulLinkController extends Controller
             ]
         ));
 
-        Storage::delete('public/' . str_replace('storage/', '', $link->image));
+        Storage::delete('public/'.str_replace('storage/', '', $link->image));
 
         $link->delete();
 

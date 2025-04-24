@@ -12,10 +12,9 @@ class UserActivityController extends Controller
         $logs = ActivityLog::latest()
             ->distinct()
             ->get(['user_name', 'action', 'model', 'changes', 'created_at']);
-    
+
         $contactInfo = ContactInfo::first();
-    
+
         return view('authentication.activity-log', compact('logs', 'contactInfo'));
     }
-    
 }
