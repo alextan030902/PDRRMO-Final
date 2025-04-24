@@ -88,7 +88,6 @@
                     @if(isset($categories) && !empty($categories))
                         @foreach($categories as $category)
                             @if(!empty($category->category)) 
-                                <!-- Render category button -->
                                 <a href="{{ route('programs-services.rescue-operations.show', ['category' => $category->category]) }}" class="btn" style="background-color: #003489; color: white;">
                                     {{ ucwords(str_replace(['_', '-'], ' ', $category->category)) }}
                                 </a>
@@ -129,9 +128,11 @@
                             <form action="{{ route('programs-services.rescue-operations.destroy', $rescueOperation->id) }}" method="POST" style="display: inline;" id="deleteForm">
                                 @csrf
                                 @method('DELETE')
+                                @auth
                                 <button type="button" class="btn btn-danger btn-sm" {{ $rescueOperation ? '' : 'disabled' }} data-toggle="modal" data-target="#deleteModal">
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </button>
+                                @endauth
                             </form>
                         </div>
                      @endauth
@@ -167,7 +168,6 @@
             </div>
         </div>
 
-        <!-- Edit Modal -->
         <form method="POST" 
             action="{{ $rescueOperation ? route('programs-services.rescue-operations.update', $rescueOperation->id) : '#' }}">
             @csrf
@@ -203,7 +203,6 @@
             </div>
         </form>
 
-        <!-- Portfolio Filters -->
         <div class="isotope-layout mt-5">
             <ul class="portfolio-filters isotope-filters d-flex justify-content-center align-items-center mb-4" data-aos="fade-up" data-aos-delay="100">
                 <li data-filter="*" class="filter-active">All</li>
@@ -240,17 +239,17 @@
                                 <form action="{{ route('programs-services.rescue-operations.destroy', $operation->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
+                                    @auth
                                     <button type="submit" class="btn btn-link text-danger" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </button>
+                                    @endauth
                                 </form>
                             </div>
-                            
                         </div>
                     @endif
                 @endforeach
             </div>
-            
         </div>
     </div>
 </section>

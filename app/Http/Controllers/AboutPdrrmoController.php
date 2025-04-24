@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ActivityLogged;
 use App\Models\AboutPdrrmo;
 use App\Models\ContactInfo;
+use App\Models\OrgChart;
 use Illuminate\Http\Request;
 
 class AboutPdrrmoController extends Controller
@@ -17,8 +18,10 @@ class AboutPdrrmoController extends Controller
         $vision = AboutPdrrmo::where('section', 'vision')->first();
         $mission = AboutPdrrmo::where('section', 'mission')->first();
         $functions = AboutPdrrmo::where('section', 'functions')->first();
+        $orgChart = OrgChart::latest()->first();
+        $orgChartPath = $orgChart ? $orgChart->org_chart_image : null;
 
-        return view('about-pdrrmo.index', compact('contactInfo', 'about', 'mandate', 'vision', 'mission', 'functions'));
+        return view('about-pdrrmo.index', compact('contactInfo', 'about', 'mandate', 'vision', 'mission', 'orgChartPath', 'functions'));
     }
 
     public function update(Request $request, $section)

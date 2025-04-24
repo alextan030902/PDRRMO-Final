@@ -16,6 +16,7 @@ use App\Http\Controllers\ProgramServicesInternalController;
 use App\Http\Controllers\RescueOperationController;
 use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\UsefulLinkController;
 use App\Http\Controllers\UserActivityController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,7 @@ Route::get('dashboard', function () {
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/admin/store', [AuthController::class, 'store'])->name('admin.store');
 
 // SuperAdminController
 Route::post('/super-admin-login', 'SuperAdminController@authenticate')->name('super-admin.authenticate');
@@ -85,6 +87,7 @@ Route::post('/activities/delete', [ActivitiesController::class, 'deleteImages'])
 Route::get('/about-pdrrmc/index', [AboutPdrrmcController::class, 'index'])->name('about-pdrrmc.index');
 Route::get('/about-pdrrmc', [AboutPdrrmcController::class, 'index']);
 Route::post('/about-pdrrmc/{section}', [AboutPdrrmcController::class, 'update'])->name('about-pdrrmc.update');
+Route::post('/org-chart/update', [AboutPdrrmcController::class, 'updateOrgChart'])->name('org-chart.update');
 
 // AboutPdrrmoController
 Route::get('/about-pdrrmo/index', [AboutPdrrmoController::class, 'index'])->name('about-pdrrmo.index');
@@ -133,3 +136,8 @@ Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->n
 
 // UserActivityController
 Route::get('/activity-log', [UserActivityController::class, 'index'])->name('activity.log');
+
+// UsefulLinkController
+Route::get('/useful-links', [UsefulLinkController::class, 'index']);
+Route::post('/useful-links', [UsefulLinkController::class, 'store'])->name('useful-links.store');
+Route::delete('/useful-links/{id}', [UsefulLinkController::class, 'destroy'])->name('useful-links.destroy');

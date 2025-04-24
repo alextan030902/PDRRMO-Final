@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ route('pdrrmo.index') }}">
                         <i class="fas fa-home"></i> Home
-                      </a>
+                    </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">External Services</li>
             </ol>
@@ -18,22 +18,29 @@
     </div>
 </div>
 
-
 <div class="container-fluid my-5">
     <div class="row g-4 align-items-stretch"> 
+
         <!-- External Services Section -->
         <div class="col-lg-6 d-flex flex-column">
-            <div class="card shadow-lg rounded-3 border-light h-100 d-flex flex-column">
+            <div class="card shadow-lg rounded-3 border-light d-flex flex-column" style="height: 100%;">
                 <div class="text-center p-3">
                     <h5 class="text-orange fw-bold" style="font-size: 1.5rem;">EXTERNAL SERVICES</h5>
                 </div>
-                <div class="card-body p-4 flex-grow-1 overflow-auto" style="max-height: 800px;">
+        
+                <div class="px-4 pb-2">
+                    <!-- 🔍 Search Input -->
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search for a file..." onkeyup="filterServices()">
+                </div>
+        
+                <!-- Only this area scrolls -->
+                <div class="flex-grow-1 overflow-auto px-4" style="max-height: 800px;">
                     <div class="accordion" id="servicesAccordion">
                         @if($files->isEmpty())
                             <p class="text-center text-muted">No files available.</p>
                         @else
                             @foreach ($files as $file)
-                                <div class="accordion-item">
+                                <div class="accordion-item service-item" data-title="{{ strtolower($file->title) }}">
                                     <h2 class="accordion-header" id="heading{{ $file->id }}">
                                         <button class="accordion-button btn-custom collapsed fs-5 fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $file->id }}" aria-expanded="false" aria-controls="collapse{{ $file->id }}">
                                             {{ $file->title }}
@@ -70,22 +77,25 @@
                         @endif
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mt-4">
+        
+                <!-- Upload button OUTSIDE scrollable area, right-aligned -->
+                @auth
+                <div class="d-flex justify-content-end p-3 border-top">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
                         <i class="fas fa-upload"></i> Upload File
                     </button>
                 </div>
+                @endauth
             </div>
         </div>
         
+
         <!-- Disaster and Calamity Updates Section -->
         <div class="col-lg-6 d-flex flex-column">
             <div class="card shadow-lg rounded-lg w-100 border-light h-100"> 
                 <div class="card-body text-center h-100">
                     <h5 class="fw-bold mb-4">LATEST UPDATES</h5> 
-                    <div class="alert alert-warning fw-bold fs-5 mb-4" id="current-time">
-                        <!-- Real-time date and time will be inserted here -->
-                    </div>
+                    <div class="alert alert-warning fw-bold fs-5 mb-4" id="current-time"></div>
                     <div class="fb-page"
                         data-href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
                         data-tabs="timeline" data-width="500" data-height="800"
@@ -95,13 +105,13 @@
                             cite="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/"
                             class="fb-xfbml-parse-ignore">
                             <a
-                                href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/">Your
-                                Page Name</a>
+                                href="https://www.facebook.com/p/Operation-Center-Pdrrmo-Iloilo-61570456584511/">Your Page Name</a>
                         </blockquote>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -118,7 +128,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <!-- Form for Deletion -->
                 <form action="{{ route('programs-services.external.destroy', $file->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
@@ -174,44 +183,44 @@
 
 <!-- File Upload Modal -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="uploadModalLabel">File Upload</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">File Upload</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('programs-services.external.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for the file" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter a description for the file" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Choose File</label>
+                        <input type="file" class="form-control" id="fileUpload" name="file" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                </div>
+            </form>
         </div>
-        <form action="{{ route('programs-services.external.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for the file" required>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" placeholder="Enter a description for the file" rows="4" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="fileUpload" class="form-label">Choose File</label>
-                    <input type="file" class="form-control" id="fileUpload" name="file" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-upload"></i> Upload
-                </button>
-            </div>
-        </form>
     </div>
 </div>
-</div>
 
-
+<!-- Scripts -->
 <script>
-    // Update time function
+    // Real-time clock
     function updateTime() {
         const now = new Date();
         const options = {
@@ -227,8 +236,20 @@
         document.getElementById('current-time').innerHTML = dateString;
     }
 
-    setInterval(updateTime, 1000); // Update every second
-    updateTime(); // Initial call to set the time immediately
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // 🔍 Live Search Filter
+    function filterServices() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const items = document.querySelectorAll('.service-item');
+
+        items.forEach(item => {
+            const title = item.getAttribute('data-title');
+            item.style.display = title.includes(filter) ? '' : 'none';
+        });
+    }
 </script>
 
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>

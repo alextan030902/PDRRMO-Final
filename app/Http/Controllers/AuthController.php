@@ -6,10 +6,33 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $profileImagePath = null;
+        if ($request->hasFile('profile_image')) {
+            $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'profile_image' => $profileImagePath,
+        ]);
+
+        return redirect()->back()->with('success', 'Admin added successfully!');
+    }
+
     public function showLoginForm()
     {
         return view('super-admin.login');
@@ -28,15 +51,10 @@ class AuthController extends Controller
             $remember = $request->has('remember');
 
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
-                Log::info('User logged in: '.$user->email);
-
                 session()->flash('welcome_message', 'Welcome back, '.$user->name.'!');
-
                 return redirect()->route('pdrrmo-home.index');
             }
         }
-
-        Log::warning('Failed login attempt for email: '.$request->email);
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

@@ -8,6 +8,7 @@ use App\Models\CarouselImage;
 use App\Models\ContactInfo;
 use App\Models\File;
 use App\Models\Pdrrmo;
+use App\Models\UsefulLink;
 use App\Models\Videos;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,7 @@ class PdrrmoController extends Controller
      */
     public function index()
     {
+        $links = UsefulLink::all();
         $contactInfo = ContactInfo::first();
         $activities = Activity::with('images')->get();
 
@@ -43,6 +45,7 @@ class PdrrmoController extends Controller
             'contactInfo',
             'pdrrmoImagePath',
             'videos',
+            'links',
             'files'
         ));
     }

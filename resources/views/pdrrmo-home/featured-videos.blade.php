@@ -4,7 +4,7 @@
 
         @auth
          <button type="button" class="btn btn-primary position-absolute top-0 end-0 m-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <i class="bi bi-plus-circle"></i> Add Link
+            <i class="fas fa-plus me-1"></i> Add Link
         </button>
         @endauth
     </div>

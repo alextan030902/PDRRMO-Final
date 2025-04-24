@@ -83,17 +83,63 @@
     </div>
     
 
-    <!-- Organizational Structure Section -->
-    <div class="card shadow-lg rounded-lg mb-3 bg-light">
-        <div class="card-body border-0 text-center">
+    <div class="card shadow-lg rounded-lg mb-3 bg-light w-100">
+        <div class="card-body border-0 text-center position-relative">
+            
+            @auth
+                <button class="btn btn-warning position-absolute top-0 end-0 mt-3 me-3 d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#updateImageModal">
+                    <i class="bi bi-pencil"></i> <span>Update</span>
+                </button>
+            @endauth
+    
             <h2 class="card-title mb-4" style="color: #FF9A00">
                 <strong>Organizational Structure</strong>
             </h2>
+    
             <div class="col-12 text-center">
-                <img src="{{ asset('assets/img/OrgStruct.jpg') }}" alt="Organizational Structure" class="img-fluid rounded-lg shadow-sm">
+                @if($orgChartPath)
+                <a href="{{ asset($orgChartPath) }}" 
+                   class="glightbox" 
+                   data-gallery="org-structure-gallery" 
+                   title="Organizational Structure">
+                    <img src="{{ asset($orgChartPath) }}" 
+                         alt="Organizational Structure" 
+                         class="img-fluid rounded-lg shadow-sm"
+                         style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in;">
+                </a>
+            @else
+                <p>No organizational chart available.</p>
+            @endif
+            
             </div>
         </div>
     </div>
+    
+    
+    
+    
+    <div class="modal fade" id="updateImageModal" tabindex="-1" aria-labelledby="updateImageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateImageModalLabel">Update Organizational Chart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('org-chart.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="org-chart-file" class="form-label">Select New Image</label>
+                            <input type="file" class="form-control" id="org-chart-file" name="org_chart_image" accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
 
 </div>
 

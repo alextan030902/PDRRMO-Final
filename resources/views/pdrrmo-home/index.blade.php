@@ -4,73 +4,64 @@
 
 <main class="main">
 
-    <!-- Welcome Modal -->
-    @if (session('welcome_message'))
-    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #003489; color: white;">
-                    <h5 class="modal-title" id="welcomeModalLabel">Welcome!</h5>
-                </div>
-                <div class="modal-body" style="background-color: #f8f9fa; color: #333;">
-                    <div class="text-center mb-3">
-                        <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo" style="max-width: 100px; height: auto;">
-                    </div>
-                    <p class="text-center">{{ session('welcome_message') }}</p>
-                </div>
-                <div class="modal-footer" style="background-color: #f8f9fa; justify-content: center;">
-                    <button type="button" class="btn" style="background-color: #fe6305; color: white;" data-bs-dismiss="modal">Okay</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    @endif
+  <!-- Welcome Modal -->
+  @if (session('welcome_message'))
+  <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header" style="background-color: #003489; color: white;">
+                  <h5 class="modal-title" id="welcomeModalLabel">Welcome!</h5>
+              </div>
+              <div class="modal-body" style="background-color: #f8f9fa; color: #333;">
+                  <div class="text-center mb-3">
+                      <img src="{{ asset('assets/img/final-logo.png') }}" alt="Logo" style="max-width: 100px; height: auto;">
+                  </div>
+                  <p class="text-center">{{ session('welcome_message') }}</p>
+              </div>
+              <div class="modal-footer" style="background-color: #f8f9fa; justify-content: center;">
+                  <button type="button" class="btn" style="background-color: #fe6305; color: white;" data-bs-dismiss="modal">Okay</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  @endif
 
 <main class="main">
-    <!-- Hero Section -->
-    {{-- <section id="hero" class="hero section dark-background" style="margin-bottom: 30px;">
-        <div id="heroes-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2000">
-            <div class="carousel-item active"> --}}
-            <header class="masthead mb-2 position-relative">
-                @if ($pdrrmoImagePath)
-                    <img src="{{ asset('storage/' . $pdrrmoImagePath) }}" alt="Banner Image" class="banner-image img-fluid">
-                @else
-                    <div class="d-flex justify-content-center align-items-center" style="height: 100%; background-color: #ffffff;">
-                        <div class="text-center">
-                            <i class="fas fa-upload fa-3x text-danger"></i>
-                            <p class="mt-2 text-danger">No image available. Please upload a banner.</p>
-                        </div>
-                    </div>
-                @endif
-    
-                @auth
-                    <div class="btn-group position-absolute bottom-0 end-0 m-3" role="group">
-                        @if (!$pdrrmoImagePath)
-                            <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#uploadModal">
-                                <i class="fas fa-plus"></i> Add
-                            </a>
-                        @endif
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i> Change Photo
-                        </a>
-                        @if ($pdrrmo)
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                            <i class="fas fa-trash-alt"></i> Delete
-                           
-                        </button>
-                    @endif
-                    
-                    </div>
-                @endauth
-            </header>
+    <header class="masthead position-relative" style="margin-bottom: 10px; padding-bottom: 0;">
+        @if ($pdrrmoImagePath)
+            <img src="{{ asset('storage/' . $pdrrmoImagePath) }}" alt="Banner Image" class="banner-image img-fluid">
+        @else
+            <div class="d-flex justify-content-center align-items-center" style="height: 100%; background-color: #ffffff;">
+                <div class="text-center">
+                    <i class="fas fa-upload fa-3x text-danger"></i>
+                    <p class="mt-2 text-danger">No image available. Please upload a banner.</p>
+                </div>
             </div>
-        </div>
-    </section>
+        @endif
     
-    <!--Create Modal -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        @auth
+            <div class="btn-group position-absolute bottom-0 end-0 m-3" role="group">
+                @if (!$pdrrmoImagePath)
+                    <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#uploadModal">
+                        <i class="fas fa-plus"></i> Add
+                    </a>
+                @endif
+                <a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal" class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Change Photo
+                </a>
+                @if ($pdrrmo)
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+                @endif
+            </div>
+        @endauth
+    </header>
+  
+     <!--Create Modal -->
+     <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -133,59 +124,61 @@
         </div>
     </div>
 
- <!-- Hero Section -->
- <section class="carousel-section position-relative">
-    @php
-        $images = $carouselImage ? $carouselImage->image_paths : [];
-    @endphp
-
-    @if (count($images) > 0)
-        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                @foreach ($images as $index => $image)
-                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                        <img src="{{ asset('storage/' . $image) }}" alt="Carousel Image {{ $index + 1 }}" class="d-block w-100" loading="lazy">
-                    </div>
-                @endforeach
+    <!-- Hero Section -->
+    <section class="carousel-section position-relative" style="margin-top: 10px; padding-top: 0;">
+        @php
+            $images = $carouselImage ? $carouselImage->image_paths : [];
+        @endphp
+    
+        @if (count($images) > 0)
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach ($images as $index => $image)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/' . $image) }}" alt="Carousel Image {{ $index + 1 }}" class="d-block w-100" loading="lazy">
+                        </div>
+                    @endforeach
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-    @else
-        <div class="carousel-item active">
-            <div class="no-image-placeholder">
-                <i class="fas fa-image fa-3x"></i>
-                <p>No Image Available</p>
+    
+        @else
+            <div class="carousel-item active">
+                <div class="no-image-placeholder">
+                    <i class="fas fa-image fa-3x"></i>
+                    <p>No Image Available</p>
+                </div>
             </div>
-        </div>
-    @endif
-
-    @auth
-        <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
-            @if (count($images) === 0)
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
-                    <i class="fas fa-plus-circle"></i> Add Photos
-                </button>
-            @else
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
-                    <i class="fas fa-edit"></i> Change Photos
-                </button>
-            @endif
-            @if (count($images) > 0)
-                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#carouselDelete">
-                    <i class="fas fa-trash-alt"></i> Delete Photos
-                </button>
-            @endif
-        </div>
-    @endauth
-</section>
+        @endif
+    
+        @auth
+            <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
+                @if (count($images) === 0)
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
+                        <i class="fas fa-plus-circle"></i> Add Photos
+                    </button>
+                @else
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#carouselUpload">
+                        <i class="fas fa-edit"></i> Change Photos
+                    </button>
+                @endif
+                @if (count($images) > 0)
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#carouselDelete">
+                        <i class="fas fa-trash-alt"></i> Delete Photos
+                    </button>
+                @endif
+            </div>
+        @endauth
+    </section>
+    
+    
 
     <div class="modal fade" id="carouselUpload" tabindex="-1" aria-labelledby="carouselUploadLabel"
         aria-hidden="true">
@@ -252,9 +245,15 @@
                                         <div class="card-body">
                                             <h5 class="fw-bold mb-4">
                                                 <a href="{{ route('pdrrmo-home.issuances') }}" class="text-decoration-none">Issuance</a>
-                                              </h5>
-                                            <div class="table-responsive"
-                                                style="max-height: 300px; overflow-y: auto;">
+                                            </h5>
+                                        
+                                            <!-- 🔍 Live Search Input -->
+                                            <div class="mb-3">
+                                                <input type="text" id="searchInput" class="form-control" placeholder="Search for a file...">
+                                            </div>
+                                        
+                                            <!-- 📋 Table of Files -->
+                                            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
@@ -267,20 +266,14 @@
                                                             <tr>
                                                                 <td><strong>{{ $file->name }}</strong></td>
                                                                 <td class="text-center">
-                                                                    <a href="{{ Storage::url($file->path) }}"
-                                                                        class="btn btn-primary btn-sm"
-                                                                        target="_blank">
+                                                                    <a href="{{ Storage::url($file->path) }}" class="btn btn-primary btn-sm" target="_blank">
                                                                         <i class="fas fa-download"></i> Download
                                                                     </a>
                                                                     @auth
-                                                                        <form
-                                                                            action="{{ route('file.delete', $file->id) }}"
-                                                                            method="POST" style="display:inline;"
-                                                                            onsubmit="return confirm('Are you sure you want to delete this file?');">
+                                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this file?');">
                                                                             @csrf
                                                                             @method('DELETE')
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger btn-sm">
+                                                                            <button type="submit" class="btn btn-danger btn-sm">
                                                                                 <i class="fas fa-trash-alt"></i> Delete
                                                                             </button>
                                                                         </form>
@@ -291,20 +284,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            {{-- @auth
-                                                <form action="{{ route('file.upload.submit') }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
-                                                    @csrf
-                                                    <div class="mt-3">
-                                                        <label for="file-upload" class="form-label">Choose Files to Upload</label>
-                                                        <input type="file" id="file-upload" name="file[]" class="form-control" multiple />
-                                                    </div>
-                                                    <div class="mt-3 d-flex justify-content-end">
-                                                        <button type="submit" class="btn btn-primary btn-sm">
-                                                            <i class="fas fa-upload"></i> Upload Files
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            @endauth --}}
                                         </div>
                                     </div>
 
@@ -353,11 +332,7 @@
                                                         data-bs-toggle="modal" data-bs-target="#activitiesUpload">
                                                         <i class="fas fa-plus-circle"></i> Add Photos
                                                     </button>
-                                                {{-- <button type="button" class="btn btn-warning btn-sm"
-                                                    data-bs-toggle="modal" data-bs-target="#activitiesUpload">
-                                                    <i class="fas fa-edit"></i> Change Photos
-                                                </button> --}}
-
+                                               
                                                 <!-- Button for Deleting Photos -->
                                                     <button type="button" class="btn btn-danger btn-sm"
                                                         data-bs-toggle="modal" data-bs-target="#activitiesDelete">
@@ -478,6 +453,20 @@
 </main>
 
     <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const tableRows = document.querySelectorAll("tbody tr");
+
+            searchInput.addEventListener("keyup", function () {
+                const query = this.value.toLowerCase();
+
+                tableRows.forEach(function (row) {
+                    const fileName = row.querySelector("td").textContent.toLowerCase();
+                    row.style.display = fileName.includes(query) ? "" : "none";
+                });
+            });
+        });
         function updateTime() {
             const now = new Date();
             const options = {

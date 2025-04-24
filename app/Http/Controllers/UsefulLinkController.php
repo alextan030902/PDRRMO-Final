@@ -24,25 +24,27 @@ class UsefulLinkController extends Controller
             'link' => 'required|url',
         ]);
 
-        // Store the image
         $image = $request->file('image');
         $path = $image->store('links', 'public');
-        $imageUrl = 'storage/'.$path;
+        $imageUrl = 'storage/' . $path;
 
-        // Create the useful link
         $usefulLink = UsefulLink::create([
             'image' => $imageUrl,
             'link' => $request->link,
         ]);
 
-        // Fire activity log event
-        event(new ActivityLogged(
-            Auth::user()->name,
-            'Added a new useful link: '.$request->link,
-            'Useful Link',
-            $usefulLink->id,
-            ['link' => $request->link, 'image' => $imageUrl]
-        ));
+        if ($usefulLink && $usefulLink->id) {
+            event(new ActivityLogged(
+                Auth::user()->name,
+                'Added a new useful link: ' . $request->link,
+                'Useful Link',
+                $usefulLink->id,
+                [
+                    'link' => $request->link,
+                    'image' => $imageUrl,
+                ]
+            ));
+        }
 
         return back()->with('success', 'Link added successfully.');
     }
@@ -51,19 +53,19 @@ class UsefulLinkController extends Controller
     {
         $link = UsefulLink::findOrFail($id);
 
-        // Fire activity log event before deleting
         event(new ActivityLogged(
             Auth::user()->name,
-            'Deleted a useful link: '.$link->link,
+            'Deleted a useful link: ' . $link->link,
             'Useful Link',
             $link->id,
-            ['link' => $link->link, 'image' => $link->image]
+            [
+                'link' => $link->link,
+                'image' => $link->image,
+            ]
         ));
 
-        // Delete image from storage
-        Storage::delete('public/'.str_replace('storage/', '', $link->image));
+        Storage::delete('public/' . str_replace('storage/', '', $link->image));
 
-        // Delete from database
         $link->delete();
 
         return back()->with('success', 'Link deleted successfully.');
